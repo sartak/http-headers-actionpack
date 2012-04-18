@@ -15,6 +15,11 @@ sub _add_header_value {
     $self->add( $q, $mt );
 }
 
+sub to_string {
+    my $self = shift;
+    join ', ' => map { $_->[1]->to_string } $self->iterable;
+}
+
 sub iterable {
     my $self = shift;
     # From RFC-2616 sec14

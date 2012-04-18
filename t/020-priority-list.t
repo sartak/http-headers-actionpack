@@ -36,6 +36,12 @@ BEGIN {
         ],
         '... got the iterable form'
     );
+
+    is(
+        $q->to_string,
+        'baz; q=3, foobaz; q=3, gorch; q=2.5, bar; q=2, foo; q=1',
+        '... got the right string form'
+    );
 }
 
 {
@@ -51,6 +57,12 @@ BEGIN {
         ],
         '... got the iterable form'
     );
+
+    is(
+        $q->to_string,
+        'application/xml; q=0.7',
+        '... got the right string form'
+    );
 }
 
 {
@@ -62,6 +74,12 @@ BEGIN {
             [ 1, "es" ],
         ],
         '... got the iterable form'
+    );
+
+    is(
+        $q->to_string,
+        'en-US; q=1, es; q=1',
+        '... got the right string form'
     );
 }
 

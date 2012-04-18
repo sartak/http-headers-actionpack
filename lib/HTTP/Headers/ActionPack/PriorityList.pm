@@ -4,7 +4,10 @@ package HTTP::Headers::ActionPack::PriorityList;
 use strict;
 use warnings;
 
-use HTTP::Headers::ActionPack::Util qw[ split_header_words ];
+use HTTP::Headers::ActionPack::Util qw[
+    split_header_words
+    join_header_words
+];
 
 sub new { bless { 'index' => {}, 'items' => {} } => (shift) }
 
@@ -18,6 +21,14 @@ sub new_from_header_string {
         $list->_add_header_value( $header );
     }
     $list;
+}
+
+sub to_string {
+    my $self = shift;
+    join ', ' => map {
+        my ($q, $subject) = @{ $_ };
+        join_header_words( $subject, q => $q );
+    } $self->iterable;
 }
 
 sub add {
