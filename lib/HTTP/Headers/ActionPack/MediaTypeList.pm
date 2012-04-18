@@ -11,7 +11,7 @@ use parent 'HTTP::Headers::ActionPack::PriorityList';
 sub _add_header_value {
     my $self = shift;
     my $mt   = HTTP::Headers::ActionPack::MediaType->new( @{ $_[0] } );
-    my $q    = $mt->params->{'q'} ||= 1.0;
+    my $q    = $mt->params->{'q'} || 1.0;
     $self->add( $q, $mt );
 }
 

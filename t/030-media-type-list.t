@@ -31,7 +31,7 @@ BEGIN {
 
     is(
         $list->to_string,
-        'text/x-c, text/html, text/x-dvi; q=0.8, text/plain; q=0.5',
+        'text/html, text/x-c, text/x-dvi; q=0.8, text/plain; q=0.5',
         '... got the expected string back'
     );
 }
@@ -57,7 +57,7 @@ BEGIN {
 
     is(
         $list->to_string,
-        'application/xml, text/html; charset=iso8859-1',
+        'text/html; charset=iso8859-1, application/xml',
         '... got the expected string back'
     );
 }
