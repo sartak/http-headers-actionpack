@@ -1,5 +1,5 @@
 package HTTP::Headers::ActionPack;
-# ABSTRACT: General Utility module
+# ABSTRACT: HTTP Action, Adventure and Excitement
 
 use strict;
 use warnings;
