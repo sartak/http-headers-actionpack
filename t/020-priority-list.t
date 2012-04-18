@@ -45,7 +45,7 @@ BEGIN {
 }
 
 {
-    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_header_string( "application/xml;q=0.7" );
+    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_string( "application/xml;q=0.7" );
 
     is_deeply($q->get(0.7), ["application/xml"], '... got the right item for the priority');
     is($q->priority_of("application/xml"), 0.7, '... got the right priority for the item');
@@ -66,7 +66,7 @@ BEGIN {
 }
 
 {
-    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_header_string( "en-US, es" );
+    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_string( "en-US, es" );
     is_deeply(
         [ $q->iterable ],
         [
