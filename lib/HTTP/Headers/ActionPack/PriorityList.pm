@@ -14,7 +14,7 @@ sub new { bless { 'index' => {}, 'items' => {} } => (shift) }
 sub index { (shift)->{'index'} }
 sub items { (shift)->{'items'} }
 
-sub new_from_header_string {
+sub new_from_string {
     my ($class, $header_string) = @_;
     my $list = $class->new;
     foreach my $header ( split_header_words( $header_string ) ) {
@@ -78,7 +78,7 @@ This is a simple priority list implementation.
 
 =item C<new>
 
-=item C<new_from_header_string ( $header_string )>
+=item C<new_from_string ( $header_string )>
 
 This accepts a HTTP header string which get parsed
 and loaded accordingly.
