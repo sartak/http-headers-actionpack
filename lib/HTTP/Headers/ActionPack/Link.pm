@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Link;
 use strict;
 use warnings;
 
+use URI::Escape qw[ uri_escape uri_unescape ];
+
 use HTTP::Headers::ActionPack::Util qw[
     split_header_words
     join_header_words
@@ -11,7 +13,43 @@ use HTTP::Headers::ActionPack::Util qw[
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
 
-sub href { (shift)->subject }
+sub new {
+    my $class = shift;
+    my $self  = $class->SUPER::new( @_ );
+
+    foreach my $param ( grep { /\*$/ } @{ $self->_param_order } ) {
+        my ($encoding, $language, $content) = ( $self->params->{ $param } =~ /^(.*)\'(.*)\'(.*)$/);
+        $self->params->{ $param } = {
+            encoding => $encoding,
+            language => $language,
+            content  => uri_unescape( $content )
+        };
+    }
+
+    $self;
+}
+
+sub href { (shift)->subject         }
+sub rel  { (shift)->params->{'rel'} }
+
+sub relation_matches {
+    my ($self, $relation) = @_;
+
+    if ( my $rel = $self->params->{'rel'} ) {
+        # if it is an extension rel type
+        # then it is a URI and it should
+        # not be compared in a case-insensitive
+        # manner ...
+        if ( $rel =~ m!^\w+\://! ) {
+            $self->params->{'rel'} eq $relation ? 1 : 0;
+        }
+        # if it is not a URI, then compare
+        # it case-insensitively
+        else {
+            (lc $self->params->{'rel'} ) eq (lc $relation) ? 1 : 0;
+        }
+    }
+}
 
 sub new_from_string {
     my ($class, $link_header_string) = @_;
@@ -23,7 +61,26 @@ sub new_from_string {
 
 sub to_string {
     my $self = shift;
-    join_header_words( '<' . $self->href . '>', $self->params_in_order );
+
+    my @params;
+    foreach my $param ( @{ $self->_param_order } ) {
+        if ( $param =~ /\*$/ ) {
+            my $complex = $self->params->{ $param };
+            push @params => ( $param,
+                join "'" => (
+                    $complex->{'encoding'},
+                    $complex->{'language'},
+                    uri_escape( $complex->{'content'} ),
+                )
+            );
+        }
+        else {
+            push @params => ( $param, $self->params->{ $param } );
+        }
+        my ($encoding, $language, $content) = ( $self->params->{ $param } =~ /^(.*)\'(.*)\'(.*)$/);
+    }
+
+    join_header_words( '<' . $self->href . '>', @params );
 }
 
 1;
