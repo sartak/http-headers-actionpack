@@ -60,6 +60,7 @@ sub params_match {
     my ($self, $other) = @_;
     my $params = $self->params;
     foreach my $k ( keys %$other ) {
+        next if $k eq 'q';
         return 0 if not exists $params->{ $k };
         return 0 if $params->{ $k } ne $other->{ $k };
     }
@@ -70,8 +71,8 @@ sub params_match {
 
 sub _compare_params {
     my ($left, $right) = @_;
-    my @left_keys  = sort keys %$left;
-    my @right_keys = sort keys %$right;
+    my @left_keys  = sort grep { $_ ne 'q' } keys %$left;
+    my @right_keys = sort grep { $_ ne 'q' } keys %$right;
 
     return 0 unless (scalar @left_keys) == (scalar @right_keys);
 
