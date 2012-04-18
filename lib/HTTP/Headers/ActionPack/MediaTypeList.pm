@@ -4,18 +4,14 @@ package HTTP::Headers::ActionPack::MediaTypeList;
 use strict;
 use warnings;
 
+use HTTP::Headers::ActionPack::MediaType;
+
 use parent 'HTTP::Headers::ActionPack::PriorityList';
 
 sub _add_header_value {
     my $self = shift;
     my $mt   = HTTP::Headers::ActionPack::MediaType->new( @{ $_[0] } );
-
-    # NOTE:
-    # we delete the q param here because we
-    # do not want it to be involved in the
-    # matching of the params.
-    # - SL
-    my $q  = $mt->remove_param( 'q' ) || 1.0;
+    my $q    = $mt->params->{'q'} ||= 1.0;
     $self->add( $q, $mt );
 }
 
