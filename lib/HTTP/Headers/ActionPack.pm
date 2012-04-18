@@ -4,7 +4,8 @@ package HTTP::Headers::ActionPack;
 use strict;
 use warnings;
 
-use Carp qw[ confess ];
+use Carp            qw[ confess ];
+use Module::Runtime qw[ use_module ];
 
 my %DEFAULT_MAPPINGS = (
     'link'            => 'HTTP::Headers::ActionPack::Link',
@@ -30,10 +31,7 @@ sub create {
     (defined $class)
         || confess "Could not find mapping for '$header_name'";
 
-    eval "use $class;";
-    confess $@ if $@;
-
-    $class->new_from_string( $header_value );
+    use_module( $class )->new_from_string( $header_value );
 }
 
 1;
