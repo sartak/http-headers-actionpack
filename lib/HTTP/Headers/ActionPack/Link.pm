@@ -4,19 +4,23 @@ package HTTP::Headers::ActionPack::Link;
 use strict;
 use warnings;
 
-use URI::Escape qw[ uri_escape uri_unescape ];
-
-use HTTP::Headers::ActionPack::Util qw[
-    split_header_words
-    join_header_words
-];
+use URI::Escape                     qw[ uri_escape uri_unescape ];
+use HTTP::Headers::ActionPack::Util qw[ join_header_words ];
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
 
-sub new {
+sub BUILDARGS {
     my $class = shift;
-    my $self  = $class->SUPER::new( @_ );
+    my ($href, @params) = @_;
 
+    $href =~ s/^<//;
+    $href =~ s/>$//;
+
+    $class->SUPER::BUILDARGS( $href, @params );
+}
+
+sub BUILD {
+    my $self = shift;
     foreach my $param ( grep { /\*$/ } @{ $self->_param_order } ) {
         my ($encoding, $language, $content) = ( $self->params->{ $param } =~ /^(.*)\'(.*)\'(.*)$/);
         $self->params->{ $param } = {
@@ -25,8 +29,6 @@ sub new {
             content  => uri_unescape( $content )
         };
     }
-
-    $self;
 }
 
 sub href { (shift)->subject         }
@@ -49,14 +51,6 @@ sub relation_matches {
             (lc $self->params->{'rel'} ) eq (lc $relation) ? 1 : 0;
         }
     }
-}
-
-sub new_from_string {
-    my ($class, $link_header_string) = @_;
-    my ($href, @params) = @{ (split_header_words( $link_header_string ))[0] };
-    $href =~ s/^<//;
-    $href =~ s/>$//;
-    $class->new( $href, @params );
 }
 
 sub to_string {
