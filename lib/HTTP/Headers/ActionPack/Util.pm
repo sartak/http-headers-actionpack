@@ -4,16 +4,21 @@ package HTTP::Headers::ActionPack::Util;
 use strict;
 use warnings;
 
-use HTTP::Date qw[ str2time ];
+use Time::Piece;
+use HTTP::Date qw[ str2time time2str ];
 use HTTP::Headers::Util;
 
 use Sub::Exporter -setup => {
     exports => [qw[
-        str2time
+        header_to_date
+        date_to_header
         split_header_words
         join_header_words
     ]]
 };
+
+sub header_to_date { scalar Time::Piece->gmtime( str2time( shift ) ) }
+sub date_to_header { time2str( shift->epoch ) }
 
 sub split_header_words {
     my $header = shift;
