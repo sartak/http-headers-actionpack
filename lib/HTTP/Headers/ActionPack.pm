@@ -14,6 +14,7 @@ my %DEFAULT_MAPPINGS = (
     'accept-charset'  => 'HTTP::Headers::ActionPack::PriorityList',
     'accept-encoding' => 'HTTP::Headers::ActionPack::PriorityList',
     'accept-language' => 'HTTP::Headers::ActionPack::PriorityList',
+    'last-modified'   => 'HTTP::Headers::ActionPack::DateHeader',
 );
 
 sub new {
