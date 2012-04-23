@@ -4,12 +4,8 @@ package HTTP::Headers::ActionPack::Core::BaseHeaderList;
 use strict;
 use warnings;
 
-use Scalar::Util qw[ blessed ];
-
-use HTTP::Headers::ActionPack::Util qw[
-    split_header_words
-    join_header_words
-];
+use Scalar::Util                    qw[ blessed ];
+use HTTP::Headers::ActionPack::Util qw[ split_header_words ];
 
 use parent 'HTTP::Headers::ActionPack::Core::Base';
 
