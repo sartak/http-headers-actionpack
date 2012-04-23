@@ -8,7 +8,7 @@ use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
 my %DEFAULT_MAPPINGS = (
-    'link'            => 'HTTP::Headers::ActionPack::Link',
+    'link'            => 'HTTP::Headers::ActionPack::LinkList',
     'content-type'    => 'HTTP::Headers::ActionPack::MediaType',
     'accept'          => 'HTTP::Headers::ActionPack::MediaTypeList',
     'accept-charset'  => 'HTTP::Headers::ActionPack::PriorityList',
@@ -41,6 +41,9 @@ __END__
 =head1 SYNOPSIS
 
   use HTTP::Headers::ActionPack;
+
+  my $pack       = HTTP::Headers::ActionPack->new;
+  my $media_type = $pack->create( 'Content-Type' => 'application/xml;charset=UTF-8' );
 
 =head1 DESCRIPTION
 
