@@ -1,5 +1,5 @@
 package HTTP::Headers::ActionPack::Core::BaseHeaderType;
-# ABSTRACT: A Link
+# ABSTRACT: A Base header type
 
 use strict;
 use warnings;
@@ -13,7 +13,9 @@ use HTTP::Headers::ActionPack::Util qw[
 
 use overload '""' => 'to_string', fallback => 1;
 
-sub new {
+use parent 'HTTP::Headers::ActionPack::Core::Base';
+
+sub BUILDARGS {
     my $class = shift;
     my ($subject, @params) = @_;
 
@@ -25,11 +27,11 @@ sub new {
         push @param_order => $params[ $i ];
     }
 
-    bless {
+    return +{
         subject     => $subject,
         params      => { @params },
         param_order => \@param_order
-    } => $class;
+    };
 }
 
 sub subject      { (shift)->{'subject'}     }
