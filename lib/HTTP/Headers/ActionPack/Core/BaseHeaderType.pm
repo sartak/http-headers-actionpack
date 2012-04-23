@@ -11,8 +11,6 @@ use HTTP::Headers::ActionPack::Util qw[
     join_header_words
 ];
 
-use overload '""' => 'to_string', fallback => 1;
-
 use parent 'HTTP::Headers::ActionPack::Core::Base';
 
 sub BUILDARGS {

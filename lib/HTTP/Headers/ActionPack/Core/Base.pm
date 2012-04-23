@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Core::Base;
 use strict;
 use warnings;
 
+use overload '""' => 'to_string', fallback => 1;
+
 sub new {
     my $class = shift;
     my $self  = $class->CREATE( $class->BUILDARGS( @_ ) );
