@@ -8,13 +8,15 @@ use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
 my %DEFAULT_MAPPINGS = (
-    'link'            => 'HTTP::Headers::ActionPack::LinkList',
-    'content-type'    => 'HTTP::Headers::ActionPack::MediaType',
-    'accept'          => 'HTTP::Headers::ActionPack::MediaTypeList',
-    'accept-charset'  => 'HTTP::Headers::ActionPack::PriorityList',
-    'accept-encoding' => 'HTTP::Headers::ActionPack::PriorityList',
-    'accept-language' => 'HTTP::Headers::ActionPack::PriorityList',
-    'last-modified'   => 'HTTP::Headers::ActionPack::DateHeader',
+    'link'                => 'HTTP::Headers::ActionPack::LinkList',
+    'content-type'        => 'HTTP::Headers::ActionPack::MediaType',
+    'accept'              => 'HTTP::Headers::ActionPack::MediaTypeList',
+    'accept-charset'      => 'HTTP::Headers::ActionPack::PriorityList',
+    'accept-encoding'     => 'HTTP::Headers::ActionPack::PriorityList',
+    'accept-language'     => 'HTTP::Headers::ActionPack::PriorityList',
+    'last-modified'       => 'HTTP::Headers::ActionPack::DateHeader',
+    'if-unmodified-since' => 'HTTP::Headers::ActionPack::DateHeader',
+    'if-modified-since'   => 'HTTP::Headers::ActionPack::DateHeader',
 );
 
 sub new {
