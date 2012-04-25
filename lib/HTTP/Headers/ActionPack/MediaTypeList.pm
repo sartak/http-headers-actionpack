@@ -8,7 +8,20 @@ use HTTP::Headers::ActionPack::MediaType;
 
 use parent 'HTTP::Headers::ActionPack::PriorityList';
 
-sub _add_header_value {
+sub BUILD {
+    my ($self, @items) = @_;
+    foreach my $item ( @items ) {
+        $self->add( ref $item eq 'ARRAY' ? @$item : $item )
+    }
+}
+
+sub add {
+    my $self     = shift;
+    my ($q, $mt) = scalar @_ == 1 ? (($_[0]->params->{'q'} || 1.0), $_[0]) : @_;
+    $self->SUPER::add( $q, $mt );
+}
+
+sub add_header_value {
     my $self = shift;
     my $mt   = HTTP::Headers::ActionPack::MediaType->new( @{ $_[0] } );
     my $q    = $mt->params->{'q'} || 1.0;
