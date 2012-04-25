@@ -17,10 +17,14 @@ The following headers are supported:
 * Accept
     * parses each media type and organizes them into a priority list
 * Accept-Charset, Accept-Encoding and Accept-Language
-    * parser into a priority list
+    * parses into a priority list
+* Date, Expires, Last-Modified, If-Unmodified-Since and If-Modified-Since
+    * parses into a Date object (which is just a wrapped Time::Piece object)
 
 There is plans to support these headers as well:
 
+* Content-Disposition
+    * as specified in [http://www.ietf.org/rfc/rfc2183.txt]
 * User-Agent
     * should use a module for this since it is such a mess
 * Authorization, Proxy-Authorization and WWW-Authenticate
