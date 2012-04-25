@@ -52,5 +52,24 @@ __END__
 
 =head1 DESCRIPTION
 
+=head2 Plack Compatability
+
+We have a test in the suite that checks to make sure that
+any inflated header objects will pass between L<HTTP::Request>
+and L<HTTP::Response> objects as well as L<Plack::Request>
+and L<Plack::Response> objects.
+
+A simple survey of most of the L<Plack::Handler> subclasses
+shows that most of them will end up properly stringifying
+these header objects before sending them out. The notable
+exceptions were the Apache handlers.
+
+At the time of this writing, the solution for this would be
+for you to either stringify these objects prior to returning
+your Plack::Response, or to write a simple middleware component
+that would do that for you. In future versions we might provide
+just such a middleware (it would likely inflate the header objects
+on the request side as well).
+
 =back
 

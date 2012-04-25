@@ -1,0 +1,107 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Test::More;
+use Test::Fatal;
+
+use HTTP::Request;
+use HTTP::Response;
+use HTTP::Headers;
+use Module::Runtime qw[ use_module ];
+
+BEGIN {
+    use_ok('HTTP::Headers::ActionPack::DateHeader');
+    use_ok('HTTP::Headers::ActionPack::Link');
+    use_ok('HTTP::Headers::ActionPack::LinkList');
+    use_ok('HTTP::Headers::ActionPack::MediaType');
+}
+
+=pod
+
+This just tests that HTTP::Message::PSGI,
+Plack::Request and Plack::Response do not
+stringify our objects.
+
+=cut
+
+unless ( use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') ) {
+    diag("Must have HTTP::Message::PSGI, Plack::Request and Plack::Response");
+    done_testing;
+}
+
+{
+    my $r = HTTP::Request->new(
+        'GET',
+        '/foo',
+        [
+            Date         => HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT'),
+            Content_Type => HTTP::Headers::ActionPack::MediaType->new('application/xml', 'charset' => 'UTF-8'),
+            Link         => HTTP::Headers::ActionPack::LinkList->new(
+                HTTP::Headers::ActionPack::Link->new(
+                    'http://example.com/TheBook/chapter2' => (
+                        rel   => "previous",
+                        title => "previous chapter"
+                    )
+                )
+            )
+        ]
+    );
+
+    my $env = $r->to_psgi;
+
+    isa_ok($env->{'HTTP_DATE'}, 'HTTP::Headers::ActionPack::DateHeader', '... object is preserved and');
+    isa_ok($env->{'CONTENT_TYPE'}, 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');
+    isa_ok($env->{'HTTP_LINK'}, 'HTTP::Headers::ActionPack::LinkList', '... object is preserved and');
+
+    my $plack_r = Plack::Request->new( $env );
+
+    isa_ok($plack_r->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is preserved and');
+    isa_ok($plack_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');
+    isa_ok($plack_r->header('Link'), 'HTTP::Headers::ActionPack::LinkList', '... object is preserved and');
+}
+
+{
+    my $r = [
+        200,
+        [
+            Date         => HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT'),
+            Content_Type => HTTP::Headers::ActionPack::MediaType->new('application/xml', 'charset' => 'UTF-8'),
+            Link         => HTTP::Headers::ActionPack::LinkList->new(
+                HTTP::Headers::ActionPack::Link->new(
+                    'http://example.com/TheBook/chapter2' => (
+                        rel   => "previous",
+                        title => "previous chapter"
+                    )
+                )
+            )
+        ],
+        []
+    ];
+
+    my $http_r = HTTP::Response->from_psgi( $r );
+
+    isa_ok($http_r->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is preserved and');
+    isa_ok($http_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');
+    isa_ok($http_r->header('Link'), 'HTTP::Headers::ActionPack::LinkList', '... object is preserved and');
+
+    is(
+        $http_r->as_string,
+    q{200 OK
+Date: Mon, 23 Apr 2012 14:14:19 GMT
+Content-Type: application/xml; charset=UTF-8
+Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"
+
+},
+        '... got the stringified headers'
+    );
+
+    my $plack_r = Plack::Response->new( @$r );
+
+    isa_ok($plack_r->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is preserved and');
+    isa_ok($plack_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');
+    isa_ok($plack_r->header('Link'), 'HTTP::Headers::ActionPack::LinkList', '... object is preserved and');
+}
+
+done_testing;

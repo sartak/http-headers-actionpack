@@ -15,6 +15,15 @@ BEGIN {
     use_ok('HTTP::Headers::ActionPack::MediaType');
 }
 
+=pod
+
+This just tests that HTTP::Headers does
+not stringify our objects until we ask
+it to.
+
+=cut
+
+
 {
     my $h = HTTP::Headers->new(
         Date         => HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT'),

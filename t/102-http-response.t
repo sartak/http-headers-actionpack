@@ -16,6 +16,14 @@ BEGIN {
     use_ok('HTTP::Headers::ActionPack::MediaType');
 }
 
+=pod
+
+This just tests that HTTP::Response does
+not stringify our objects until we ask
+it to.
+
+=cut
+
 {
     my $r = HTTP::Response->new(
         200,
