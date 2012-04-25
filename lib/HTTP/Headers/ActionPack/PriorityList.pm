@@ -9,7 +9,16 @@ use HTTP::Headers::ActionPack::Util qw[
     join_header_words
 ];
 
-sub new { bless { 'index' => {}, 'items' => {} } => (shift) }
+use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderList';
+
+sub BUILDARGS { +{ 'index' => {}, 'items' => {} } }
+
+sub BUILD {
+    my ($self, @items) = @_;
+    foreach my $item ( @items ) {
+        $self->add( @$item )
+    }
+}
 
 sub index { (shift)->{'index'} }
 sub items { (shift)->{'items'} }
@@ -18,7 +27,7 @@ sub new_from_string {
     my ($class, $header_string) = @_;
     my $list = $class->new;
     foreach my $header ( split_header_words( $header_string ) ) {
-        $list->_add_header_value( $header );
+        $list->add_header_value( $header );
     }
     $list;
 }
@@ -33,12 +42,13 @@ sub to_string {
 
 sub add {
     my ($self, $q, $choice) = @_;
+    $q += 0; # be sure to numify this
     $self->index->{ $choice } = $q;
     $self->items->{ $q } = [] unless exists $self->items->{ $q };
     push @{ $self->items->{ $q } } => $choice;
 }
 
-sub _add_header_value {
+sub add_header_value {
     my $self = shift;
     my ($choice, %params) = @{ $_[0] };
     $self->add( $params{'q'} || 1.0, $choice );
