@@ -85,6 +85,27 @@ __END__
 
   use HTTP::Headers::ActionPack::Link;
 
+  # build from string
+  my $link = HTTP::Headers::ActionPack::Link->new_from_string(
+      '<http://example.com/TheBook/chapter2>;rel="previous";title="previous chapter"'
+  );
+
+  # normal constructor
+  my $link = HTTP::Headers::ActionPack::Link->new(
+      '<http://example.com/TheBook/chapter2>' => (
+          rel   => "previous",
+          title => "previous chapter"
+      )
+  );
+
+  # normal constructor, and <> around link are optional
+  my $link = HTTP::Headers::ActionPack::Link->new(
+      'http://example.com/TheBook/chapter2' => (
+          rel   => "previous",
+          title => "previous chapter"
+      )
+  );
+
 =head1 DESCRIPTION
 
 This is an object which represents an HTTP Link header.

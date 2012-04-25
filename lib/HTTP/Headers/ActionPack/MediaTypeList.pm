@@ -60,6 +60,25 @@ __END__
 
   use HTTP::Headers::ActionPack::MediaTypeList;
 
+  # normal constructor
+  my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
+      HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 ),
+      HTTP::Headers::ActionPack::MediaType->new('audio/basic', q => 1.0 )
+  );
+
+  # you can also specify the 'q'
+  # rating independent of the
+  # media type definition
+  my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
+      [ 0.2 => HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 )     ],
+      [ 1.0 => HTTP::Headers::ActionPack::MediaType->new('audio/basic' ) ]
+  );
+
+  # or from a string
+  my $list = HTTP::Headers::ActionPack::MediaTypeList->new_from_string(
+      'audio/*; q=0.2, audio/basic'
+  );
+
 =head1 DESCRIPTION
 
 This is a subclass of the L<HTTP::Headers::ActionPack::PriorityList>

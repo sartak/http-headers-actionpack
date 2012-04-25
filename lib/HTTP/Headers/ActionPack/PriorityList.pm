@@ -70,6 +70,18 @@ __END__
 
   use HTTP::Headers::ActionPack::PriorityList;
 
+  # simple constructor
+  my $plist = HTTP::Headers::ActionPack::PriorityList->new(
+      [ 1.0 => 'foo' ],
+      [ 0.5 => 'bar' ],
+      [ 0.2 => 'baz' ],
+  );
+
+  # from headers
+  my $plist = HTTP::Headers::ActionPack::PriorityList->new_from_string(
+      'foo; q=1.0, bar; q=0.5, baz; q=0.2'
+  );
+
 =head1 DESCRIPTION
 
 This is a simple priority list implementation.

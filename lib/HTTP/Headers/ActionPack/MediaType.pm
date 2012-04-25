@@ -92,6 +92,19 @@ __END__
 
   use HTTP::Headers::ActionPack::MediaType;
 
+  # normal constructor
+  my $mt = HTTP::Headers::ActionPack::MediaType->new(
+      'application/xml' => (
+          'q'       => 0.5,
+          'charset' => 'UTF-8'
+      )
+  );
+
+  # construct from string
+  my $mt = HTTP::Headers::ActionPack::MediaType->new_from_string(
+      'application/xml; q=0.5; charset=UTF-8'
+  );
+
 =head1 DESCRIPTION
 
 This is an object which represents an HTTP media type
