@@ -45,31 +45,62 @@ __END__
 
 =head1 SYNOPSIS
 
-  use HTTP::Headers::ActionPack::Link;
+  use HTTP::Headers::ActionPack::DateHeader;
+
+  # create from string
+  my $date = HTTP::Headers::ActionPack::DateHeader->new_from_string(
+      'Mon, 23 Apr 2012 14:14:19 GMT'
+  );
+
+  # create using Time::Peice object
+  my $date = HTTP::Headers::ActionPack::DateHeader->new(
+      $timepeice_object
+  );
 
 =head1 DESCRIPTION
 
-This is an object which represents an HTTP Link header.
+This is an object which represents an HTTP header with a date.
 
 =head1 METHODS
 
 =over 4
 
-=item C<href>
+=item C<date>
 
-=item C<new_from_string ( $link_header_string )>
+Returns the underlying L<Time::Piece> object.
 
-This will take an HTTP header Link string
+=item C<new_from_string ( $date_header_string )>
+
+This will take an HTTP header Date string
 and parse it into and object.
 
 =item C<to_string>
 
-This stringifys the link respecting the
-parameter order.
+=item C<second>
 
-NOTE: This will canonicalize the header such
-that it will add a space between each semicolon
-and quotes and unquotes all headers appropriately.
+=item C<minute>
+
+=item C<hour>
+
+=item C<day_of_month>
+
+=item C<month_number>
+
+=item C<fullmonth>
+
+=item C<month>
+
+=item C<year>
+
+=item C<day_of_week>
+
+=item C<day>
+
+=item C<fullday>
+
+=item C<epoch>
+
+These delegate to the underlying L<Time::Piece> object.
 
 =back
 
