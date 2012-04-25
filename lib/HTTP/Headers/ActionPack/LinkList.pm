@@ -8,7 +8,7 @@ use HTTP::Headers::ActionPack::Link;
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderList';
 
-sub BUILDARGS { +{ items => [] } }
+sub BUILDARGS { shift; +{ items => [ @_ ] } }
 
 sub items { (shift)->{'items'} }
 
