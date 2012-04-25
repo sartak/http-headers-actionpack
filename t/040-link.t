@@ -17,10 +17,9 @@ Examples taken from http://tools.ietf.org/html/rfc5988
 
 =cut
 
-{
-    my $link = HTTP::Headers::ActionPack::Link->new_from_string(
-        '<http://example.com/TheBook/chapter2>;rel="previous";title="previous chapter"'
-    );
+sub test_link {
+    my $link = shift;
+
     isa_ok($link, 'HTTP::Headers::ActionPack::Link');
 
     is($link->href, 'http://example.com/TheBook/chapter2', '... got the link we expected');
@@ -41,6 +40,30 @@ Examples taken from http://tools.ietf.org/html/rfc5988
         '... got the string we expected'
     );
 }
+
+test_link(
+    HTTP::Headers::ActionPack::Link->new_from_string(
+        '<http://example.com/TheBook/chapter2>;rel="previous";title="previous chapter"'
+    )
+);
+
+test_link(
+    HTTP::Headers::ActionPack::Link->new(
+        '<http://example.com/TheBook/chapter2>' => (
+            rel   => "previous",
+            title => "previous chapter"
+        )
+    )
+);
+
+test_link(
+    HTTP::Headers::ActionPack::Link->new(
+        'http://example.com/TheBook/chapter2' => (
+            rel   => "previous",
+            title => "previous chapter"
+        )
+    )
+);
 
 {
     my $link = HTTP::Headers::ActionPack::Link->new_from_string(

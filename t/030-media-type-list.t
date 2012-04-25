@@ -11,6 +11,34 @@ BEGIN {
 }
 
 {
+    my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
+        HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 ),
+        HTTP::Headers::ActionPack::MediaType->new('audio/basic', q => 1.0 )
+    );
+    isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
+
+    is(
+        $list->to_string,
+        'audio/basic; q=1, audio/*; q=0.2',
+        '... got the expected string back'
+    );
+}
+
+{
+    my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
+        [ 0.2 => HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 )     ],
+        [ 1.0 => HTTP::Headers::ActionPack::MediaType->new('audio/basic' ) ]
+    );
+    isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
+
+    is(
+        $list->to_string,
+        'audio/basic, audio/*; q=0.2',
+        '... got the expected string back'
+    );
+}
+
+{
     my $list = HTTP::Headers::ActionPack::MediaTypeList->new_from_string(
         'audio/*; q=0.2, audio/basic'
     );

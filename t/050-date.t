@@ -11,8 +11,9 @@ BEGIN {
     use_ok('HTTP::Headers::ActionPack::DateHeader');
 }
 
-{
-    my $h = HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT');
+sub test_date {
+    my $h = shift;
+
     isa_ok($h, 'HTTP::Headers::ActionPack::DateHeader');
 
     is( $h->day, 'Mon', '... got the day');
@@ -24,5 +25,15 @@ BEGIN {
 
     is( $h->to_string, 'Mon, 23 Apr 2012 14:14:19 GMT', '... got the expected string');
 }
+
+test_date(
+    HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT')
+);
+
+test_date(
+    HTTP::Headers::ActionPack::DateHeader->new(
+        scalar Time::Piece->gmtime( HTTP::Date::str2time( 'Mon, 23 Apr 2012 14:14:19 GMT' ) )
+    )
+);
 
 done_testing;
