@@ -9,7 +9,7 @@ use overload '""' => 'to_string', fallback => 1;
 sub new {
     my $class = shift;
     my $self  = $class->CREATE( $class->BUILDARGS( @_ ) );
-    $self->BUILD;
+    $self->BUILD( @_ );
     $self;
 }
 
