@@ -4,6 +4,7 @@ package HTTP::Headers::ActionPack;
 use strict;
 use warnings;
 
+use Scalar::Util    qw[ blessed ];
 use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
@@ -28,6 +29,11 @@ sub new {
     } => $class;
 }
 
+sub has_mapping {
+    my ($self, $header_name) = @_;
+    exists $self->{'mappings'}->{ lc $header_name } ? 1 : 0
+}
+
 sub create {
     my ($self, $header_name, $header_value) = @_;
 
@@ -37,6 +43,19 @@ sub create {
         || confess "Could not find mapping for '$header_name'";
 
     use_module( $class )->new_from_string( $header_value );
+}
+
+sub inflate_headers {
+    my ($self, $http_headers) = @_;
+
+    (blessed $http_headers && $http_headers->isa('HTTP::Headers'))
+        || confess "You must supply an instance of HTTP::Headers, not $http_headers";
+
+    foreach my $header ( keys %{ $self->{'mappings'} } ) {
+        if ( my $old = $http_headers->header( $header ) ) {
+            $http_headers->header( $header => $self->create( $header, $old ) );
+        }
+    }
 }
 
 1;

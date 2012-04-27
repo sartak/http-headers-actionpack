@@ -12,6 +12,7 @@ use HTTP::Headers;
 use Module::Runtime qw[ use_module ];
 
 BEGIN {
+    use_ok('HTTP::Headers::ActionPack');
     use_ok('HTTP::Headers::ActionPack::DateHeader');
     use_ok('HTTP::Headers::ActionPack::Link');
     use_ok('HTTP::Headers::ActionPack::LinkList');
@@ -103,5 +104,32 @@ Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapt
     isa_ok($plack_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');
     isa_ok($plack_r->header('Link'), 'HTTP::Headers::ActionPack::LinkList', '... object is preserved and');
 }
+
+{
+    my $r = HTTP::Request->new(
+        'GET',
+        '/foo',
+        [
+            Date         => 'Mon, 23 Apr 2012 14:14:19 GMT',
+            Content_Type => 'application/xml; charset=UTF-8',
+            Link         => '<http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"'
+        ]
+    );
+
+    my $plack_r = Plack::Request->new( $r->to_psgi );
+
+    HTTP::Headers::ActionPack->new->inflate_headers( $plack_r->headers );
+
+    isa_ok($plack_r->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is inflated and');
+    isa_ok($plack_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is inflated and');
+    isa_ok($plack_r->header('Link'), 'HTTP::Headers::ActionPack::LinkList', '... object is inflated and');
+
+    is($plack_r->env->{'HTTP_DATE'}, 'Mon, 23 Apr 2012 14:14:19 GMT', '... the underlying env is preserved');
+    is($plack_r->env->{'CONTENT_TYPE'}, 'application/xml; charset=UTF-8', '... the underlying env is preserved');
+    is($plack_r->env->{'HTTP_LINK'}, '<http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"', '... the underlying env is preserved');
+
+}
+
+
 
 done_testing;
