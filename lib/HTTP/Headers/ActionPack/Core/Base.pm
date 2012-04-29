@@ -37,7 +37,7 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a simple priority list implementation.
+There is no real user servicable parts in here.
 
 =head1 METHODS
 

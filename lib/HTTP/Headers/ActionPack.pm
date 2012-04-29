@@ -85,7 +85,81 @@ __END__
   my $pack       = HTTP::Headers::ActionPack->new;
   my $media_type = $pack->create( 'Content-Type' => 'application/xml;charset=UTF-8' );
 
+  # auto-magic header inflation
+  # for multiple types
+  $pack->inflate( $http_headers_instance );
+  $pack->inflate( $http_request_instance );
+  $pack->inflate( $plack_request_instance );
+
 =head1 DESCRIPTION
+
+This is a module to handle the inflation and deflation of
+complex HTTP header types. In many cases header values are
+simple strings, but in some cases they are complex values
+with a lot of information encoded in them. The goal of this
+module is to make the parsing and analysis of these headers
+as easy as calling C<inflate> on a compatible object (see
+below for a list).
+
+=head1 DEFAULT MAPPINGS
+
+This class provides a set of default mappings between HTTP
+headers and the classes which can inflate them. Here is the
+list of default mappings this class provides.
+
+  Link                HTTP::Headers::ActionPack::LinkList
+  Content-Type        HTTP::Headers::ActionPack::MediaType
+  Accept              HTTP::Headers::ActionPack::MediaTypeList
+  Accept-Charset      HTTP::Headers::ActionPack::PriorityList
+  Accept-Encoding     HTTP::Headers::ActionPack::PriorityList
+  Accept-Language     HTTP::Headers::ActionPack::PriorityList
+  Date                HTTP::Headers::ActionPack::DateHeader
+  Expires             HTTP::Headers::ActionPack::DateHeader
+  Last-Modified       HTTP::Headers::ActionPack::DateHeader,
+  If-Unmodified-Since HTTP::Headers::ActionPack::DateHeader
+  If-Modified-Since   HTTP::Headers::ActionPack::DateHeader
+
+
+=head1 METHODS
+
+=over 4
+
+=item C<new( ?%mappings )>
+
+The constructor takes an option hash of header-name to class
+mappings to add too (or override) the default mappings (see
+above for details). Each class is expected to have a
+C<new_from_string> method which can parse the string
+representation of the given header and return an object.
+
+=item C<mapping>
+
+This returns the set of mappings in this instance.
+
+=item C<create( $header_name, $header_value )>
+
+This method, given a C<$header_name> and a C<$header_value> will
+inflate the value using the class found in the mappings.
+
+=item C<inflate( $http_headers )>
+
+=item C<inflate( $http_request )>
+
+=item C<inflate( $plack_request )>
+
+Given either a L<HTTP::Headers> instance, a L<HTTP::Request>
+instance or a L<Plack::Request> instance, this method will
+inflate all the relevant headers and store the object in the
+same instance.
+
+In theory this should not negatively affect anything since all
+the header objects overload the stringification operator, and
+most often the headers are treated as strings. However, this
+is not for certain and care should be taken.
+
+=back
+
+=head1 CAVEATS
 
 =head2 Plack Compatability
 
@@ -105,6 +179,14 @@ your Plack::Response, or to write a simple middleware component
 that would do that for you. In future versions we might provide
 just such a middleware (it would likely inflate the header objects
 on the request side as well).
+
+=head2 Stringification
+
+As mentioned above, all the header objects overload the
+stringification operator, so normal usage of them should just
+do what you would expect (stringify in a sensible way). However
+this is not certain and so care should be taken when passing
+object headers onto another library that is expecting strings.
 
 =back
 

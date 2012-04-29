@@ -108,7 +108,9 @@ __END__
 
 =head1 DESCRIPTION
 
-This is an object which represents an HTTP Link header.
+This is an object which represents an HTTP Link header. It
+is most often used as a member of a L<HTTP::Headers::ActionPack::LinkList>
+object.
 
 =head1 METHODS
 

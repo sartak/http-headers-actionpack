@@ -78,6 +78,10 @@ __END__
 
 =head1 DESCRIPTION
 
+This is a base class for header values which also contain
+a parameter list. There is no real user servicable parts
+in here.
+
 =head1 METHODS
 
 =over 4

@@ -60,6 +60,8 @@ __END__
 =head1 DESCRIPTION
 
 This is an object which represents an HTTP header with a date.
+It will inflate the header value into a L<Time::Piece> object
+and proxy most of the relevant methods.
 
 =head1 METHODS
 

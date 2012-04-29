@@ -34,13 +34,14 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a simple list of Links
+This is a simple list of Links since the Link header
+can legally have more then one link in it.
 
 =head1 METHODS
 
-=item C<add>
+=item C<add ( $link )>
 
-=item C<add_header_value>
+=item C<add_header_value ( $header_value )>
 
 =item C<iterable>
 

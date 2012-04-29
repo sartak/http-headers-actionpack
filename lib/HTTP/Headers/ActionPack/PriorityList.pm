@@ -94,7 +94,9 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a simple priority list implementation.
+This is a simple priority list implementation, this is used to
+handle the L<Accept-*> headers as they typically will contain
+values along with a "q" value to indicate quality.
 
 =head1 METHODS
 

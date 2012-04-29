@@ -108,7 +108,8 @@ __END__
 =head1 DESCRIPTION
 
 This is an object which represents an HTTP media type
-defintion.
+defintion. This is most often found as a member of a
+L<HTTP::Headers::ActionPack::MediaTypeList> object.
 
 =head1 METHODS
 

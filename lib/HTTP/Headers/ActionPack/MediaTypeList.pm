@@ -95,7 +95,9 @@ __END__
 =head1 DESCRIPTION
 
 This is a subclass of the L<HTTP::Headers::ActionPack::PriorityList>
-class with some specific media-type features.
+class with some specific media-type features. It is the default object
+used to parse most of the C<Accept> header since they will often contain
+more then one media type.
 
 =head1 METHODS
 
