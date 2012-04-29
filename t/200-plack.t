@@ -118,7 +118,7 @@ Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapt
 
     my $plack_r = Plack::Request->new( $r->to_psgi );
 
-    HTTP::Headers::ActionPack->new->inflate_headers( $plack_r->headers );
+    HTTP::Headers::ActionPack->new->inflate( $plack_r );
 
     isa_ok($plack_r->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is inflated and');
     isa_ok($plack_r->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is inflated and');

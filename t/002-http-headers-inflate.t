@@ -22,7 +22,7 @@ isa_ok($pack, 'HTTP::Headers::ActionPack');
         Link         => '<http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"'
     );
 
-    $pack->inflate_headers( $h );
+    $pack->inflate( $h );
 
     isa_ok($h->header('Date'), 'HTTP::Headers::ActionPack::DateHeader', '... object is preserved and');
     isa_ok($h->header('Content-Type'), 'HTTP::Headers::ActionPack::MediaType', '... object is preserved and');

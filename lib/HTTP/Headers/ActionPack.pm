@@ -29,6 +29,8 @@ sub new {
     } => $class;
 }
 
+sub mappings { (shift)->{'mappings'} }
+
 sub has_mapping {
     my ($self, $header_name) = @_;
     exists $self->{'mappings'}->{ lc $header_name } ? 1 : 0
@@ -45,17 +47,31 @@ sub create {
     use_module( $class )->new_from_string( $header_value );
 }
 
-sub inflate_headers {
+sub inflate {
+    my $self = shift;
+    return $self->_inflate_http_headers( @_ )  if $_[0]->isa('HTTP::Headers');
+    return $self->_inflate_http_request( @_ )  if $_[0]->isa('HTTP::Request');
+    return $self->_inflate_plack_request( @_ ) if $_[0]->isa('Plack::Request');
+    confess "I don't know how to inflate '$_[0]'";
+}
+
+sub _inflate_http_headers {
     my ($self, $http_headers) = @_;
-
-    (blessed $http_headers && $http_headers->isa('HTTP::Headers'))
-        || confess "You must supply an instance of HTTP::Headers, not $http_headers";
-
     foreach my $header ( keys %{ $self->{'mappings'} } ) {
         if ( my $old = $http_headers->header( $header ) ) {
             $http_headers->header( $header => $self->create( $header, $old ) );
         }
     }
+}
+
+sub _inflate_http_request {
+    my ($self, $http_request) = @_;
+    $self->_inflate_http_headers( $http_request->headers );
+}
+
+sub _inflate_plack_request {
+    my ($self, $plack_request) = @_;
+    $self->_inflate_http_headers( $plack_request->headers );
 }
 
 1;
