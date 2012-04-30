@@ -62,16 +62,19 @@ sub _inflate_http_headers {
             $http_headers->header( $header => $self->create( $header, $old ) );
         }
     }
+    return $http_headers;
 }
 
 sub _inflate_http_request {
     my ($self, $http_request) = @_;
     $self->_inflate_http_headers( $http_request->headers );
+    return $http_request;
 }
 
 sub _inflate_plack_request {
     my ($self, $plack_request) = @_;
     $self->_inflate_http_headers( $plack_request->headers );
+    return $plack_request;
 }
 
 1;
