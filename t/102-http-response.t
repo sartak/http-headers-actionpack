@@ -50,8 +50,8 @@ it to.
         $r->as_string,
     q{200 OK
 Date: Mon, 23 Apr 2012 14:14:19 GMT
-Content-Type: application/xml; charset=UTF-8
-Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"
+Content-Type: application/xml; charset="UTF-8"
+Link: <http://example.com/TheBook/chapter2>; rel="previous"; title="previous chapter"
 
 },
         '... got the stringified headers'
@@ -84,8 +84,8 @@ Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapt
         $r->as_string,
     q{200 OK
 Date: Mon, 23 Apr 2012 14:14:19 GMT
-Content-Type: application/xml; charset=UTF-8
-Link: <http://example.com/TheBook/chapter2>; rel=previous; title="previous chapter"
+Content-Type: application/xml; charset="UTF-8"
+Link: <http://example.com/TheBook/chapter2>; rel="previous"; title="previous chapter"
 
 },
         '... got the stringified headers'

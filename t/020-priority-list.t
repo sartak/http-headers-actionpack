@@ -34,7 +34,7 @@ sub test_priority_list {
 
     is(
         $q->to_string,
-        'baz; q=3, foobaz; q=3, gorch; q=2.5, bar; q=2, foo; q=1',
+        'baz; q="3", foobaz; q="3", gorch; q="2.5", bar; q="2", foo; q="1"',
         '... got the right string form'
     );
 }
@@ -51,7 +51,7 @@ test_priority_list(
 
 test_priority_list(
     HTTP::Headers::ActionPack::PriorityList->new_from_string(
-        'foo; q=1.0, bar; q=2.0, baz; q=3.0, foobaz; q=3.0, gorch; q=2.5'
+        'foo; q="1.0", bar; q="2.0", baz; q="3.0", foobaz; q="3.0", gorch; q="2.5"'
     )
 );
 
@@ -82,7 +82,7 @@ test_priority_list(
 
     is(
         $q->to_string,
-        'application/xml; q=0.7',
+        'application/xml; q="0.7"',
         '... got the right string form'
     );
 }
@@ -100,7 +100,7 @@ test_priority_list(
 
     is(
         $q->to_string,
-        'en-US; q=1, es; q=1',
+        'en-US; q="1", es; q="1"',
         '... got the right string form'
     );
 }

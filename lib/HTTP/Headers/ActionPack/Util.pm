@@ -30,7 +30,15 @@ sub split_header_words {
 
 sub join_header_words {
     my ($subject, @params) = @_;
-    HTTP::Headers::Util::join_header_words( $subject, undef, @params );
+    my @attrs;
+    while ( @params ) {
+        my $k = shift @params;
+        my $v = shift @params;
+        $v =~ s/([\"\\])/\\$1/g;  # escape " and \
+        push @attrs => ($k . qq(="$v"));
+    }
+    return $subject . '; ' . (join '; ' =>  @attrs) if @attrs;
+    return $subject;
 }
 
 1;
@@ -67,8 +75,8 @@ preserved.
 =item C<join_header_words ( $subject, @params )>
 
 This will canonicalize the header such that it will add a
-space between each semicolon and quotes and unquotes all
-headers appropriately.
+space between each semicolon and quote and escape all headers
+values appropriately.
 
 =back
 

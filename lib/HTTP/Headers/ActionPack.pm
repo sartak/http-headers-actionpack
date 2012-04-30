@@ -122,7 +122,6 @@ list of default mappings this class provides.
   If-Unmodified-Since HTTP::Headers::ActionPack::DateHeader
   If-Modified-Since   HTTP::Headers::ActionPack::DateHeader
 
-
 =head1 METHODS
 
 =over 4
