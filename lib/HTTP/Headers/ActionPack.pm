@@ -8,6 +8,15 @@ use Scalar::Util    qw[ blessed ];
 use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
+my @DEFAULT_CLASSES = qw[
+    HTTP::Headers::ActionPack::DateHeader
+    HTTP::Headers::ActionPack::LinkHeader
+    HTTP::Headers::ActionPack::LinkList
+    HTTP::Headers::ActionPack::MediaType
+    HTTP::Headers::ActionPack::MediaTypeList
+    HTTP::Headers::ActionPack::PriorityList
+];
+
 my %DEFAULT_MAPPINGS = (
     'link'                => 'HTTP::Headers::ActionPack::LinkList',
     'content-type'        => 'HTTP::Headers::ActionPack::MediaType',
@@ -23,13 +32,19 @@ my %DEFAULT_MAPPINGS = (
 );
 
 sub new {
-    my $class = shift;
+    my $class      = shift;
+    my %additional = @_;
+    my %mappings   = ( %DEFAULT_MAPPINGS, %additional );
+    my %classes    = map { $_ => undef } ( @DEFAULT_CLASSES, values %additional );
+
     bless {
-        mappings => { %DEFAULT_MAPPINGS, @_ }
+        mappings => \%mappings,
+        classes  => \%classes
     } => $class;
 }
 
 sub mappings { (shift)->{'mappings'} }
+sub classes  { (shift)->{'classes'}  }
 
 sub has_mapping {
     my ($self, $header_name) = @_;
@@ -37,6 +52,23 @@ sub has_mapping {
 }
 
 sub create {
+    my ($self, $class_name, $args) = @_;
+
+    my $class = exists $self->{'classes'}->{ $class_name }
+        ? $class_name
+        : exists $self->{'classes'}->{ __PACKAGE__ . '::' . $class_name }
+            ? __PACKAGE__ . '::' . $class_name
+            : undef;
+
+    (defined $class)
+        || confess "Could not find class '$class_name' (or 'HTTP::Headers::ActionPack::$class_name')";
+
+    ref $args
+        ? use_module( $class )->new( @$args )
+        : use_module( $class )->new_from_string( $args );
+}
+
+sub create_header {
     my ($self, $header_name, $header_value) = @_;
 
     my $class = $self->{'mappings'}->{ lc $header_name };
@@ -44,7 +76,9 @@ sub create {
     (defined $class)
         || confess "Could not find mapping for '$header_name'";
 
-    use_module( $class )->new_from_string( $header_value );
+    ref $header_value
+        ? use_module( $class )->new( @$header_value )
+        : use_module( $class )->new_from_string( $header_value );
 }
 
 sub inflate {
@@ -59,7 +93,7 @@ sub _inflate_http_headers {
     my ($self, $http_headers) = @_;
     foreach my $header ( keys %{ $self->{'mappings'} } ) {
         if ( my $old = $http_headers->header( $header ) ) {
-            $http_headers->header( $header => $self->create( $header, $old ) );
+            $http_headers->header( $header => $self->create_header( $header, $old ) );
         }
     }
     return $http_headers;
@@ -86,7 +120,7 @@ __END__
   use HTTP::Headers::ActionPack;
 
   my $pack       = HTTP::Headers::ActionPack->new;
-  my $media_type = $pack->create( 'Content-Type' => 'application/xml;charset=UTF-8' );
+  my $media_type = $pack->create_header( 'Content-Type' => 'application/xml;charset=UTF-8' );
 
   # auto-magic header inflation
   # for multiple types
@@ -138,7 +172,7 @@ representation of the given header and return an object.
 
 This returns the set of mappings in this instance.
 
-=item C<create( $header_name, $header_value )>
+=item C<create_header( $header_name, $header_value )>
 
 This method, given a C<$header_name> and a C<$header_value> will
 inflate the value using the class found in the mappings.
