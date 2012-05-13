@@ -8,7 +8,7 @@ use Test::More;
 use Test::Fatal;
 
 BEGIN {
-    use_ok('HTTP::Headers::ActionPack::Link');
+    use_ok('HTTP::Headers::ActionPack::LinkHeader');
 }
 
 =pod
@@ -20,7 +20,7 @@ Examples taken from http://tools.ietf.org/html/rfc5988
 sub test_link {
     my $link = shift;
 
-    isa_ok($link, 'HTTP::Headers::ActionPack::Link');
+    isa_ok($link, 'HTTP::Headers::ActionPack::LinkHeader');
 
     is($link->href, 'http://example.com/TheBook/chapter2', '... got the link we expected');
     is($link->rel, 'previous', '... got the relation we expected');
@@ -42,13 +42,13 @@ sub test_link {
 }
 
 test_link(
-    HTTP::Headers::ActionPack::Link->new_from_string(
+    HTTP::Headers::ActionPack::LinkHeader->new_from_string(
         '<http://example.com/TheBook/chapter2>;rel="previous";title="previous chapter"'
     )
 );
 
 test_link(
-    HTTP::Headers::ActionPack::Link->new(
+    HTTP::Headers::ActionPack::LinkHeader->new(
         '<http://example.com/TheBook/chapter2>' => (
             rel   => "previous",
             title => "previous chapter"
@@ -57,7 +57,7 @@ test_link(
 );
 
 test_link(
-    HTTP::Headers::ActionPack::Link->new(
+    HTTP::Headers::ActionPack::LinkHeader->new(
         'http://example.com/TheBook/chapter2' => (
             rel   => "previous",
             title => "previous chapter"
@@ -66,10 +66,10 @@ test_link(
 );
 
 {
-    my $link = HTTP::Headers::ActionPack::Link->new_from_string(
+    my $link = HTTP::Headers::ActionPack::LinkHeader->new_from_string(
         '</>; rel="http://example.net/foo"'
     );
-    isa_ok($link, 'HTTP::Headers::ActionPack::Link');
+    isa_ok($link, 'HTTP::Headers::ActionPack::LinkHeader');
 
     is($link->href, '/', '... got the link we expected');
     is($link->rel, 'http://example.net/foo', '... got the relation we expected');
@@ -90,10 +90,10 @@ test_link(
 }
 
 {
-    my $link = HTTP::Headers::ActionPack::Link->new_from_string(
+    my $link = HTTP::Headers::ActionPack::LinkHeader->new_from_string(
         q{</TheBook/chapter2>; rel="previous"; title*="UTF-8'de'letztes%20Kapitel"}
     );
-    isa_ok($link, 'HTTP::Headers::ActionPack::Link');
+    isa_ok($link, 'HTTP::Headers::ActionPack::LinkHeader');
 
     is($link->href, '/TheBook/chapter2', '... got the link we expected');
     is($link->rel, 'previous', '... got the relation we expected');
@@ -118,10 +118,10 @@ test_link(
 }
 
 {
-    my $link = HTTP::Headers::ActionPack::Link->new_from_string(
+    my $link = HTTP::Headers::ActionPack::LinkHeader->new_from_string(
         q{</TheBook/chapter4>; rel="next"; title*=UTF-8'de'n%c3%a4chstes%20Kapitel}
     );
-    isa_ok($link, 'HTTP::Headers::ActionPack::Link');
+    isa_ok($link, 'HTTP::Headers::ActionPack::LinkHeader');
 
     is($link->href, '/TheBook/chapter4', '... got the link we expected');
     is($link->rel, 'next', '... got the relation we expected');

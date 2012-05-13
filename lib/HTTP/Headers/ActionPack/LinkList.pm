@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::LinkList;
 use strict;
 use warnings;
 
-use HTTP::Headers::ActionPack::Link;
+use HTTP::Headers::ActionPack::LinkHeader;
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderList';
 
@@ -19,7 +19,7 @@ sub add {
 
 sub add_header_value {
     my ($self, $value) = @_;
-    $self->add( HTTP::Headers::ActionPack::Link->new( @$value ) );
+    $self->add( HTTP::Headers::ActionPack::LinkHeader->new( @$value ) );
 }
 
 sub iterable { @{ (shift)->items } }

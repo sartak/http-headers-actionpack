@@ -11,7 +11,7 @@ use HTTP::Headers;
 
 BEGIN {
     use_ok('HTTP::Headers::ActionPack::DateHeader');
-    use_ok('HTTP::Headers::ActionPack::Link');
+    use_ok('HTTP::Headers::ActionPack::LinkHeader');
     use_ok('HTTP::Headers::ActionPack::LinkList');
     use_ok('HTTP::Headers::ActionPack::MediaType');
 }
@@ -32,7 +32,7 @@ it to.
             Date         => HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT'),
             Content_Type => HTTP::Headers::ActionPack::MediaType->new('application/xml', 'charset' => 'UTF-8'),
             Link         => HTTP::Headers::ActionPack::LinkList->new(
-                HTTP::Headers::ActionPack::Link->new(
+                HTTP::Headers::ActionPack::LinkHeader->new(
                     'http://example.com/TheBook/chapter2' => (
                         rel   => "previous",
                         title => "previous chapter"
@@ -66,7 +66,7 @@ Link: <http://example.com/TheBook/chapter2>; rel="previous"; title="previous cha
             Date         => HTTP::Headers::ActionPack::DateHeader->new_from_string('Mon, 23 Apr 2012 14:14:19 GMT'),
             Content_Type => HTTP::Headers::ActionPack::MediaType->new('application/xml', 'charset' => 'UTF-8'),
             Link         => HTTP::Headers::ActionPack::LinkList->new(
-                HTTP::Headers::ActionPack::Link->new(
+                HTTP::Headers::ActionPack::LinkHeader->new(
                     'http://example.com/TheBook/chapter2' => (
                         rel   => "previous",
                         title => "previous chapter"

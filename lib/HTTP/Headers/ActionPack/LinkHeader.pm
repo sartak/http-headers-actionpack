@@ -1,4 +1,4 @@
-package HTTP::Headers::ActionPack::Link;
+package HTTP::Headers::ActionPack::LinkHeader;
 # ABSTRACT: A Link
 
 use strict;
@@ -83,15 +83,15 @@ __END__
 
 =head1 SYNOPSIS
 
-  use HTTP::Headers::ActionPack::Link;
+  use HTTP::Headers::ActionPack::LinkHeader;
 
   # build from string
-  my $link = HTTP::Headers::ActionPack::Link->new_from_string(
+  my $link = HTTP::Headers::ActionPack::LinkHeader->new_from_string(
       '<http://example.com/TheBook/chapter2>;rel="previous";title="previous chapter"'
   );
 
   # normal constructor
-  my $link = HTTP::Headers::ActionPack::Link->new(
+  my $link = HTTP::Headers::ActionPack::LinkHeader->new(
       '<http://example.com/TheBook/chapter2>' => (
           rel   => "previous",
           title => "previous chapter"
@@ -99,7 +99,7 @@ __END__
   );
 
   # normal constructor, and <> around link are optional
-  my $link = HTTP::Headers::ActionPack::Link->new(
+  my $link = HTTP::Headers::ActionPack::LinkHeader->new(
       'http://example.com/TheBook/chapter2' => (
           rel   => "previous",
           title => "previous chapter"
