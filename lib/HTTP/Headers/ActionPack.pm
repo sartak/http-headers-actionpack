@@ -139,6 +139,11 @@ module is to make the parsing and analysis of these headers
 as easy as calling C<inflate> on a compatible object (see
 below for a list).
 
+This top-level class is basically a Factory for creating
+instances of the other classes in this module. It contains
+a number of convenience methods to help make common cases
+easy to write.
+
 =head1 DEFAULT MAPPINGS
 
 This class provides a set of default mappings between HTTP
