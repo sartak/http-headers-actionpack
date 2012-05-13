@@ -18,9 +18,9 @@ sub new_from_string {
     $list;
 }
 
-sub to_string {
+sub as_string {
     my $self = shift;
-    join ', ' => map { blessed $_ ? $_->to_string : $_ } $self->iterable;
+    join ', ' => map { blessed $_ ? $_->as_string : $_ } $self->iterable;
 }
 
 sub add              { die "Abstract method" }
@@ -47,7 +47,7 @@ user servicable parts in here.
 This accepts a HTTP header string which get parsed
 and loaded accordingly.
 
-=item C<to_string>
+=item C<as_string>
 
 =back
 

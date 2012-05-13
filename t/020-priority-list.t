@@ -33,7 +33,7 @@ sub test_priority_list {
     );
 
     is(
-        $q->to_string,
+        $q->as_string,
         'baz; q="3", foobaz; q="3", gorch; q="2.5", bar; q="2", foo; q="1"',
         '... got the right string form'
     );
@@ -81,7 +81,7 @@ test_priority_list(
     );
 
     is(
-        $q->to_string,
+        $q->as_string,
         'application/xml; q="0.7"',
         '... got the right string form'
     );
@@ -99,7 +99,7 @@ test_priority_list(
     );
 
     is(
-        $q->to_string,
+        $q->as_string,
         'en-US; q="1", es; q="1"',
         '... got the right string form'
     );

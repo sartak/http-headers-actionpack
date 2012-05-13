@@ -32,7 +32,7 @@ sub new_from_string {
     $list;
 }
 
-sub to_string {
+sub as_string {
     my $self = shift;
     join ', ' => map {
         my ($q, $subject) = @{ $_ };

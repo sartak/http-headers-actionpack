@@ -35,7 +35,7 @@ sub test_link {
     ok($link->relation_matches('PREVIOUS'), '... relation matching works');
 
     is(
-        $link->to_string,
+        $link->as_string,
         '<http://example.com/TheBook/chapter2>; rel="previous"; title="previous chapter"',
         '... got the string we expected'
     );
@@ -83,7 +83,7 @@ test_link(
     ok(!$link->relation_matches('HTTP://example.net/foo'), '... relation matching works');
 
     is(
-        $link->to_string,
+        $link->as_string,
         '</>; rel="http://example.net/foo"',
         '... got the string we expected'
     );
@@ -111,7 +111,7 @@ test_link(
     );
 
     is(
-        $link->to_string,
+        $link->as_string,
         q{</TheBook/chapter2>; rel="previous"; title*="UTF-8'de'letztes%20Kapitel"},
         '... got the string we expected'
     );
@@ -139,7 +139,7 @@ test_link(
     );
 
     is(
-        $link->to_string,
+        $link->as_string,
         q{</TheBook/chapter4>; rel="next"; title*="UTF-8'de'n%C3%A4chstes%20Kapitel"},
         '... got the string we expected'
     );

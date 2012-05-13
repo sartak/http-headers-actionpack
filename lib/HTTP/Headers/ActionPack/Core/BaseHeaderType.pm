@@ -41,7 +41,7 @@ sub new_from_string {
     $class->new( @{ (split_header_words( $header_string ))[0] } );
 }
 
-sub to_string {
+sub as_string {
     my $self = shift;
     join_header_words( $self->subject, $self->params_in_order );
 }
@@ -99,7 +99,7 @@ Accessor for the unordered hash-ref of params.
 This will take an HTTP header string
 and parse it into and object.
 
-=item C<to_string>
+=item C<as_string>
 
 This stringifys the link respecting the
 parameter order.

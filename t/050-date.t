@@ -23,7 +23,7 @@ sub test_date {
     is( $h->minute, 14, '... got the minute');
     is( $h->second, 19, '... got the second');
 
-    is( $h->to_string, 'Mon, 23 Apr 2012 14:14:19 GMT', '... got the expected string');
+    is( $h->as_string, 'Mon, 23 Apr 2012 14:14:19 GMT', '... got the expected string');
 }
 
 test_date(

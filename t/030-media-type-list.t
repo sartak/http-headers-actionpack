@@ -18,7 +18,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'audio/basic; q="1", audio/*; q="0.2"',
         '... got the expected string back'
     );
@@ -32,7 +32,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'audio/basic, audio/*; q="0.2"',
         '... got the expected string back'
     );
@@ -45,7 +45,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'audio/basic, audio/*; q="0.2"',
         '... got the expected string back'
     );
@@ -58,7 +58,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'text/html, text/x-c, text/x-dvi; q="0.8", text/plain; q="0.5"',
         '... got the expected string back'
     );
@@ -71,7 +71,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'text/html; level="1", text/html, text/*, */*',
         '... got the expected string back'
     );
@@ -84,7 +84,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'text/html; charset="iso8859-1", application/xml',
         '... got the expected string back'
     );
@@ -97,7 +97,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'text/html, */*, application/xml; q="0.7"',
         '... got the expected string back'
     );
@@ -110,7 +110,7 @@ BEGIN {
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
-        $list->to_string,
+        $list->as_string,
         'application/json; v="2", application/json; v="3"; foo="bar"',
         '... got the expected string back'
     );

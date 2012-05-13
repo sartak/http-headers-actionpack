@@ -28,9 +28,9 @@ sub add_header_value {
     $self->add( $q, $mt );
 }
 
-sub to_string {
+sub as_string {
     my $self = shift;
-    join ', ' => map { $_->[1]->to_string } $self->iterable;
+    join ', ' => map { $_->[1]->as_string } $self->iterable;
 }
 
 sub iterable {

@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::Core::Base;
 use strict;
 use warnings;
 
-use overload '""' => 'to_string', fallback => 1;
+use overload '""' => 'as_string', fallback => 1;
 
 sub new {
     my $class = shift;
@@ -22,7 +22,7 @@ sub CREATE {
 
 sub BUILD {}
 
-sub to_string {
+sub as_string {
     my $self = shift;
     "$self"
 }
@@ -49,7 +49,7 @@ There is no real user servicable parts in here.
 
 =item C<BUILD>
 
-=item C<to_string>
+=item C<as_string>
 
 =back
 

@@ -21,7 +21,7 @@ sub new_from_string {
     $class->new( header_to_date( $header_string ) );
 }
 
-sub to_string { date_to_header( (shift)->{'date'} ) }
+sub as_string { date_to_header( (shift)->{'date'} ) }
 
 # implement a simple API
 sub second       { (shift)->{'date'}->second       }
@@ -76,7 +76,7 @@ Returns the underlying L<Time::Piece> object.
 This will take an HTTP header Date string
 and parse it into and object.
 
-=item C<to_string>
+=item C<as_string>
 
 =item C<second>
 

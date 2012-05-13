@@ -53,7 +53,7 @@ sub relation_matches {
     }
 }
 
-sub to_string {
+sub as_string {
     my $self = shift;
 
     my @params;
@@ -123,7 +123,7 @@ object.
 This will take an HTTP header Link string
 and parse it into and object.
 
-=item C<to_string>
+=item C<as_string>
 
 This stringifys the link respecting the
 parameter order.
