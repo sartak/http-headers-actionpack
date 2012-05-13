@@ -44,7 +44,7 @@ sub new {
 }
 
 sub mappings { (shift)->{'mappings'} }
-sub classes  { (shift)->{'classes'}  }
+sub classes  { keys %{ (shift)->{'classes'} } }
 
 sub has_mapping {
     my ($self, $header_name) = @_;
@@ -121,6 +121,7 @@ __END__
 
   my $pack       = HTTP::Headers::ActionPack->new;
   my $media_type = $pack->create_header( 'Content-Type' => 'application/xml;charset=UTF-8' );
+  my $link       = $pack->create( 'LinkHeader' => [ '</test/tree>', rel => "up" ] );
 
   # auto-magic header inflation
   # for multiple types
@@ -172,10 +173,29 @@ representation of the given header and return an object.
 
 This returns the set of mappings in this instance.
 
+=item C<classes>
+
+This returns the list of supported classes, which is by default
+the list of classes included in this modules, but it also
+will grab any additionally classes that were specified in the
+C<%mappings> parameter to C<new> (see above).
+
+=item C<create( $class_name, $args )>
+
+This method, given a C<$class_name> and C<$args>, will inflate
+the value using the class found in the C<classes> list. If
+C<$args> is a string it will call C<new_from_string> on
+the C<$class_name>, but if C<$args> is an ARRAY ref, it
+will dereference the ARRAY and pass it to C<new>.
+
 =item C<create_header( $header_name, $header_value )>
 
 This method, given a C<$header_name> and a C<$header_value> will
-inflate the value using the class found in the mappings.
+inflate the value using the class found in the mappings. If
+C<$header_value> is a string it will call C<new_from_string> on
+the class mapped to the C<$header_name>, but if C<$header_value>
+is an ARRAY ref, it will dereference the ARRAY and pass it to
+C<new>.
 
 =item C<inflate( $http_headers )>
 
