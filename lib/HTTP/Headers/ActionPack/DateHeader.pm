@@ -63,6 +63,16 @@ This is an object which represents an HTTP header with a date.
 It will inflate the header value into a L<Time::Piece> object
 and proxy most of the relevant methods.
 
+=head1 DateTime compat
+
+I opted to not use L<DateTime> (by default) for this class since
+it is not a core module and can be a memory hog at times. That said,
+it should be noted that L<DateTime> objects are compatible with
+this class. You will need to pass in a L<DateTime> instance to
+C<new> and after that everything should behave properly. If you
+want C<new_from_string> to inflate strings to L<DateTime> objects
+you will need to override that method yourself.
+
 =head1 METHODS
 
 =over 4
