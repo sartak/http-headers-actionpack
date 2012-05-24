@@ -25,6 +25,7 @@ my %DEFAULT_MAPPINGS = (
     'accept-encoding'     => 'HTTP::Headers::ActionPack::PriorityList',
     'accept-language'     => 'HTTP::Headers::ActionPack::PriorityList',
     'date'                => 'HTTP::Headers::ActionPack::DateHeader',
+    'client-date'         => 'HTTP::Headers::ActionPack::DateHeader', # added by LWP
     'expires'             => 'HTTP::Headers::ActionPack::DateHeader',
     'last-modified'       => 'HTTP::Headers::ActionPack::DateHeader',
     'if-unmodified-since' => 'HTTP::Headers::ActionPack::DateHeader',
@@ -157,10 +158,14 @@ list of default mappings this class provides.
   Accept-Encoding     HTTP::Headers::ActionPack::PriorityList
   Accept-Language     HTTP::Headers::ActionPack::PriorityList
   Date                HTTP::Headers::ActionPack::DateHeader
+  Client-Date         HTTP::Headers::ActionPack::DateHeader
   Expires             HTTP::Headers::ActionPack::DateHeader
   Last-Modified       HTTP::Headers::ActionPack::DateHeader,
   If-Unmodified-Since HTTP::Headers::ActionPack::DateHeader
   If-Modified-Since   HTTP::Headers::ActionPack::DateHeader
+
+NOTE: The 'Client-Date' header is often added by L<LWP> on
+L<HTTP::Response> objects.
 
 =head1 METHODS
 
