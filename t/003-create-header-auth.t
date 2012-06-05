@@ -64,7 +64,7 @@ test_basic_auth(
 );
 
 test_basic_auth(
-    $pack->create_header( 'Authorization' => [
+    $pack->create( 'Authorization' => [
         'Basic' => {
             username => 'Aladdin',
             password => 'open sesame'
@@ -79,7 +79,7 @@ test_basic_auth(
 );
 
 test_basic_auth(
-    $pack->create_header( 'Authorization' => [
+    $pack->create( 'Authorization' => [
         'Basic' => 'QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
     ])
 );
@@ -100,7 +100,7 @@ test_digest_auth(
 );
 
 test_digest_auth(
-    $pack->create_header( 'Authorization' => [
+    $pack->create( 'Authorization' => [
         'Digest' => (
             username => 'jon.dough@mobile.biz',
             realm    => 'RoamingUsers@mobile.biz',
