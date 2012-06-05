@@ -36,12 +36,12 @@ __END__
   use HTTP::Headers::ActionPack::WWWAuthenticate;
 
   # create from string
-  my $date = HTTP::Headers::ActionPack::WWWAuthenticate->new_from_string(
+  my $www_authen = HTTP::Headers::ActionPack::WWWAuthenticate->new_from_string(
       'Basic realm="WallyWorld"'
   );
 
   # create using parameters
-  my $date = HTTP::Headers::ActionPack::WWWAuthenticate->new(
+  my $www_authen = HTTP::Headers::ActionPack::WWWAuthenticate->new(
       'Basic' => (
           realm => 'WallyWorld'
       )
