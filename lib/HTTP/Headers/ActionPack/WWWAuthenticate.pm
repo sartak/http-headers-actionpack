@@ -4,28 +4,9 @@ package HTTP::Headers::ActionPack::WWWAuthenticate;
 use strict;
 use warnings;
 
-use HTTP::Headers::ActionPack::Util qw[
-    join_header_params
-];
+use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
 
-use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
-
-sub new_from_string {
-    my ($class, $header_string) = @_;
-
-    my @parts = HTTP::Headers::Util::_split_header_words( $header_string );
-    splice @{ $parts[0] }, 1, 1;
-
-    $class->new( map { @$_ } @parts );
-}
-
-sub auth_type { (shift)->subject         }
-sub realm     { (shift)->params->{'realm'} }
-
-sub as_string {
-    my $self = shift;
-    $self->auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
-}
+sub realm { (shift)->params->{'realm'} }
 
 1;
 
@@ -47,7 +28,29 @@ __END__
       )
   );
 
+  # create from string
+  my $www_authen = HTTP::Headers::ActionPack::WWWAuthenticate->new_from_string(
+      q{Digest
+          realm="testrealm@host.com",
+          qop="auth,auth-int",
+          nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
+          opaque="5ccc069c403ebaf9f0171e9517f40e41"'}
+  );
+
+  # create using parameters
+  my $www_authen = HTTP::Headers::ActionPack::WWWAuthenticate->new(
+      'Digest' => (
+          realm  => 'testrealm@host.com',
+          qop    => "auth,auth-int",
+          nonce  => "dcd98b7102dd2f0e8b11d0f600bfb0c093",
+          opaque => "5ccc069c403ebaf9f0171e9517f40e41"
+      )
+  );
+
 =head1 DESCRIPTION
+
+This class represents the WWW-Authenticate header and all it's variations,
+it is based on the L<HTTP::Headers::ActionPack::Core::BaseAuthHeader> class.
 
 =head1 METHODS
 
@@ -56,8 +59,6 @@ __END__
 =item C<new ( %params )>
 
 =item C<new_from_string ( $header_string )>
-
-=item C<auth_type>
 
 =item C<realm>
 

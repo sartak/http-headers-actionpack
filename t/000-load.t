@@ -8,6 +8,9 @@ use Test::Fatal;
 
 BEGIN {
     use_ok('HTTP::Headers::ActionPack');
+    use_ok('HTTP::Headers::ActionPack::AuthenticationInfo');
+    use_ok('HTTP::Headers::ActionPack::Authorization::Basic');
+    use_ok('HTTP::Headers::ActionPack::Authorization::Digest');
     use_ok('HTTP::Headers::ActionPack::DateHeader');
     use_ok('HTTP::Headers::ActionPack::LinkHeader');
     use_ok('HTTP::Headers::ActionPack::LinkList');
@@ -15,6 +18,7 @@ BEGIN {
     use_ok('HTTP::Headers::ActionPack::MediaTypeList');
     use_ok('HTTP::Headers::ActionPack::PriorityList');
     use_ok('HTTP::Headers::ActionPack::Util');
+    use_ok('HTTP::Headers::ActionPack::WWWAuthenticate');
 }
 
 done_testing;

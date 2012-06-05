@@ -9,12 +9,17 @@ use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
 my @DEFAULT_CLASSES = qw[
+    HTTP::Headers::ActionPack::AuthenticationInfo
+    HTTP::Headers::ActionPack::Authorization
+    HTTP::Headers::ActionPack::Authorization::Basic
+    HTTP::Headers::ActionPack::Authorization::Digest
     HTTP::Headers::ActionPack::DateHeader
     HTTP::Headers::ActionPack::LinkHeader
     HTTP::Headers::ActionPack::LinkList
     HTTP::Headers::ActionPack::MediaType
     HTTP::Headers::ActionPack::MediaTypeList
     HTTP::Headers::ActionPack::PriorityList
+    HTTP::Headers::ActionPack::WWWAuthenticate
 ];
 
 my %DEFAULT_MAPPINGS = (
@@ -30,6 +35,9 @@ my %DEFAULT_MAPPINGS = (
     'last-modified'       => 'HTTP::Headers::ActionPack::DateHeader',
     'if-unmodified-since' => 'HTTP::Headers::ActionPack::DateHeader',
     'if-modified-since'   => 'HTTP::Headers::ActionPack::DateHeader',
+    'www-authenticate'    => 'HTTP::Headers::ActionPack::WWWAuthenticate',
+    'authentication-info' => 'HTTP::Headers::ActionPack::AuthenticationInfo',
+    'authorization'       => 'HTTP::Headers::ActionPack::Authorization',
 );
 
 sub new {
