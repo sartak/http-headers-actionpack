@@ -14,6 +14,7 @@ use Sub::Exporter -setup => {
         date_to_header
         split_header_words
         join_header_words
+        join_header_params
     ]]
 };
 
@@ -30,6 +31,12 @@ sub split_header_words {
 
 sub join_header_words {
     my ($subject, @params) = @_;
+    return $subject . '; ' . join_header_params( '; ' =>  @params ) if @params;
+    return $subject;
+}
+
+sub join_header_params {
+    my ($seperator, @params) = @_;
     my @attrs;
     while ( @params ) {
         my $k = shift @params;
@@ -37,8 +44,7 @@ sub join_header_words {
         $v =~ s/([\"\\])/\\$1/g;  # escape " and \
         push @attrs => ($k . qq(="$v"));
     }
-    return $subject . '; ' . (join '; ' =>  @attrs) if @attrs;
-    return $subject;
+    return join $seperator =>  @attrs;
 }
 
 1;
