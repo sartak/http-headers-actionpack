@@ -168,9 +168,12 @@ list of default mappings this class provides.
   Date                HTTP::Headers::ActionPack::DateHeader
   Client-Date         HTTP::Headers::ActionPack::DateHeader
   Expires             HTTP::Headers::ActionPack::DateHeader
-  Last-Modified       HTTP::Headers::ActionPack::DateHeader,
+  Last-Modified       HTTP::Headers::ActionPack::DateHeader
   If-Unmodified-Since HTTP::Headers::ActionPack::DateHeader
   If-Modified-Since   HTTP::Headers::ActionPack::DateHeader
+  WWW-Authenticate    HTTP::Headers::ActionPack::WWWAuthenticate
+  Authentication-Info HTTP::Headers::ActionPack::AuthenticationInfo
+  Authorization       HTTP::Headers::ActionPack::Authorization
 
 NOTE: The 'Client-Date' header is often added by L<LWP> on
 L<HTTP::Response> objects.

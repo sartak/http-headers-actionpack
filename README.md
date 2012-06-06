@@ -20,6 +20,9 @@ The following headers are supported:
     * parses into a priority list
 * Date, Expires, Last-Modified, If-Unmodified-Since and If-Modified-Since
     * parses into a Date object (which is just a wrapped Time::Piece object)
+* Authorization, Authentication-Info and WWW-Authenticate
+    * this will handle Basic, Digest when appropriate
+        * follows the examples in [http://www.ietf.org/rfc/rfc2617.txt]
 
 There is plans to support these headers as well:
 
@@ -27,9 +30,6 @@ There is plans to support these headers as well:
     * as specified in [http://www.ietf.org/rfc/rfc2183.txt]
 * User-Agent
     * should use a module for this since it is such a mess
-* Authorization, Proxy-Authorization and WWW-Authenticate
-    * this should handle Basic, Digest and other variations as well
-    * as specified in [http://www.ietf.org/rfc/rfc2617.txt]
 * Content-Range and Range
     * basic range parsing
 
