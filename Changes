@@ -1,7 +1,7 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
-0.02
-    - forgot to add Sub::Exporter to the dependencies
+0.02 Sun. June 17th, 2012
+    - forgot to add some dependencies
 
 0.01 Tues. June 12th, 2012
     - First release
