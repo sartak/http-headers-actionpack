@@ -1,5 +1,8 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
+0.03 Tues. June 19th, 2012
+    - make sure everything has $VERSION numbers
+
 0.02 Sun. June 17th, 2012
     - forgot to add some dependencies
 
