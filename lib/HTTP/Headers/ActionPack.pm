@@ -60,6 +60,10 @@ sub has_mapping {
     exists $self->{'mappings'}->{ lc $header_name } ? 1 : 0
 }
 
+sub get_content_negotiator {
+    use_module('HTTP::Headers::ActionPack::ContentNegotiation')->new( shift );
+}
+
 sub create {
     my ($self, $class_name, $args) = @_;
 
@@ -200,6 +204,10 @@ This returns the list of supported classes, which is by default
 the list of classes included in this modules, but it also
 will grab any additionally classes that were specified in the
 C<%mappings> parameter to C<new> (see above).
+
+=item C<get_content_negotiator>
+
+Returns an instance of L<HTTP::Headers::ActionPack::ContentNegotiation>.
 
 =item C<create( $class_name, $args )>
 
