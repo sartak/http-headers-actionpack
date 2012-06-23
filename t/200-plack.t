@@ -26,10 +26,11 @@ Plack::Request and Plack::Response do not
 stringify our objects.
 
 =cut
-
-unless ( use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') ) {
-    diag("Must have HTTP::Message::PSGI, Plack::Request and Plack::Response");
-    done_testing;
+BEGIN {
+    unless ( use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') ) {
+        pass("Must have HTTP::Message::PSGI, Plack::Request and Plack::Response");
+        done_testing;
+    }
 }
 
 {
