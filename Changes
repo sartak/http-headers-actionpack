@@ -1,6 +1,6 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
-0.04
+0.04 Sun. Sept. 9th, 2012
     - pulling the content negotiation out of
       Web::Machine and moving it into here
         - adding tests accordingly
