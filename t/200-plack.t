@@ -27,7 +27,7 @@ stringify our objects.
 
 =cut
 BEGIN {
-    unless ( use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') ) {
+    unless ( eval { use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') } ) {
         pass("Must have HTTP::Message::PSGI, Plack::Request and Plack::Response");
         done_testing;
     }
