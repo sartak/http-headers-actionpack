@@ -106,7 +106,8 @@ sub _inflate_http_headers {
     my ($self, $http_headers) = @_;
     foreach my $header ( keys %{ $self->{'mappings'} } ) {
         if ( my $old = $http_headers->header( $header ) ) {
-            $http_headers->header( $header => $self->create_header( $header, $old ) );
+            $http_headers->header( $header => $self->create_header( $header, $old ) )
+                unless blessed $old && $old->isa('HTTP::Headers::ActionPack::Core::Base');
         }
     }
     return $http_headers;
