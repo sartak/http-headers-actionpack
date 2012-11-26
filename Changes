@@ -1,5 +1,11 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
+0.05 
+    - fixed the HTTP::Message::PSGI errors
+    - when you inflate a header object that has already 
+      been inflated, ignore that header and keep looping
+        - thanks to Florian Ragwitz for spoting this
+
 0.04 Sun. Sept. 9th, 2012
     - pulling the content negotiation out of
       Web::Machine and moving it into here
