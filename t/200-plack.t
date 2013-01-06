@@ -11,14 +11,6 @@ use HTTP::Response;
 use HTTP::Headers;
 use Module::Runtime qw[ use_module ];
 
-BEGIN {
-    use_ok('HTTP::Headers::ActionPack');
-    use_ok('HTTP::Headers::ActionPack::DateHeader');
-    use_ok('HTTP::Headers::ActionPack::LinkHeader');
-    use_ok('HTTP::Headers::ActionPack::LinkList');
-    use_ok('HTTP::Headers::ActionPack::MediaType');
-}
-
 =pod
 
 This just tests that HTTP::Message::PSGI,
@@ -28,9 +20,16 @@ stringify our objects.
 =cut
 BEGIN {
     unless ( eval { use_module('HTTP::Message::PSGI') && use_module('Plack::Request') && use_module('Plack::Response') } ) {
-        pass("Must have HTTP::Message::PSGI, Plack::Request and Plack::Response");
-        done_testing;
+        plan skip_all => "Must have HTTP::Message::PSGI, Plack::Request and Plack::Response";
     }
+}
+
+BEGIN {
+    use_ok('HTTP::Headers::ActionPack');
+    use_ok('HTTP::Headers::ActionPack::DateHeader');
+    use_ok('HTTP::Headers::ActionPack::LinkHeader');
+    use_ok('HTTP::Headers::ActionPack::LinkList');
+    use_ok('HTTP::Headers::ActionPack::MediaType');
 }
 
 {
