@@ -1,5 +1,7 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
+    - Fix tests that were broken in the absence of HTTP::Message::PSGI
+
 0.05 Mon. Nov. 26th, 2012
     - fixed the HTTP::Message::PSGI errors
     - when you inflate a header object that has already 
