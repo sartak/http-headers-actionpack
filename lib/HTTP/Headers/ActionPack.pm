@@ -96,9 +96,12 @@ sub create_header {
 
 sub inflate {
     my $self = shift;
-    return $self->_inflate_http_headers( @_ )  if $_[0]->isa('HTTP::Headers');
-    return $self->_inflate_http_request( @_ )  if $_[0]->isa('HTTP::Request');
-    return $self->_inflate_plack_request( @_ ) if $_[0]->isa('Plack::Request');
+    return $self->_inflate_http_headers( @_ )
+        if $_[0]->isa('HTTP::Headers');
+    return $self->_inflate_generic_request( @_ )
+        if $_[0]->isa('HTTP::Request')
+        || $_[0]->isa('Plack::Request')
+        || $_[0]->isa('Web::Request');
     confess "I don't know how to inflate '$_[0]'";
 }
 
@@ -113,16 +116,10 @@ sub _inflate_http_headers {
     return $http_headers;
 }
 
-sub _inflate_http_request {
-    my ($self, $http_request) = @_;
-    $self->_inflate_http_headers( $http_request->headers );
-    return $http_request;
-}
-
-sub _inflate_plack_request {
-    my ($self, $plack_request) = @_;
-    $self->_inflate_http_headers( $plack_request->headers );
-    return $plack_request;
+sub _inflate_generic_request {
+    my ($self, $request) = @_;
+    $self->_inflate_http_headers( $request->headers );
+    return $request;
 }
 
 1;
