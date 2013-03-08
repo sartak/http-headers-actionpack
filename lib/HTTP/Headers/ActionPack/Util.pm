@@ -58,7 +58,7 @@ __END__
 =head1 DESCRIPTION
 
 This is just a basic utility module used internally by
-L<HTTP::Headers::ActionPack>. There is no real user servicable parts
+L<HTTP::Headers::ActionPack>. There are no real user serviceable parts
 in here.
 
 =head1 FUNCTIONS

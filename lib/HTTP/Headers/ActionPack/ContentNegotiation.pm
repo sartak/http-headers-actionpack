@@ -209,7 +209,7 @@ documents in our test suite as well.
 =item C<choose_media_type ( $provided, $header )>
 
 Given an ARRAY ref of media type strings and an HTTP header, this will
-return the appropriatly matching L<HTTP::Headers::ActionPack::MediaType>
+return the appropriately matching L<HTTP::Headers::ActionPack::MediaType>
 instance.
 
 =item C<choose_language ( $provided, $header )>
@@ -236,8 +236,8 @@ which best matched.
 
 L<HTTP::Negotiate>
 
-There is nothing wrong with this module, however it attempt to answer all
-the negotiation quesitons at once, whereas this module allows you to do it
+There is nothing wrong with this module, however it attempts to answer all
+the negotiation questions at once, whereas this module allows you to do it
 one thing at a time.
 
 

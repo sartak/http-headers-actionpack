@@ -37,8 +37,8 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a base class for header lists. There is no real
-user servicable parts in here.
+This is a base class for header lists. There are no real
+user serviceable parts in here.
 
 =head1 METHODS
 

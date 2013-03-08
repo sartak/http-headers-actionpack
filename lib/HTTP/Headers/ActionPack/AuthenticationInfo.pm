@@ -51,7 +51,7 @@ __END__
 
 This class represents the Authentication-Info header, it is a pretty parameter
 based header and so inherits from L<HTTP::Headers::ActionPack::Core::BaseHeaderWithParams>
-to handle all the params.
+to handle all the parameters.
 
 =head1 METHODS
 

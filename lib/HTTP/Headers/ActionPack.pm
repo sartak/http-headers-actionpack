@@ -244,7 +244,7 @@ is not for certain and care should be taken.
 
 =head1 CAVEATS
 
-=head2 Plack Compatability
+=head2 Plack Compatibility
 
 We have a test in the suite that checks to make sure that
 any inflated header objects will pass between L<HTTP::Request>
