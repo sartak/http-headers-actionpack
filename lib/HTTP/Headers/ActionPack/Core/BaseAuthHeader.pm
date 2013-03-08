@@ -49,7 +49,7 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a base class for Auth style headers, it inherits
+This is a base class for Auth-style headers; it inherits
 from L<HTTP::Headers::ActionPack::Core::BaseHeaderWithParams>.
 
 =head1 METHODS

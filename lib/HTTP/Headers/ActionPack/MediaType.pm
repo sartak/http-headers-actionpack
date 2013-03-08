@@ -108,7 +108,7 @@ __END__
 =head1 DESCRIPTION
 
 This is an object which represents an HTTP media type
-defintion. This is most often found as a member of a
+definition. This is most often found as a member of a
 L<HTTP::Headers::ActionPack::MediaTypeList> object.
 
 =head1 METHODS
@@ -163,7 +163,7 @@ be compatible and the parameters must be a subset.
 
 =item C<type_matches ( $media_type | $media_type_string )>
 
-This will determine type compatability, properly handling
+This will determine type compatibility, properly handling
 the C<*> types and major and minor elements of the type.
 
 =item C<params_match ( $parameters )>

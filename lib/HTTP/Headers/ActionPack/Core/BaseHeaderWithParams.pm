@@ -1,5 +1,5 @@
 package HTTP::Headers::ActionPack::Core::BaseHeaderWithParams;
-# ABSTRACT: A Base header type with params
+# ABSTRACT: A Base header type with parameters
 
 use strict;
 use warnings;
@@ -66,7 +66,7 @@ __END__
 =head1 DESCRIPTION
 
 This is a base class for header values which contain
-a parameter list. There is no real user servicable parts
+a parameter list. There are no real user serviceable parts
 in here.
 
 =head1 METHODS
@@ -75,7 +75,7 @@ in here.
 
 =item C<params>
 
-Accessor for the unordered hash-ref of params.
+Accessor for the unordered hash-ref of parameters.
 
 =item C<add_param( $key, $value )>
 
@@ -88,7 +88,7 @@ Remove a parameter from the link.
 
 =item C<params_are_empty>
 
-Returns false if there are no parameters on the invovant.
+Returns false if there are no parameters on the invocant.
 
 =back
 
