@@ -125,7 +125,7 @@ and parse it into and object.
 
 =item C<as_string>
 
-This stringifys the link respecting the
+This stringifies the link respecting the
 parameter order.
 
 NOTE: This will canonicalize the header such

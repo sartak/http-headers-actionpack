@@ -37,7 +37,7 @@ __END__
 
 =head1 DESCRIPTION
 
-There is no real user servicable parts in here.
+There are no real user serviceable parts in here.
 
 =head1 METHODS
 

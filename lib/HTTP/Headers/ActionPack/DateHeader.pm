@@ -63,7 +63,7 @@ This is an object which represents an HTTP header with a date.
 It will inflate the header value into a L<Time::Piece> object
 and proxy most of the relevant methods.
 
-=head1 DateTime compat
+=head1 DateTime compatibility
 
 I opted to not use L<DateTime> (by default) for this class since
 it is not a core module and can be a memory hog at times. That said,
