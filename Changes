@@ -1,5 +1,12 @@
 Revision history for Perl extension HTTP::Headers::ActionPack
 
+    - Language and character set negotiation now canonicalize all values. This
+      means that if you say you provide "UTF-8" and a client requests "utf8"
+      it will just work. (Dave Rolsky)
+    - There are two new classes, HTTP::Headers::ActionPackage::AcceptCharset
+      and AcceptLanguage. (Dave Rolsky)
+    - If an Accept-Charset header does not contain "*" or "ISO-8859-1", then
+      "ISO-8859-1" is given a priority of 1.0, per RFC-2616. (Dave Rolsky)
     - Fix tests that were broken in the absence of HTTP::Message::PSGI
 
 0.05 Mon. Nov. 26th, 2012

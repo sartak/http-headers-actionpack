@@ -88,19 +88,19 @@ test_priority_list(
 }
 
 {
-    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_string( "en-US, es" );
+    my $q = HTTP::Headers::ActionPack::PriorityList->new_from_string( "foo, bar" );
     is_deeply(
         [ $q->iterable ],
         [
-            [ 1, "en-US" ],
-            [ 1, "es" ],
+            [ 1, "foo" ],
+            [ 1, "bar" ],
         ],
         '... got the iterable form'
     );
 
     is(
         $q->as_string,
-        'en-US; q="1", es; q="1"',
+        'foo; q="1", bar; q="1"',
         '... got the right string form'
     );
 }

@@ -39,9 +39,11 @@ sub choose_language {
     my ($self, $provided, $header) = @_;
 
     my $language;
-    my $requested     = blessed $header ? $header : $self->action_pack->create( 'PriorityList' => $header );
+    my $requested     = blessed $header ? $header : $self->action_pack->create( 'AcceptLanguage' => $header );
     my $star_priority = $requested->priority_of('*');
     my $any_ok        = $star_priority && $star_priority > 0.0;
+
+    $provided = [ map { $requested->canonicalize_choice($_) || () } @$provided ];
 
     my $accepted      = first {
         my ($priority, $range) = @$_;
@@ -71,7 +73,7 @@ sub choose_charset {
     # Making the default charset UTF-8, which
     # is maybe sensible, I dunno.
     # - SL
-    if ( my $charset = $self->make_choice( $provided, $header, 'UTF-8' )) {
+    if ( my $charset = $self->make_choice( $provided, $header, 'UTF-8', 'AcceptCharset' ) ) {
         return $charset;
     }
 
@@ -87,16 +89,19 @@ sub choose_encoding {
 }
 
 sub make_choice {
-    my ($self, $choices, $header, $default) = @_;
+    my ($self, $choices, $header, $default, $class) = @_;
 
     return if @$choices == 0;
     return if $header eq '';
 
-    $choices = [ map { lc $_ } @$choices ];
+    $class ||= 'PriorityList';
 
-    my $accepted         = blessed $header ? $header : $self->action_pack->create( 'PriorityList' => $header );
+    my $accepted         = blessed $header ? $header : $self->action_pack->create( $class => $header );
     my $default_priority = $accepted->priority_of( $default );
     my $star_priority    = $accepted->priority_of( '*' );
+
+    $choices = [ map { $accepted->canonicalize_choice($_) || () } @$choices ];
+    $default = $accepted->canonicalize_choice($default);
 
     my ($default_ok, $any_ok);
 
@@ -128,9 +133,9 @@ sub make_choice {
     my $chosen = first {
         my ($priority, $acceptable) = @$_;
         if ( $priority == 0.0 ) {
-            $choices = [ grep { lc $acceptable ne $_ } @$choices ];
+            $choices = [ grep { $acceptable ne $_ } @$choices ];
         } else {
-            return $acceptable if grep { lc $acceptable eq $_ } @$choices;
+            return 1 if grep { $acceptable eq $_ } @$choices;
         }
     } $accepted->iterable;
 
@@ -141,8 +146,6 @@ sub make_choice {
 }
 
 ## ....
-
-sub _pair_key { ( keys   %{ $_[0] } )[0] }
 
 sub _media_match {
     my ($requested, $provided) = @_;

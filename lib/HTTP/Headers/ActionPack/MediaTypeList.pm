@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::MediaTypeList;
 use strict;
 use warnings;
 
+use Scalar::Util qw[ blessed ];
+
 use HTTP::Headers::ActionPack::MediaType;
 
 use parent 'HTTP::Headers::ActionPack::PriorityList';
@@ -65,6 +67,12 @@ sub iterable {
     } keys %{ $self->items };
 }
 
+sub canonicalize_choice {
+    return blessed $_[1]
+        ? $_[1]
+        : HTTP::Headers::ActionPack::MediaType->new( $_[1] );
+}
+
 1;
 
 __END__
@@ -115,6 +123,12 @@ RFC-2616 Sec14.
   media ranges or specific media types. If more
   than one media range applies to a given type,
   the most specific reference has precedence.
+
+=item C<canonicalize_choice>
+
+If this is passed a string, it returns a new
+L<HTTP::Headers::ActionPack::MediaType> object from that string. If it
+receives an object it simply returns that object as is.
 
 =back
 
