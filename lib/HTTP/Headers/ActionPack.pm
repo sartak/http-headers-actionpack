@@ -9,6 +9,8 @@ use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
 
 my @DEFAULT_CLASSES = qw[
+    HTTP::Headers::ActionPack::AcceptCharset
+    HTTP::Headers::ActionPack::AcceptLanguage
     HTTP::Headers::ActionPack::AuthenticationInfo
     HTTP::Headers::ActionPack::Authorization
     HTTP::Headers::ActionPack::Authorization::Basic
@@ -26,9 +28,9 @@ my %DEFAULT_MAPPINGS = (
     'link'                => 'HTTP::Headers::ActionPack::LinkList',
     'content-type'        => 'HTTP::Headers::ActionPack::MediaType',
     'accept'              => 'HTTP::Headers::ActionPack::MediaTypeList',
-    'accept-charset'      => 'HTTP::Headers::ActionPack::PriorityList',
+    'accept-charset'      => 'HTTP::Headers::ActionPack::AcceptCharset',
     'accept-encoding'     => 'HTTP::Headers::ActionPack::PriorityList',
-    'accept-language'     => 'HTTP::Headers::ActionPack::PriorityList',
+    'accept-language'     => 'HTTP::Headers::ActionPack::AcceptLanguage',
     'date'                => 'HTTP::Headers::ActionPack::DateHeader',
     'client-date'         => 'HTTP::Headers::ActionPack::DateHeader', # added by LWP
     'expires'             => 'HTTP::Headers::ActionPack::DateHeader',

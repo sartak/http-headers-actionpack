@@ -34,9 +34,21 @@ is(
 );
 
 is(
-    $n->choose_language( ['en-US', 'en-gb'], "da, en-gb;q=0.8, en;q=0.7" ),
-    'en-gb',
+    $n->choose_language( ['en-US', 'en-GB'], "da, en-gb;q=0.8, en;q=0.7" ),
+    'en-GB',
     '... got the right language back'
+);
+
+is(
+    $n->choose_language( ['en-us'], "da, en-US;q=0.8, en;q=0.7" ),
+    'en-US',
+    '... languages in choices list are canonicalized'
+);
+
+is(
+    $n->choose_language( ['en-US'], "da, en-us;q=0.8, en;q=0.7" ),
+    'en-US',
+    '... languages in header are canonicalized'
 );
 
 # From webmachine-ruby
