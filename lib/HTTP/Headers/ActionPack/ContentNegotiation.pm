@@ -142,8 +142,6 @@ sub make_choice {
 
 ## ....
 
-sub _pair_key { ( keys   %{ $_[0] } )[0] }
-
 sub _media_match {
     my ($requested, $provided) = @_;
     return $provided->[0] if $requested->matches_all;
