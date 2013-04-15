@@ -57,6 +57,23 @@ BEGIN {
     );
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
+    my @tests = (
+        [ 'text/plain', 0.5 ],
+        [ 'text/html',  1 ],
+        [ 'text/x-dvi', 0.8 ],
+        [ 'text/x-c',   1 ],
+    );
+
+    for my $pair (@tests) {
+        my ( $type, $q ) = @$pair;
+
+        is(
+            $list->priority_of($type),
+            $q,
+            "... priority for $type is $q"
+        );
+    }
+
     is(
         $list->as_string,
         'text/html, text/x-c, text/x-dvi; q="0.8", text/plain; q="0.5"',
