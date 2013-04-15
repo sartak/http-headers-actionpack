@@ -1,4 +1,4 @@
-Revision history for Perl extension HTTP::Headers::ActionPack
+{{$NEXT}}
 
     - Language and character set negotiation now canonicalize all values. This
       means that if you say you provide "UTF-8" and a client requests "utf8"
