@@ -8,7 +8,7 @@
     - If an Accept-Charset header does not contain "*" or "ISO-8859-1", then
       "ISO-8859-1" is given a priority of 1.0, per RFC-2616. (Dave Rolsky)
     - Content negotiation will never return any item explicitly forbidden
-      ("q=0.0") in the headers, even if the header also accept "*" or that
+      ("q=0.0") in the headers, even if the header says it accepts "*" or that
       item is specified as a default in your code. (Dave Rolsky)
     - Fix tests that were broken in the absence of HTTP::Message::PSGI
 
