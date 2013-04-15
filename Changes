@@ -10,6 +10,8 @@
     - Content negotiation will never return any item explicitly forbidden
       ("q=0.0") in the headers, even if the header says it accepts "*" or that
       item is specified as a default in your code. (Dave Rolsky)
+    - The HTTP::Headers::ActionPack->inflate method now works with
+      Web::Request object. (Jesse Luehrs)
     - Fix tests that were broken in the absence of
       HTTP::Message::PSGI. (Florian Ragwitz)
 
