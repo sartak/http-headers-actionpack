@@ -232,10 +232,12 @@ C<new>.
 
 =item C<inflate( $plack_request )>
 
+=item C<inflate( $web_request )>
+
 Given either a L<HTTP::Headers> instance, a L<HTTP::Request>
-instance or a L<Plack::Request> instance, this method will
-inflate all the relevant headers and store the object in the
-same instance.
+instance, a L<Plack::Request> instance, or a L<Web::Request>
+instance, this method will inflate all the relevant headers
+and store the object in the same instance.
 
 In theory this should not negatively affect anything since all
 the header objects overload the stringification operator, and
