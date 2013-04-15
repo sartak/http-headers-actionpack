@@ -12,28 +12,28 @@ BEGIN {
 
 {
     my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
-        HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 ),
-        HTTP::Headers::ActionPack::MediaType->new('audio/basic', q => 1.0 )
+        HTTP::Headers::ActionPack::MediaType->new('audio/*'),
+        HTTP::Headers::ActionPack::MediaType->new('audio/basic')
     );
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
         $list->as_string,
-        'audio/basic; q="1", audio/*; q="0.2"',
+        'audio/basic; q="1", audio/*; q="1"',
         '... got the expected string back'
     );
 }
-
+done_testing;exit;
 {
     my $list = HTTP::Headers::ActionPack::MediaTypeList->new(
-        [ 0.2 => HTTP::Headers::ActionPack::MediaType->new('audio/*', q => 0.2 )     ],
+        [ 0.2 => HTTP::Headers::ActionPack::MediaType->new('audio/*')     ],
         [ 1.0 => HTTP::Headers::ActionPack::MediaType->new('audio/basic' ) ]
     );
     isa_ok($list, 'HTTP::Headers::ActionPack::MediaTypeList');
 
     is(
         $list->as_string,
-        'audio/basic, audio/*; q="0.2"',
+        'audio/basic; q="1", audio/*; q="0.2"',
         '... got the expected string back'
     );
 }
@@ -46,7 +46,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'audio/basic, audio/*; q="0.2"',
+        'audio/basic; q="1", audio/*; q="0.2"',
         '... got the expected string back'
     );
 }
@@ -76,7 +76,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'text/html, text/x-c, text/x-dvi; q="0.8", text/plain; q="0.5"',
+        'text/html; q="1", text/x-c; q="1", text/x-dvi; q="0.8", text/plain; q="0.5"',
         '... got the expected string back'
     );
 }
@@ -89,7 +89,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'text/html; level="1", text/html, text/*, */*',
+        'text/html; level="1"; q="1", text/html; q="1", text/*; q="1", */*; q="1"',
         '... got the expected string back'
     );
 }
@@ -102,7 +102,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'text/html; charset="iso8859-1", application/xml',
+        'text/html; charset="iso8859-1"; q="1", application/xml; q="1"',
         '... got the expected string back'
     );
 }
@@ -115,7 +115,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'text/html, */*, application/xml; q="0.7"',
+        'text/html; q="1", */*; q="1", application/xml; q="0.7"',
         '... got the expected string back'
     );
 }
@@ -128,7 +128,7 @@ BEGIN {
 
     is(
         $list->as_string,
-        'application/json; v="2", application/json; v="3"; foo="bar"',
+        'application/json; v="2"; q="1", application/json; v="3"; foo="bar"; q="1"',
         '... got the expected string back'
     );
 }

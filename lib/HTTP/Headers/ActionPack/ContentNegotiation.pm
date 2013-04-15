@@ -29,7 +29,14 @@ sub choose_media_type {
     foreach my $request ( $requested->iterable ) {
         my $requested_type = $request->[1];
         $chosen = _media_match( $requested_type, $parsed_provided );
-        return $chosen if $chosen;
+
+        if ($chosen) {
+            warn "CHOSEN = $chosen\n";
+            my $priority = $requested->priority_of($chosen);
+            warn "PRI = $priority\n";
+            next if defined $priority && $priority == 0;
+            return $chosen;
+        }
     }
 
     return;

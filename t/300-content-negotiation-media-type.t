@@ -14,6 +14,15 @@ my $n = HTTP::Headers::ActionPack->new->get_content_negotiator;
 isa_ok($n, 'HTTP::Headers::ActionPack::ContentNegotiation');
 
 is(
+    $n->choose_media_type(
+        ["text/html"],
+        "blargle/florp;q=1.0, */*;q=0.5, text/html;q=0.0"
+    ),
+    undef,
+    '... no media type was returned when choice is explicitly forbidden in header, even if */* is accepted'
+);
+exit;
+is(
     $n->choose_media_type( [], '*/*' ),
     undef,
     '... got nothing back (no choices)'
@@ -233,6 +242,15 @@ is(
     ),
     undef,
     '... got no media type back'
+);
+
+is(
+    $n->choose_media_type(
+        ["text/html"],
+        "blargle/florp;q=1.0, */*;q=0.5, text/html;q=0.0"
+    ),
+    undef,
+    '... no media type was returned when choice is explicitly forbidden in header, even if */* is accepted'
 );
 
 

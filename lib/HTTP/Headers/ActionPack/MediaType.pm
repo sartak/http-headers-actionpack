@@ -4,6 +4,7 @@ package HTTP::Headers::ActionPack::MediaType;
 use strict;
 use warnings;
 
+use Carp         qw[ confess ];
 use Scalar::Util qw[ blessed ];
 
 use HTTP::Headers::ActionPack::Util qw[
@@ -13,9 +14,26 @@ use HTTP::Headers::ActionPack::Util qw[
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
 
+sub BUILDARGS {
+    my $class = shift;
+
+    my $p = $class->SUPER::BUILDARGS(@_);
+
+    if (exists $p->{params}{q}) {
+        $p->{q} = delete $p->{params}{q};
+    }
+    else {
+        $p->{q} = 1;
+    }
+
+    return $p;
+}
+
 sub type  { (shift)->subject }
 sub major { (split '/' => (shift)->type)[0] }
 sub minor { (split '/' => (shift)->type)[1] }
+
+sub priority { return $_[0]->{q} }
 
 sub matches_all {
     my $self = shift;
@@ -60,7 +78,6 @@ sub params_match {
     my ($self, $other) = @_;
     my $params = $self->params;
     foreach my $k ( keys %$other ) {
-        next if $k eq 'q';
         return 0 if not exists $params->{ $k };
         return 0 if $params->{ $k } ne $other->{ $k };
     }
@@ -71,8 +88,8 @@ sub params_match {
 
 sub _compare_params {
     my ($left, $right) = @_;
-    my @left_keys  = sort grep { $_ ne 'q' } keys %$left;
-    my @right_keys = sort grep { $_ ne 'q' } keys %$right;
+    my @left_keys  = sort keys %$left;
+    my @right_keys = sort keys %$right;
 
     return 0 unless (scalar @left_keys) == (scalar @right_keys);
 

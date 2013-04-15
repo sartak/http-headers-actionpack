@@ -25,14 +25,16 @@ sub add {
 
 sub add_header_value {
     my $self = shift;
-    my $mt   = HTTP::Headers::ActionPack::MediaType->new( @{ $_[0] } );
-    my $q    = $mt->params->{'q'} || 1.0;
+    my ($choice, %params) = @{ $_[0] };
+    my $q = delete $params{q} || 1.0;
+
+    my $mt = HTTP::Headers::ActionPack::MediaType->new( $choice, %params );
     $self->add( $q, $mt );
 }
 
 sub as_string {
     my $self = shift;
-    join ', ' => map { $_->[1]->as_string } $self->iterable;
+    join ', ' => map { $_->[1]->as_string . qq{; q="$_->[0]"} } $self->iterable;
 }
 
 sub iterable {
