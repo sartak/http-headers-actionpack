@@ -100,7 +100,10 @@ sub make_choice {
     my $default_priority = $accepted->priority_of( $default );
     my $star_priority    = $accepted->priority_of( '*' );
 
-    $choices = [ map { $accepted->canonicalize_choice($_) || () } @$choices ];
+    my @canonical = map {
+        my $can = $accepted->canonicalize_choice($_);
+        $can ? [ $_, $can ] : ()
+    } @$choices;
     $default = $accepted->canonicalize_choice($default);
 
     my ($default_ok, $any_ok);
@@ -130,16 +133,19 @@ sub make_choice {
         $any_ok = 1;
     }
 
-    my $chosen = first {
-        my ($priority, $acceptable) = @$_;
-        if ( $priority == 0.0 ) {
-            $choices = [ grep { $acceptable ne $_ } @$choices ];
-        } else {
-            return 1 if grep { $acceptable eq $_ } @$choices;
-        }
-    } $accepted->iterable;
+    my $chosen;
+    for my $item ($accepted->iterable) {
+        my ($priority, $acceptable) = @$item;
 
-    return $chosen->[-1] if $chosen;
+        next if $priority == 0.0;
+
+        if (my $match = first { $acceptable eq $_->[1] } @canonical) {
+            $chosen = $match->[0];
+            last;
+        }
+    }
+
+    return $chosen       if $chosen;
     return $choices->[0] if $any_ok;
     return $default      if $default_ok && grep { $default eq $_ } @$choices;
     return;

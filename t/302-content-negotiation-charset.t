@@ -63,8 +63,8 @@ is(
 
 is(
     $n->choose_charset( [ "utf8", "US-ASCII" ], "iso-8859-1, UTF-8" ),
-    'UTF-8',
-    '... charset choices are canonicalized'
+    'utf8',
+    '... the match is returned as formatted in the list of choices, without canonicalization'
 );
 
 done_testing;
