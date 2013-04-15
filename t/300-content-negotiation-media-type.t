@@ -13,8 +13,16 @@ BEGIN {
 my $n = HTTP::Headers::ActionPack->new->get_content_negotiator;
 isa_ok($n, 'HTTP::Headers::ActionPack::ContentNegotiation');
 
-ok(!defined( $n->choose_media_type( [], '*/*' ) ), '... got nothing back');
-ok(!defined( $n->choose_media_type( [ "text/html" ], 'application/json' ) ), '... got nothing back');
+is(
+    $n->choose_media_type( [], '*/*' ),
+    undef,
+    '... got nothing back (no choices)'
+);
+is(
+    $n->choose_media_type( ["text/html"], 'application/json' ),
+    undef,
+    '... got nothing back (no matches)'
+);
 
 # Examples from http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
 
