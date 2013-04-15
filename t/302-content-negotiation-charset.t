@@ -63,19 +63,19 @@ is(
 );
 
 is(
-    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, UTF-8; q=0.0' ),
+    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, UTF-8;q=0.0' ),
     undef,
     '... if default is listed as priority 0.0 it is not returned'
 );
 
 is(
-    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *; q=0.0' ),
+    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *;q=0.0' ),
     undef,
     '... if * is listed as priority 0.0 then default is not returned'
 );
 
 is(
-    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *; q=0.5, UTF-8; q=0.0' ),
+    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *;q=0.5, UTF-8;q=0.0' ),
     'US-ASCII',
     '... if * is listed as priority 0.5 but default is 0.0 then default is not returned, but * can match other choices'
 );
