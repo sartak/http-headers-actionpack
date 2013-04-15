@@ -128,7 +128,7 @@ sub _make_choice {
     for my $item ($accepted->iterable) {
         my ($priority, $acceptable) = @$item;
 
-        next if $priority == 0.0;
+        next if $priority == 0;
 
         if (my $match = first { $matcher->( $acceptable, $_->[1] ) } @canonical) {
             $chosen = $match->[0];
@@ -137,11 +137,22 @@ sub _make_choice {
     }
 
     return $chosen if $chosen;
-    return $choices->[0] if $any_ok;
+
+    if ($any_ok) {
+        my $match = first {
+            my $priority = $accepted->priority_of( $_->[1] );
+            return 1 unless defined $priority && $priority == 0;
+            return 0;
+        }
+        @canonical;
+
+        return $match->[0] if $match;
+    }
 
     if ( $default && $default_ok ) {
         my $match = first { $matcher->( $default, $_->[1] ) } @canonical;
-        return $match->[0];
+        my $priority = $accepted->priority_of( $_->[1] );
+        return $match->[0] unless defined $priority && $priority == 0;
     }
 
     return;

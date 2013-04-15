@@ -75,6 +75,12 @@ is(
 );
 
 is(
+    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *; q=0.5, UTF-8; q=0.0' ),
+    'US-ASCII',
+    '... if * is listed as priority 0.5 but default is 0.0 then default is not returned, but * can match other choices'
+);
+
+is(
     $n->choose_charset( [ "UTF-8", "US-ASCII" ], "iso-8859-1, utf8" ),
     'UTF-8',
     '... charsets in header are canonicalized'
