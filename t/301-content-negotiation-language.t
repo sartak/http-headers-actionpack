@@ -41,7 +41,7 @@ is(
 
 is(
     $n->choose_language( ['en-us'], "da, en-US;q=0.8, en;q=0.7" ),
-    'en-US',
+    'en-us',
     '... languages in choices list are canonicalized'
 );
 
