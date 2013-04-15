@@ -29,41 +29,21 @@ sub choose_media_type {
     foreach my $request ( $requested->iterable ) {
         my $requested_type = $request->[1];
         $chosen = _media_match( $requested_type, $parsed_provided );
-        last if $chosen;
+        return $chosen if $chosen;
     }
 
-    ($chosen || return)
+    return;
 }
 
 sub choose_language {
     my ($self, $provided, $header) = @_;
 
-    my $language;
-    my $requested     = blessed $header ? $header : $self->action_pack->create( 'AcceptLanguage' => $header );
-    my $star_priority = $requested->priority_of('*');
-    my $any_ok        = $star_priority && $star_priority > 0.0;
-
-    $provided = [ map { $requested->canonicalize_choice($_) || () } @$provided ];
-
-    my $accepted      = first {
-        my ($priority, $range) = @$_;
-        if ( $priority == 0.0 ) {
-            $provided = [ grep { _language_match( $range, $_ )  } @$provided ];
-            return 0;
-        }
-        else {
-            return (grep { _language_match( $range, $_ ) } @$provided) ? 1 : 0;
-        }
-    } $requested->iterable;
-
-    if ( $accepted ) {
-        $language = first { _language_match( $accepted->[-1], $_ ) } @$provided;
-    }
-    elsif ( $any_ok ) {
-        $language = $provided->[0];
-    }
-
-    $language;
+    return $self->_make_choice(
+        choices => $provided,
+        header  => $header,
+        class   => 'AcceptLanguage',
+        matcher => \&_language_match,
+    );
 }
 
 sub choose_charset {
@@ -73,54 +53,66 @@ sub choose_charset {
     # Making the default charset UTF-8, which
     # is maybe sensible, I dunno.
     # - SL
-    if ( my $charset = $self->make_choice( $provided, $header, 'UTF-8', 'AcceptCharset' ) ) {
-        return $charset;
-    }
-
-    return;
+    return $self->_make_choice(
+        choices => $provided,
+        header  => $header,
+        class   => 'AcceptCharset',
+        default => 'UTF-8',
+        matcher => \&_simple_match,
+    );
 }
 
 sub choose_encoding {
     my ($self, $provided, $header) = @_;
-    if ( my $encoding = $self->make_choice( $provided, $header, 'identity' ) ) {
-        return $encoding;
-    }
-    return;
+
+    return $self->_make_choice(
+        choices => $provided,
+        header  => $header,
+        class   => 'PriorityList',
+        default => 'identity',
+        matcher => \&_simple_match,
+    );
 }
 
-sub make_choice {
-    my ($self, $choices, $header, $default, $class) = @_;
+sub _make_choice {
+    my $self = shift;
+    my %args = @_;
+
+    my ($choices, $header, $class, $default, $matcher)
+        = @args{qw( choices header class default matcher )};
 
     return if @$choices == 0;
     return if $header eq '';
 
-    $class ||= 'PriorityList';
-
     my $accepted         = blessed $header ? $header : $self->action_pack->create( $class => $header );
-    my $default_priority = $accepted->priority_of( $default );
     my $star_priority    = $accepted->priority_of( '*' );
 
     my @canonical = map {
-        my $can = $accepted->canonicalize_choice($_);
-        $can ? [ $_, $can ] : ()
+        my $c = $accepted->canonicalize_choice($_);
+        $c ? [ $_, $c ] : ()
     } @$choices;
-    $default = $accepted->canonicalize_choice($default);
 
     my ($default_ok, $any_ok);
+    my $default_priority;
 
-    if ( not defined $default_priority ) {
-        if ( defined $star_priority && $star_priority == 0.0 ) {
+    if ($default) {
+        $default = $accepted->canonicalize_choice($default);
+        $default_priority = $accepted->priority_of( $args{default} );
+
+        if ( not defined $default_priority ) {
+            if ( defined $star_priority && $star_priority == 0.0 ) {
+                $default_ok = 0;
+            }
+            else {
+                $default_ok = 1;
+            }
+        }
+        elsif ( $default_priority == 0.0 ) {
             $default_ok = 0;
         }
         else {
             $default_ok = 1;
         }
-    }
-    elsif ( $default_priority == 0.0 ) {
-        $default_ok = 0;
-    }
-    else {
-        $default_ok = 1;
     }
 
     if ( not defined $star_priority ) {
@@ -139,15 +131,18 @@ sub make_choice {
 
         next if $priority == 0.0;
 
-        if (my $match = first { $acceptable eq $_->[1] } @canonical) {
+        if (my $match = first { $matcher->( $acceptable, $_->[1] ) } @canonical) {
             $chosen = $match->[0];
             last;
         }
     }
 
-    return $chosen       if $chosen;
+    return $chosen if $chosen;
     return $choices->[0] if $any_ok;
-    return $default      if $default_ok && grep { $default eq $_->[1] } @canonical;
+    return $default
+        if $default
+        && $default_ok
+        && grep { $matcher->( $default, $_->[1] ) } @canonical;
     return;
 }
 
@@ -162,6 +157,10 @@ sub _media_match {
 sub _language_match {
     my ($range, $tag) = @_;
     ((lc $range) eq (lc $tag)) || $range eq "*" || $tag =~ /^$range\-/i;
+}
+
+sub _simple_match {
+    return $_[0] eq $_[1];
 }
 
 1;
