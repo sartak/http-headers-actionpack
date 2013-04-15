@@ -47,13 +47,13 @@ is(
 is(
     $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1' ),
     'UTF-8',
-    '... got default back when the default is in list of choices'
+    '... got default back when the default is in list of choices and default is ok'
 );
 
 is(
     $n->choose_charset( [ "utf8", "US-ASCII" ], 'ISO-8859-1' ),
     'utf8',
-    '... got default back when the default is in list of choices but not an exact match'
+    '... got default back when the default is in list of choices but not an exact match and default is ok'
 );
 
 is(
