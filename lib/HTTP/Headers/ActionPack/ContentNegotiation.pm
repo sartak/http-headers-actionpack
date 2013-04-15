@@ -92,8 +92,7 @@ sub _make_choice {
         $c ? [ $_, $c ] : ()
     } @$choices;
 
-    my ($default_ok, $any_ok);
-    my $default_priority;
+    my ($default_ok, $any_ok, $default_priority);
 
     if ($default) {
         $default = $accepted->canonicalize_choice($default);
@@ -139,10 +138,12 @@ sub _make_choice {
 
     return $chosen if $chosen;
     return $choices->[0] if $any_ok;
-    return $default
-        if $default
-        && $default_ok
-        && grep { $matcher->( $default, $_->[1] ) } @canonical;
+
+    if ( $default && $default_ok ) {
+        my $match = first { $matcher->( $default, $_->[1] ) } @canonical;
+        return $match->[0];
+    }
+
     return;
 }
 

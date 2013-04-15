@@ -51,9 +51,15 @@ is(
 );
 
 is(
+    $n->choose_charset( [ "utf8", "US-ASCII" ], 'ISO-8859-1' ),
+    'utf8',
+    '... got default back when the default is in list of choices but not an exact match'
+);
+
+is(
     $n->choose_charset( ["US-ASCII"], 'ISO-8859-1' ),
     undef,
-    '... got nothing back when default is not an acceptable choice'
+    '... got nothing back when default is not in list of choices'
 );
 
 is(
