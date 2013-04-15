@@ -27,6 +27,7 @@ sub new_from_string {
 
 sub canonicalize_choice {
     return unless defined $_[1];
+    return '*' if $_[1] eq '*';
     my $charset = find_encoding($_[1])
         or return;
     return $charset->mime_name;
