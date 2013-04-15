@@ -147,7 +147,7 @@ sub make_choice {
 
     return $chosen       if $chosen;
     return $choices->[0] if $any_ok;
-    return $default      if $default_ok && grep { $default eq $_ } @$choices;
+    return $default      if $default_ok && grep { $default eq $_->[1] } @canonical;
     return;
 }
 
