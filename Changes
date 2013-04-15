@@ -10,7 +10,8 @@
     - Content negotiation will never return any item explicitly forbidden
       ("q=0.0") in the headers, even if the header says it accepts "*" or that
       item is specified as a default in your code. (Dave Rolsky)
-    - Fix tests that were broken in the absence of HTTP::Message::PSGI
+    - Fix tests that were broken in the absence of
+      HTTP::Message::PSGI. (Florian Ragwitz)
 
 0.05 Mon. Nov. 26th, 2012
     - fixed the HTTP::Message::PSGI errors
