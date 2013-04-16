@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.06 Mon. Apr. 15, 2013
+
     - Language and character set negotiation now canonicalize all values. This
       means that if you say you provide "UTF-8" and a client requests "utf8"
       it will just work. (Dave Rolsky)
