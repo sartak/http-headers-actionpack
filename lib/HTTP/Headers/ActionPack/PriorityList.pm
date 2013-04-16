@@ -55,7 +55,7 @@ sub add {
 sub add_header_value {
     my $self = shift;
     my ($choice, %params) = @{ $_[0] };
-    $self->add( $params{'q'} || 1.0, $choice );
+    $self->add( exists $params{'q'} ? $params{'q'} : 1.0, $choice );
 }
 
 sub get {

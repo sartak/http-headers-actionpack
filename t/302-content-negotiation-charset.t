@@ -69,6 +69,12 @@ is(
 );
 
 is(
+    $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, UTF-8;q=0' ),
+    undef,
+    '... if default is listed as priority 0 it is not returned (0 == 0.0)'
+);
+
+is(
     $n->choose_charset( [ "UTF-8", "US-ASCII" ], 'ISO-8859-1, *;q=0.0' ),
     undef,
     '... if * is listed as priority 0.0 then default is not returned'

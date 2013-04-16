@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+    - The PriorityList class treated "q=0" as if it was "q=1". RFC 2616 makes
+      it clear that "0" is fine. (Dave Rolsky)
+
 0.06 Mon. Apr. 15, 2013
 
     - Language and character set negotiation now canonicalize all values. This
