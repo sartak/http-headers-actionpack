@@ -19,7 +19,7 @@ sub BUILD {
 
 sub add {
     my $self     = shift;
-    my ($q, $mt) = scalar @_ == 1 ? (($_[0]->params->{'q'} || 1.0), $_[0]) : @_;
+    my ($q, $mt) = scalar @_ == 1 ? ((exists $_[0]->params->{'q'} ?$_[0]->params->{'q'} : 1.0), $_[0]) : @_;
     $self->SUPER::add( $q, $mt );
 }
 
