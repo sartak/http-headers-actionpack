@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.07 Tue. Apr. 16, 2013
+
     - The PriorityList class treated "q=0" as if it was "q=1". RFC 2616 makes
       it clear that "0" is fine. (Dave Rolsky)
 
