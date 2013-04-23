@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.08 Tue. Apr. 23, 2013
+
     - Fixed a bug in the handling of defaults in content negotiation that
       could lead to errors like: Can't use string ("5") as an ARRAY ref while
       "strict refs" in use at
