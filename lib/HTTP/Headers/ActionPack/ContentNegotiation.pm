@@ -151,8 +151,10 @@ sub _make_choice {
 
     if ( $default && $default_ok ) {
         my $match = first { $matcher->( $default, $_->[1] ) } @canonical;
-        my $priority = $accepted->priority_of( $_->[1] );
-        return $match->[0] unless defined $priority && $priority == 0;
+        if ($match) {
+            my $priority = $accepted->priority_of( $match->[1] );
+            return $match->[0] unless defined $priority && $priority == 0;
+        }
     }
 
     return;
