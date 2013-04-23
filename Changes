@@ -1,5 +1,12 @@
 {{$NEXT}}
 
+    - Fixed a bug in the handling of defaults in content negotiation that
+      could lead to errors like: Can't use string ("5") as an ARRAY ref while
+      "strict refs" in use at
+      /opt/perl5.16.3/lib/site_perl/5.16.3/HTTP/Headers/ActionPack/ContentNegotiation.pm
+      line 160. (Dave Rolsky)
+
+
 0.07 Tue. Apr. 16, 2013
 
     - The PriorityList class treated "q=0" as if it was "q=1". RFC 2616 makes
