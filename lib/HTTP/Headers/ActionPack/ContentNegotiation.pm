@@ -92,11 +92,11 @@ sub _make_choice {
         $c ? [ $_, $c ] : ()
     } @$choices;
 
-    my ($default_ok, $any_ok, $default_priority);
+    my ($default_ok, $any_ok);
 
     if ($default) {
         $default = $accepted->canonicalize_choice($default);
-        $default_priority = $accepted->priority_of( $args{default} );
+        my $default_priority = $accepted->priority_of( $args{default} );
 
         if ( not defined $default_priority ) {
             if ( defined $star_priority && $star_priority == 0.0 ) {
