@@ -36,7 +36,7 @@ sub join_header_words {
 }
 
 sub join_header_params {
-    my ($seperator, @params) = @_;
+    my ($separator, @params) = @_;
     my @attrs;
     while ( @params ) {
         my $k = shift @params;
@@ -44,7 +44,7 @@ sub join_header_params {
         $v =~ s/([\"\\])/\\$1/g;  # escape " and \
         push @attrs => ($k . qq(="$v"));
     }
-    return join $seperator =>  @attrs;
+    return join $separator =>  @attrs;
 }
 
 1;
