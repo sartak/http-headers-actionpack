@@ -6,11 +6,6 @@ use warnings;
 
 use Scalar::Util qw[ blessed ];
 
-use HTTP::Headers::ActionPack::Util qw[
-    split_header_words
-    join_header_words
-];
-
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
 
 sub type  { (shift)->subject }
