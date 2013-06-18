@@ -41,7 +41,13 @@ sub join_header_params {
     while ( @params ) {
         my $k = shift @params;
         my $v = shift @params;
-        $v =~ s/([\"\\])/\\$1/g;  # escape " and \
+
+        if (defined $v) {
+            $v =~ s/([\"\\])/\\$1/g;  # escape " and \
+        }
+        else {
+            $v = q{};
+        }
         push @attrs => ($k . qq(="$v"));
     }
     return join $separator =>  @attrs;
