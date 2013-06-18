@@ -134,8 +134,4 @@ and quotes and unquotes all headers appropriately.
 
 =back
 
-
-
-
-
-
+=cut

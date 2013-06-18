@@ -39,6 +39,8 @@ can legally have more then one link in it.
 
 =head1 METHODS
 
+=over 4
+
 =item C<add ( $link )>
 
 =item C<add_header_value ( $header_value )>
@@ -47,5 +49,4 @@ can legally have more then one link in it.
 
 =back
 
-
-
+=cut

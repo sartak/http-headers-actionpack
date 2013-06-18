@@ -62,6 +62,4 @@ scripts or variants in the locale code.
 
 =back
 
-
-
-
+=cut

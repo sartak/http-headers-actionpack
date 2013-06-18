@@ -92,8 +92,4 @@ Returns false if there are no parameters on the invocant.
 
 =back
 
-
-
-
-
-
+=cut

@@ -41,6 +41,8 @@ There are no real user serviceable parts in here.
 
 =head1 METHODS
 
+=over 4
+
 =item C<new>
 
 =item C<BUILDARGS>
@@ -53,5 +55,4 @@ There are no real user serviceable parts in here.
 
 =back
 
-
-
+=cut

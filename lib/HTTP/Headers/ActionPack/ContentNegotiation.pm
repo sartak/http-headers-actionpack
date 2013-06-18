@@ -254,7 +254,7 @@ which best matched.
 
 =back
 
-=head SEE ALSO
+=head1 SEE ALSO
 
 L<HTTP::Negotiate>
 
@@ -262,10 +262,4 @@ There is nothing wrong with this module, however it attempts to answer all
 the negotiation questions at once, whereas this module allows you to do it
 one thing at a time.
 
-
-
-
-
-
-
-
+=cut

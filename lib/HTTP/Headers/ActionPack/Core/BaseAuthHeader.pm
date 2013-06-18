@@ -66,8 +66,4 @@ from L<HTTP::Headers::ActionPack::Core::BaseHeaderWithParams>.
 
 =back
 
-
-
-
-
-
+=cut

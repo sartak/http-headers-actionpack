@@ -132,6 +132,4 @@ receives an object it simply returns that object as is.
 
 =back
 
-
-
-
+=cut

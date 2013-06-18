@@ -66,8 +66,4 @@ it is based on the L<HTTP::Headers::ActionPack::Core::BaseAuthHeader> class.
 
 =back
 
-
-
-
-
-
+=cut

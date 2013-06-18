@@ -116,8 +116,4 @@ These delegate to the underlying L<Time::Piece> object.
 
 =back
 
-
-
-
-
-
+=cut

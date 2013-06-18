@@ -99,8 +99,4 @@ subclass based on the type of Authorization header.
 
 =back
 
-
-
-
-
-
+=cut

@@ -68,8 +68,4 @@ L<HTTP::Headers::ActionPack::Core::BaseAuthHeader>
 
 =back
 
-
-
-
-
-
+=cut

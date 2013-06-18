@@ -275,5 +275,4 @@ do what you would expect (stringify in a sensible way). However
 this is not certain and so care should be taken when passing
 object headers onto another library that is expecting strings.
 
-=back
-
+=cut

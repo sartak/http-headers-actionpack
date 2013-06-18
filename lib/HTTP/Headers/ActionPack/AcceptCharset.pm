@@ -79,6 +79,4 @@ MIME name for the character set. For example, it transforms "utf8" to "UTF-8".
 
 =back
 
-
-
-
+=cut

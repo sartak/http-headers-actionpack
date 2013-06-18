@@ -105,10 +105,12 @@ __END__
 =head1 DESCRIPTION
 
 This is a simple priority list implementation, this is used to
-handle the L<Accept-*> headers as they typically will contain
+handle the Accept-* headers as they typically will contain
 values along with a "q" value to indicate quality.
 
 =head1 METHODS
+
+=over 4
 
 =item C<new>
 
@@ -150,5 +152,4 @@ By default, this does nothing. It exists so that subclasses can override it.
 
 =back
 
-
-
+=cut

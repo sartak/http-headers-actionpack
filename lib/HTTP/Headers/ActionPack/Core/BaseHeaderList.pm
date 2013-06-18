@@ -42,6 +42,8 @@ user serviceable parts in here.
 
 =head1 METHODS
 
+=over 4
+
 =item C<new_from_string ( $header_string )>
 
 This accepts a HTTP header string which get parsed
@@ -63,5 +65,4 @@ and loaded accordingly.
 
 =back
 
-
-
+=cut
