@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+    - If a header param's value somehow ended up as undef, this would produce
+      an unitialized value warning. (Dave Rolsky)
+
 0.08 Tue. Apr. 23, 2013
 
     - Fixed a bug in the handling of defaults in content negotiation that
@@ -7,7 +10,6 @@
       "strict refs" in use at
       /opt/perl5.16.3/lib/site_perl/5.16.3/HTTP/Headers/ActionPack/ContentNegotiation.pm
       line 160. (Dave Rolsky)
-
 
 0.07 Tue. Apr. 16, 2013
 
