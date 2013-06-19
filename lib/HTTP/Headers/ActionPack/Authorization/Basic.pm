@@ -7,7 +7,26 @@ use warnings;
 use Carp         qw[ confess ];
 use MIME::Base64 qw[ encode_base64 decode_base64 ];
 
-use parent 'HTTP::Headers::ActionPack::Core::Base';
+use Moo;
+
+extends 'HTTP::Headers::ActionPack::Header';
+
+with 'HTTP::Headers::ActionPack::Role::Header';
+
+has auth_type => (
+    is       => 'ro',
+    required => 1,
+);
+
+has username => (
+    is       => 'ro',
+    required => 1,
+);
+
+has password => (
+    is       => 'ro',
+    required => 1,
+);
 
 sub BUILDARGS {
     my $class       = shift;
@@ -34,10 +53,6 @@ sub new_from_string {
         || confess "The type must be 'Basic', not '$type'";
     $class->new( $type, $credentials );
 }
-
-sub auth_type { (shift)->{'auth_type'} }
-sub username  { (shift)->{'username'}  }
-sub password  { (shift)->{'password'}  }
 
 sub as_string {
     my $self = shift;
