@@ -1,3 +1,42 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use Encode qw[ find_encoding ];
+
+class AcceptCharset extends HTTP::Headers::ActionPack::PriorityList is overload('inherited') {
+
+    method new_from_string {
+        my $self = $class->next::method( @_ );
+
+        # From RFC-2616 sec14.2
+        # If no "*" is present in an Accept-Charset
+        # field, then all character sets not explicitly
+        # mentioned get a quality value of 0, except for
+        # ISO-8859-1, which gets a quality value of 1
+        # if not explicitly mentioned.
+        unless ( defined $self->priority_of('*')
+            || defined $self->priority_of('ISO-8859-1') ) {
+
+            $self->add( 1 => 'ISO-8859-1' );
+        }
+
+        return $self;
+    }
+
+    method canonicalize_choice ($choice) {
+        return unless defined $choice;
+        return '*' if $choice eq '*';
+        my $charset = find_encoding($choice)
+            or return;
+        return $charset->mime_name;
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::AcceptCharset;
 # ABSTRACT: A Priority List customized for Media Types
 
@@ -32,6 +71,8 @@ sub canonicalize_choice {
         or return;
     return $charset->mime_name;
 }
+
+=cut
 
 1;
 

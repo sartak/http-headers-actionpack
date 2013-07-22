@@ -1,3 +1,80 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use Scalar::Util qw[ blessed ];
+
+class MediaType extends HTTP::Headers::ActionPack::Core::BaseHeaderType is overload('inherited') {
+
+    method type  { $self->subject }
+    method major { (split '/' => $self->type)[0] }
+    method minor { (split '/' => $self->type)[1] }
+
+    method matches_all {
+        $self->type eq '*/*' && $self->params_are_empty
+            ? 1 : 0;
+    }
+
+    # must be exactly the same
+    method equals ($other) {
+        $other = (ref $self)->new_from_string( $other ) unless blessed $other;
+        $other->type eq $self->type && $self->_compare_params( $self->params, $other->params )
+            ? 1 : 0;
+    }
+
+    # types must be compatible and params much match exactly
+    method exact_match ($other) {
+        $other = (ref $self)->new_from_string( $other ) unless blessed $other;
+        $self->type_matches( $other ) && $self->_compare_params( $self->params, $other->params )
+            ? 1 : 0;
+    }
+
+    # types must be be compatible and params should align
+    method match ($other) {
+        $other = (ref $self)->new_from_string( $other ) unless blessed $other;
+        $self->type_matches( $other ) && $self->params_match( $other->params )
+            ? 1 : 0;
+    }
+
+    ## ...
+
+    method type_matches ($other) {
+        return 1 if $other->type eq '*' || $other->type eq '*/*' || $other->type eq $self->type;
+        $other->major eq $self->major && $other->minor eq '*'
+            ? 1 : 0;
+    }
+
+    method params_match ($other) {
+        my $params = $self->params;
+        foreach my $k ( keys %$other ) {
+            next if $k eq 'q';
+            return 0 if not exists $params->{ $k };
+            return 0 if $params->{ $k } ne $other->{ $k };
+        }
+        return 1;
+    }
+
+    ## ...
+
+    method _compare_params ($left, $right) {
+        my @left_keys  = sort grep { $_ ne 'q' } keys %$left;
+        my @right_keys = sort grep { $_ ne 'q' } keys %$right;
+
+        return 0 unless (scalar @left_keys) == (scalar @right_keys);
+
+        foreach my $i ( 0 .. $#left_keys ) {
+            return 0 unless $left_keys[$i] eq $right_keys[$i];
+            return 0 unless $left->{ $left_keys[$i] } eq $right->{ $right_keys[$i] };
+        }
+
+        return 1;
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::MediaType;
 # ABSTRACT: A Media Type
 
@@ -78,6 +155,8 @@ sub _compare_params {
 
     return 1;
 }
+
+=cut
 
 1;
 

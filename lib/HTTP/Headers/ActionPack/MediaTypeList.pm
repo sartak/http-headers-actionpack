@@ -1,3 +1,78 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use Scalar::Util qw[ blessed ];
+
+use HTTP::Headers::ActionPack::MediaType;
+
+class MediaTypeList extends HTTP::Headers::ActionPack::PriorityList {
+
+    method new (@items) {
+        my $self = $class->next::method;
+        foreach my $item ( @items ) {
+            $self->add( ref $item eq 'ARRAY' ? @$item : $item )
+        }
+        $self
+    }
+
+    method add {
+        my ($q, $mt) = scalar @_ == 1 ? ((exists $_[0]->params->{'q'} ?$_[0]->params->{'q'} : 1.0), $_[0]) : @_;
+        $self->next::method( $q, $mt );
+    }
+
+    method add_header_value {
+        my $mt   = HTTP::Headers::ActionPack::MediaType->new( @{ $_[0] } );
+        my $q    = $mt->params->{'q'} || 1.0;
+        $self->add( $q, $mt );
+    }
+
+    method as_string is overload('""') {
+        join ', ' => map { $_->[1]->as_string } $self->iterable;
+    }
+
+    method iterable {
+        # From RFC-2616 sec14
+        # Media ranges can be overridden by more specific
+        # media ranges or specific media types. If more
+        # than one media range applies to a given type,
+        # the most specific reference has precedence.
+        sort {
+            if ( $a->[0] == $b->[0] ) {
+                $a->[1]->matches_all
+                    ? 1
+                    : ($b->[1]->matches_all
+                        ? -1
+                        : ($a->[1]->minor eq '*'
+                            ? 1
+                            : ($b->[1]->minor eq '*'
+                                ? -1
+                                : ($a->[1]->params_are_empty
+                                    ? 1
+                                    : ($b->[1]->params_are_empty
+                                        ? -1
+                                        : 0)))))
+            }
+            else {
+                $b->[0] <=> $a->[0]
+            }
+        } map {
+            my $q = $_;
+            map { [ $q+0, $_ ] } reverse @{ $self->items->{ $q } }
+        } keys %{ $self->items };
+    }
+
+    method canonicalize_choice ($choice) {
+        return blessed $choice
+            ? $choice
+            : HTTP::Headers::ActionPack::MediaType->new( $choice );
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::MediaTypeList;
 # ABSTRACT: A Priority List customized for Media Types
 
@@ -72,6 +147,8 @@ sub canonicalize_choice {
         ? $_[1]
         : HTTP::Headers::ActionPack::MediaType->new( $_[1] );
 }
+
+=cut
 
 1;
 

@@ -1,3 +1,49 @@
+package HTTP::Headers::ActionPack::Authorization;
+use v5.16;
+use warnings;
+use mop;
+
+use Carp         qw[ confess ];
+use MIME::Base64 qw[ encode_base64 decode_base64 ];
+
+class Basic extends HTTP::Headers::ActionPack::Core::Base {
+
+    has $auth_type is ro;
+    has $username  is ro;
+    has $password  is ro;
+
+    method new ($type, $credentials) {
+        $type        || confess "Must specify type";
+        $credentials || confess "Must provide credentials";
+
+        if ( ref $credentials && ref $credentials eq 'HASH' ) {
+            return $class->next::method( auth_type => $type, %$credentials );
+        }
+        elsif ( ref $credentials && ref $credentials eq 'ARRAY' ) {
+            my ($username, $password) = @$credentials;
+            return $class->next::method( auth_type => $type, username => $username, password => $password );
+        }
+        else {
+            my ($username, $password) = split ':' => decode_base64( $credentials );
+            return $class->next::method( auth_type => $type, username => $username, password => $password );
+        }
+    }
+
+    method new_from_string ($header_string) {
+        my ($type, $credentials) = split /\s/ => $header_string;
+        ($type eq 'Basic')
+            || confess "The type must be 'Basic', not '$type'";
+        $class->new( $type, $credentials );
+    }
+
+    method as_string is overload('""') {
+        join ' ' => $auth_type, encode_base64( (join ':' => $username, $password), '' )
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Authorization::Basic;
 # ABSTRACT: The Basic Authorization Header
 

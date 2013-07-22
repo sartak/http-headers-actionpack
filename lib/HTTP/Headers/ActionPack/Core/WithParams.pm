@@ -1,3 +1,35 @@
+package HTTP::Headers::ActionPack::Core;
+use v5.16;
+use warnings;
+use mop;
+
+role WithParams {
+    
+    has $params      is ro = {};
+    has $param_order is ro = []; 
+
+    method add_param ($k, $v) {
+        $params->{ $k } = $v;
+        push @$param_order => $k;
+    }
+
+    method remove_param ($k) {
+        $param_order = [ grep { $_ ne $k } @$param_order ];
+        return delete $params->{ $k };
+    }
+
+    method params_in_order {
+        map { $_, $params->{ $_ } } @$param_order
+    }
+
+    method params_are_empty {
+        (scalar keys %$params) == 0 ? 1 : 0
+    }
+    
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Core::BaseHeaderWithParams;
 # ABSTRACT: A Base header type with parameters
 
@@ -54,6 +86,8 @@ sub params_are_empty {
     my $self = shift;
     (scalar keys %{ $self->params }) == 0 ? 1 : 0
 }
+
+=cut
 
 1;
 

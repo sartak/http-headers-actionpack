@@ -1,3 +1,14 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+class WWWAuthenticate extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is overload('inherited') {
+    method realm { $self->params->{'realm'} }
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::WWWAuthenticate;
 # ABSTRACT: The WWW-Authenticate Header
 
@@ -7,6 +18,8 @@ use warnings;
 use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
 
 sub realm { (shift)->params->{'realm'} }
+
+=cut
 
 1;
 

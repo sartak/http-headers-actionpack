@@ -1,12 +1,27 @@
-package HTTP::Headers::ActionPack;
+package HTTP::Headers;
 # ABSTRACT: HTTP Action, Adventure and Excitement
 
-use strict;
+use v5.16;
 use warnings;
+use mop;
 
-use Scalar::Util    qw[ blessed ];
-use Carp            qw[ confess ];
-use Module::Runtime qw[ use_module ];
+use Scalar::Util qw[ blessed ];
+use Carp         qw[ confess ];
+
+use HTTP::Headers::ActionPack::ContentNegotiation;
+use HTTP::Headers::ActionPack::AcceptCharset;
+use HTTP::Headers::ActionPack::AcceptLanguage;
+use HTTP::Headers::ActionPack::AuthenticationInfo;
+use HTTP::Headers::ActionPack::Authorization;
+use HTTP::Headers::ActionPack::Authorization::Basic;
+use HTTP::Headers::ActionPack::Authorization::Digest;
+use HTTP::Headers::ActionPack::DateHeader;
+use HTTP::Headers::ActionPack::LinkHeader;
+use HTTP::Headers::ActionPack::LinkList;
+use HTTP::Headers::ActionPack::MediaType;
+use HTTP::Headers::ActionPack::MediaTypeList;
+use HTTP::Headers::ActionPack::PriorityList;
+use HTTP::Headers::ActionPack::WWWAuthenticate;
 
 my @DEFAULT_CLASSES = qw[
     HTTP::Headers::ActionPack::AcceptCharset
@@ -42,86 +57,84 @@ my %DEFAULT_MAPPINGS = (
     'authorization'       => 'HTTP::Headers::ActionPack::Authorization',
 );
 
-sub new {
-    my $class      = shift;
-    my %additional = @_;
-    my %mappings   = ( %DEFAULT_MAPPINGS, %additional );
-    my %classes    = map { $_ => undef } ( @DEFAULT_CLASSES, values %additional );
+class ActionPack {
 
-    bless {
-        mappings => \%mappings,
-        classes  => \%classes
-    } => $class;
-}
+    has $mappings is ro;
+    has $classes;
 
-sub mappings { (shift)->{'mappings'} }
-sub classes  { keys %{ (shift)->{'classes'} } }
+    method new (%additional) {
+        my %mappings   = ( %DEFAULT_MAPPINGS, %additional );
+        my %classes    = map { $_ => undef } ( @DEFAULT_CLASSES, values %additional );
 
-sub has_mapping {
-    my ($self, $header_name) = @_;
-    exists $self->{'mappings'}->{ lc $header_name } ? 1 : 0
-}
-
-sub get_content_negotiator {
-    use_module('HTTP::Headers::ActionPack::ContentNegotiation')->new( shift );
-}
-
-sub create {
-    my ($self, $class_name, $args) = @_;
-
-    my $class = exists $self->{'classes'}->{ $class_name }
-        ? $class_name
-        : exists $self->{'classes'}->{ __PACKAGE__ . '::' . $class_name }
-            ? __PACKAGE__ . '::' . $class_name
-            : undef;
-
-    (defined $class)
-        || confess "Could not find class '$class_name' (or 'HTTP::Headers::ActionPack::$class_name')";
-
-    ref $args
-        ? use_module( $class )->new( @$args )
-        : use_module( $class )->new_from_string( $args );
-}
-
-sub create_header {
-    my ($self, $header_name, $header_value) = @_;
-
-    my $class = $self->{'mappings'}->{ lc $header_name };
-
-    (defined $class)
-        || confess "Could not find mapping for '$header_name'";
-
-    ref $header_value
-        ? use_module( $class )->new( @$header_value )
-        : use_module( $class )->new_from_string( $header_value );
-}
-
-sub inflate {
-    my $self = shift;
-    return $self->_inflate_http_headers( @_ )
-        if $_[0]->isa('HTTP::Headers');
-    return $self->_inflate_generic_request( @_ )
-        if $_[0]->isa('HTTP::Request')
-        || $_[0]->isa('Plack::Request')
-        || $_[0]->isa('Web::Request');
-    confess "I don't know how to inflate '$_[0]'";
-}
-
-sub _inflate_http_headers {
-    my ($self, $http_headers) = @_;
-    foreach my $header ( keys %{ $self->{'mappings'} } ) {
-        if ( my $old = $http_headers->header( $header ) ) {
-            $http_headers->header( $header => $self->create_header( $header, $old ) )
-                unless blessed $old && $old->isa('HTTP::Headers::ActionPack::Core::Base');
-        }
+        $class->next::method(
+            mappings => \%mappings,
+            classes  => \%classes
+        );
     }
-    return $http_headers;
-}
 
-sub _inflate_generic_request {
-    my ($self, $request) = @_;
-    $self->_inflate_http_headers( $request->headers );
-    return $request;
+    method classes { keys %$classes }
+
+    method has_mapping ($header_name) {
+        exists $mappings->{ lc $header_name } ? 1 : 0
+    }
+
+    method get_content_negotiator {
+        HTTP::Headers::ActionPack::ContentNegotiation->new( action_pack => $self );
+    }
+
+    method create ($class_name, $args) {
+
+        my $class = exists $classes->{ $class_name }
+            ? $class_name
+            : exists $classes->{ 'HTTP::Headers::ActionPack::' . $class_name }
+                ? 'HTTP::Headers::ActionPack::' . $class_name
+                : undef;
+
+        (defined $class)
+            || confess "Could not find class '$class_name' (or 'HTTP::Headers::ActionPack::$class_name')";
+
+        ref $args
+            ? $class->new( @$args )
+            : $class->new_from_string( $args );
+    }
+
+    method create_header ($header_name, $header_value) {
+
+        my $class = $mappings->{ lc $header_name };
+
+        (defined $class)
+            || confess "Could not find mapping for '$header_name'";
+
+        ref $header_value
+            ? $class->new( @$header_value )
+            : $class->new_from_string( $header_value );
+    }
+
+    method inflate {
+        return $self->_inflate_http_headers( @_ )
+            if $_[0]->isa('HTTP::Headers');
+        return $self->_inflate_generic_request( @_ )
+            if $_[0]->isa('HTTP::Request')
+            || $_[0]->isa('Plack::Request')
+            || $_[0]->isa('Web::Request');
+        confess "I don't know how to inflate '$_[0]'";
+    }
+
+    method _inflate_http_headers ($http_headers) {
+        foreach my $header ( keys %$mappings ) {
+            if ( my $old = $http_headers->header( $header ) ) {
+                $http_headers->header( $header => $self->create_header( $header, $old ) )
+                    unless blessed $old && $old->isa('HTTP::Headers::ActionPack::Core::Base');
+            }
+        }
+        return $http_headers;
+    }
+
+    method _inflate_generic_request ($request) {
+        $self->_inflate_http_headers( $request->headers );
+        return $request;
+    }
+
 }
 
 1;

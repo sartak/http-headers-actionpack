@@ -1,3 +1,81 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use HTTP::Headers::ActionPack::Util qw[
+    split_header_words
+    join_header_words
+];
+
+class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
+
+    has $index is ro = {};
+    has $items is ro = {};
+
+    method new (@items) {
+        my $self = $class->next::method;
+        foreach my $item ( @items ) {
+            $self->add( @$item )
+        }
+        $self;
+    }
+
+    method new_from_string ($header_string) {
+        my $list = $class->new;
+        foreach my $header ( split_header_words( $header_string ) ) {
+            $list->add_header_value( $header );
+        }
+        $list;
+    }
+
+    method as_string is overload('""') {
+        join ', ' => map {
+            my ($q, $subject) = @{ $_ };
+            join_header_words( $subject, q => $q );
+        } $self->iterable;
+    }
+
+    method add ($q, $choice) {
+        # XXX - should failure to canonicalize be an error? or should
+        # canonicalize_choice itself throw an error on bad values?
+        $choice = $self->canonicalize_choice($choice)
+            or return;
+        $q += 0; # be sure to numify this
+        $index->{ $choice } = $q;
+        $items->{ $q } = [] unless exists $items->{ $q };
+        push @{ $items->{ $q } } => $choice;
+    }
+
+    method add_header_value {
+        my ($choice, %params) = @{ $_[0] };
+        $self->add( exists $params{'q'} ? $params{'q'} : 1.0, $choice );
+    }
+
+    method get ($q) {
+        $items->{ $q };
+    }
+
+    method priority_of ($choice) {
+        $choice = $self->canonicalize_choice($choice)
+            or return;
+        $index->{ $choice };
+    }
+
+    method iterable {
+        map {
+            my $q = $_;
+            map { [ $q, $_ ] } @{ $items->{ $q } }
+        } reverse sort keys %$items;
+    }
+
+    method canonicalize_choice ($choice) {
+        return $choice;
+    }
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::PriorityList;
 # ABSTRACT: A Priority List
 

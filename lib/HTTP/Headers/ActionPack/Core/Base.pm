@@ -1,3 +1,16 @@
+
+package HTTP::Headers::ActionPack::Core;
+use v5.16;
+use warnings;
+use mop;
+
+class Base is abstract {
+    method new_from_string;
+    method as_string;
+}
+
+
+=pod
 package HTTP::Headers::ActionPack::Core::Base;
 # ABSTRACT: A Base class
 
@@ -26,6 +39,8 @@ sub as_string {
     my $self = shift;
     "$self"
 }
+
+=cut
 
 1;
 

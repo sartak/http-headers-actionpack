@@ -1,3 +1,32 @@
+package HTTP::Headers::ActionPack::Core;
+use v5.16;
+use warnings;
+use mop;
+
+use Scalar::Util                    qw[ blessed ];
+use HTTP::Headers::ActionPack::Util qw[ split_header_words ];
+
+class BaseHeaderList extends HTTP::Headers::ActionPack::Core::Base is abstract {
+
+    method new_from_string ($header_string) {
+        my $list = $class->new;
+        foreach my $header ( split_header_words( $header_string ) ) {
+            $list->add_header_value( $header )
+        }
+        $list;
+    }
+
+    method as_string is overload('""') {
+        join ', ' => map { blessed $_ ? $_->as_string : $_ } $self->iterable;
+    }
+
+    method add;
+    method add_header_value;
+    method iterable;
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Core::BaseHeaderList;
 # ABSTRACT: A Base Header List
 
@@ -26,6 +55,8 @@ sub as_string {
 sub add              { die "Abstract method" }
 sub add_header_value { die "Abstract method" }
 sub iterable         { die "Abstract method" }
+
+=cut
 
 1;
 

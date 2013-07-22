@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use Time::Piece;
+use Carp       qw[ confess ];
 use HTTP::Date qw[ str2time time2str ];
 use HTTP::Headers::Util;
 
@@ -15,6 +16,7 @@ use Sub::Exporter -setup => {
         split_header_words
         join_header_words
         join_header_params
+        prepare_ordered_params
     ]]
 };
 
@@ -51,6 +53,22 @@ sub join_header_params {
         push @attrs => ($k . qq(="$v"));
     }
     return join $separator =>  @attrs;
+}
+
+sub prepare_ordered_params {
+    my (@params) = @_;
+
+    confess "Params must be an even sized list" unless (((scalar @params) % 2) == 0);
+
+    my @param_order;
+    for ( my $i = 0; $i < $#params; $i += 2 ) {
+        push @param_order => $params[ $i ];
+    }
+
+    return +{
+        params      => { @params },
+        param_order => \@param_order
+    };
 }
 
 1;

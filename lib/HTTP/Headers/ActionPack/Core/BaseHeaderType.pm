@@ -1,3 +1,40 @@
+package HTTP::Headers::ActionPack::Core;
+use v5.16;
+use warnings;
+use mop;
+
+use Carp qw[ confess ];
+use HTTP::Headers::ActionPack::Util qw[
+    split_header_words
+    join_header_words
+    prepare_ordered_params
+];
+
+class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
+
+    has $subject is ro;
+
+    method new ($subject, @params) {
+        confess "You must specify a subject" unless $subject;
+
+        $class->next::method(
+            subject => $subject,
+            %{ prepare_ordered_params( @params ) }
+        );
+    }
+
+    method new_from_string ($header_string) {
+        $class->new( @{ (split_header_words( $header_string ))[0] } );
+    }
+
+    method as_string is overload('""') {
+        join_header_words( $subject, $self->params_in_order );
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Core::BaseHeaderType;
 # ABSTRACT: A Base header type
 
@@ -36,6 +73,8 @@ sub as_string {
     my $self = shift;
     join_header_words( $self->subject, $self->params_in_order );
 }
+
+=cut
 
 1;
 

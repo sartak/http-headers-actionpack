@@ -1,3 +1,32 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use HTTP::Headers::ActionPack::LinkHeader;
+
+class LinkList extends HTTP::Headers::ActionPack::Core::BaseHeaderList is overload('inherited') {
+
+    has $items is ro;
+
+    method new (@items) {
+        $class->next::method( items => \@items )
+    }
+
+    method add ($link) {
+        push @$items => $link;
+    }
+
+    method add_header_value ($value) {
+        $self->add( HTTP::Headers::ActionPack::LinkHeader->new( @$value ) );
+    }
+
+    method iterable { @$items }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::LinkList;
 # ABSTRACT: A List of Link objects
 
@@ -23,6 +52,8 @@ sub add_header_value {
 }
 
 sub iterable { @{ (shift)->items } }
+
+=cut
 
 1;
 

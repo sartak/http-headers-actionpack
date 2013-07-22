@@ -1,3 +1,43 @@
+package HTTP::Headers::ActionPack::Core;
+use v5.16;
+use warnings;
+use mop;
+
+use Carp                            qw[ confess ];
+use HTTP::Headers::ActionPack::Util qw[
+    join_header_params
+    prepare_ordered_params
+];
+
+class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
+
+    has $auth_type is ro;
+
+    method new ($type, @params) {
+        confess "You must specify an auth-type" unless $type;
+
+        $class->next::method(
+            auth_type => $type,
+            %{ prepare_ordered_params( @params ) }
+        );
+    }
+
+    method new_from_string ($header_string) {
+
+        my @parts = HTTP::Headers::Util::_split_header_words( $header_string );
+        splice @{ $parts[0] }, 1, 1;
+
+        $class->new( map { @$_ } @parts );
+    }
+
+    method as_string is overload('""') {
+        $auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
+    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Core::BaseAuthHeader;
 # ABSTRACT: The base Auth Header
 
@@ -38,6 +78,8 @@ sub as_string {
     my $self = shift;
     $self->auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
 }
+
+=cut
 
 1;
 

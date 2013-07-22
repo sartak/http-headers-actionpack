@@ -1,3 +1,17 @@
+package HTTP::Headers::ActionPack::Authorization;
+use v5.16;
+use warnings;
+use mop;
+
+class Digest extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is overload('inherited') {
+
+    method username { $self->params->{'username'} }
+    method realm    { $self->params->{'realm'}    }
+
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::Authorization::Digest;
 # ABSTRACT: The Digest Authorization Header
 
@@ -8,6 +22,8 @@ use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
 
 sub username { (shift)->params->{'username'} }
 sub realm    { (shift)->params->{'realm'}    }
+
+=cut
 
 1;
 

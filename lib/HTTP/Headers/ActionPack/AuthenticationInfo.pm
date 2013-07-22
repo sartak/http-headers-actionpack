@@ -1,3 +1,32 @@
+package HTTP::Headers::ActionPack;
+use v5.16;
+use warnings;
+use mop;
+
+use HTTP::Headers::ActionPack::Util qw[
+    join_header_params
+    prepare_ordered_params
+];
+
+class AuthenticationInfo extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
+
+    method new (@params) {
+        $class->next::method( prepare_ordered_params( @params ) )
+    }
+
+    method new_from_string ($header_string) {
+        $class->new(
+            map { @$_ } HTTP::Headers::Util::_split_header_words( $header_string )
+        );
+    }
+
+    method as_string is overload('""') {
+        join_header_params( ', ' => $self->params_in_order );
+    }
+}
+
+=pod
+
 package HTTP::Headers::ActionPack::AuthenticationInfo;
 # ABSTRACT: The Authentication-Info Header
 
@@ -25,6 +54,8 @@ sub new_from_string {
 sub as_string {
     join_header_params( ', ' => (shift)->params_in_order );
 }
+
+=cut
 
 1;
 
