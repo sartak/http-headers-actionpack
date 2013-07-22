@@ -7,6 +7,17 @@ use mop;
 class Base is abstract {
     method new_from_string;
     method as_string;
+
+    method STORABLE_freeze ($cloning) {
+        return $self->id if $cloning;
+        die "I hate STORABLE";
+    }
+
+    method STORABLE_attach ($cloning, $serialized) {
+        return mop::util::get_object_from_id( $serialized ) if $cloning;
+        die "I really hate STORABLE";
+    }
+
 }
 
 
