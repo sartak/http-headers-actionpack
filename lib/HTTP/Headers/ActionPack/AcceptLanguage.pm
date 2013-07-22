@@ -24,36 +24,6 @@ class AcceptLanguage extends HTTP::Headers::ActionPack::PriorityList is overload
 
 }
 
-
-=pod
-
-package HTTP::Headers::ActionPack::AcceptLanguage;
-# ABSTRACT: A Priority List customized for Media Types
-
-use strict;
-use warnings;
-
-use parent 'HTTP::Headers::ActionPack::PriorityList';
-
-# We'll just assume that any script or variant names are being given in the
-# right form. To do this all properly would basically require having all the
-# ICU data available, which we're not going to attempt currently.
-sub canonicalize_choice {
-    return unless defined $_[1];
-    my @parts = split /[-_]/, $_[1];
-
-    my $lang = lc shift @parts;
-
-    if (@parts) {
-        $parts[-1] = uc $parts[-1]
-            if length $parts[-1] == 2;
-    }
-
-    return join '-', $lang, @parts;
-}
-
-=cut
-
 1;
 
 __END__

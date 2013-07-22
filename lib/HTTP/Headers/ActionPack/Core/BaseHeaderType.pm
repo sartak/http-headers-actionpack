@@ -33,49 +33,6 @@ class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
 
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::Core::BaseHeaderType;
-# ABSTRACT: A Base header type
-
-use strict;
-use warnings;
-
-use Carp qw[ confess ];
-
-use HTTP::Headers::ActionPack::Util qw[
-    split_header_words
-    join_header_words
-];
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderWithParams';
-
-sub BUILDARGS {
-    my $class = shift;
-    my ($subject, @params) = @_;
-
-    confess "You must specify a subject" unless $subject;
-
-    return +{
-        subject => $subject,
-        %{ $class->_prepare_params( @params ) }
-    };
-}
-
-sub subject { (shift)->{'subject'} }
-
-sub new_from_string {
-    my ($class, $header_string) = @_;
-    $class->new( @{ (split_header_words( $header_string ))[0] } );
-}
-
-sub as_string {
-    my $self = shift;
-    join_header_words( $self->subject, $self->params_in_order );
-}
-
-=cut
-
 1;
 
 __END__

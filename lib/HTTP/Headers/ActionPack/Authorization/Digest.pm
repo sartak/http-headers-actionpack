@@ -10,21 +10,6 @@ class Digest extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is overload
 
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::Authorization::Digest;
-# ABSTRACT: The Digest Authorization Header
-
-use strict;
-use warnings;
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
-
-sub username { (shift)->params->{'username'} }
-sub realm    { (shift)->params->{'realm'}    }
-
-=cut
-
 1;
 
 __END__

@@ -25,36 +25,6 @@ class LinkList extends HTTP::Headers::ActionPack::Core::BaseHeaderList is overlo
 
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::LinkList;
-# ABSTRACT: A List of Link objects
-
-use strict;
-use warnings;
-
-use HTTP::Headers::ActionPack::LinkHeader;
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderList';
-
-sub BUILDARGS { shift; +{ items => [ @_ ] } }
-
-sub items { (shift)->{'items'} }
-
-sub add {
-    my ($self, $link) = @_;
-    push @{ $self->items } => $link;
-}
-
-sub add_header_value {
-    my ($self, $value) = @_;
-    $self->add( HTTP::Headers::ActionPack::LinkHeader->new( @$value ) );
-}
-
-sub iterable { @{ (shift)->items } }
-
-=cut
-
 1;
 
 __END__

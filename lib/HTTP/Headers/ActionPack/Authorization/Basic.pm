@@ -42,54 +42,6 @@ class Basic extends HTTP::Headers::ActionPack::Core::Base {
 
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::Authorization::Basic;
-# ABSTRACT: The Basic Authorization Header
-
-use strict;
-use warnings;
-
-use Carp         qw[ confess ];
-use MIME::Base64 qw[ encode_base64 decode_base64 ];
-
-use parent 'HTTP::Headers::ActionPack::Core::Base';
-
-sub BUILDARGS {
-    my $class       = shift;
-    my $type        = shift || confess "Must specify type";
-    my $credentials = shift || confess "Must provide credentials";
-
-    if ( ref $credentials && ref $credentials eq 'HASH' ) {
-        return +{ auth_type => $type, %$credentials };
-    }
-    elsif ( ref $credentials && ref $credentials eq 'ARRAY' ) {
-        my ($username, $password) = @$credentials;
-        return +{ auth_type => $type, username => $username, password => $password };
-    }
-    else {
-        my ($username, $password) = split ':' => decode_base64( $credentials );
-        return +{ auth_type => $type, username => $username, password => $password };
-    }
-}
-
-sub new_from_string {
-    my ($class, $header_string) = @_;
-    my ($type, $credentials) = split /\s/ => $header_string;
-    ($type eq 'Basic')
-        || confess "The type must be 'Basic', not '$type'";
-    $class->new( $type, $credentials );
-}
-
-sub auth_type { (shift)->{'auth_type'} }
-sub username  { (shift)->{'username'}  }
-sub password  { (shift)->{'password'}  }
-
-sub as_string {
-    my $self = shift;
-    join ' ' => $self->auth_type, encode_base64( (join ':' => $self->username, $self->password), '' )
-}
-
 1;
 
 __END__

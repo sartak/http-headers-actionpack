@@ -7,20 +7,6 @@ class WWWAuthenticate extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is
     method realm { $self->params->{'realm'} }
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::WWWAuthenticate;
-# ABSTRACT: The WWW-Authenticate Header
-
-use strict;
-use warnings;
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
-
-sub realm { (shift)->params->{'realm'} }
-
-=cut
-
 1;
 
 __END__

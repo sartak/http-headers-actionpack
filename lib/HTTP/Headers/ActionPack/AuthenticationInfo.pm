@@ -25,38 +25,6 @@ class AuthenticationInfo extends HTTP::Headers::ActionPack::Core::Base with HTTP
     }
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::AuthenticationInfo;
-# ABSTRACT: The Authentication-Info Header
-
-use strict;
-use warnings;
-
-use HTTP::Headers::ActionPack::Util qw[
-    join_header_params
-];
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderWithParams';
-
-sub BUILDARGS {
-    my $class = shift;
-    $class->_prepare_params( @_ )
-}
-
-sub new_from_string {
-    my ($class, $header_string) = @_;
-    $class->new(
-        map { @$_ } HTTP::Headers::Util::_split_header_words( $header_string )
-    );
-}
-
-sub as_string {
-    join_header_params( ', ' => (shift)->params_in_order );
-}
-
-=cut
-
 1;
 
 __END__

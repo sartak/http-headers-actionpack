@@ -36,51 +36,6 @@ class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
 
 }
 
-=pod
-
-package HTTP::Headers::ActionPack::Core::BaseAuthHeader;
-# ABSTRACT: The base Auth Header
-
-use strict;
-use warnings;
-
-use Carp                            qw[ confess ];
-use HTTP::Headers::ActionPack::Util qw[
-    join_header_params
-];
-
-use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderWithParams';
-
-sub BUILDARGS {
-    my $class = shift;
-    my ($type, @params) = @_;
-
-    confess "You must specify an auth-type" unless $type;
-
-    return +{
-        auth_type => $type,
-        %{ $class->_prepare_params( @params ) }
-    };
-}
-
-sub new_from_string {
-    my ($class, $header_string) = @_;
-
-    my @parts = HTTP::Headers::Util::_split_header_words( $header_string );
-    splice @{ $parts[0] }, 1, 1;
-
-    $class->new( map { @$_ } @parts );
-}
-
-sub auth_type { (shift)->{'auth_type'} }
-
-sub as_string {
-    my $self = shift;
-    $self->auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
-}
-
-=cut
-
 1;
 
 __END__
