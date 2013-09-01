@@ -9,11 +9,11 @@ use List::Util   qw[ first ];
 
 class ContentNegotiation {
 
-    has $action_pack is ro;
+    has $!action_pack is ro;
 
     method choose_media_type ($provided, $header) {
-        my $requested       = blessed $header ? $header : $action_pack->create( 'MediaTypeList' => $header );
-        my $parsed_provided = [ map { $action_pack->create( 'MediaType' => $_ ) } @$provided ];
+        my $requested       = blessed $header ? $header : $!action_pack->create( 'MediaTypeList' => $header );
+        my $parsed_provided = [ map { $!action_pack->create( 'MediaType' => $_ ) } @$provided ];
 
         my $chosen;
         foreach my $request ( $requested->iterable ) {
@@ -69,7 +69,7 @@ class ContentNegotiation {
         return if @$choices == 0;
         return if $header eq '';
 
-        my $accepted         = blessed $header ? $header : $action_pack->create( $class => $header );
+        my $accepted         = blessed $header ? $header : $!action_pack->create( $class => $header );
         my $star_priority    = $accepted->priority_of( '*' );
 
         my @canonical = map {
@@ -158,7 +158,7 @@ class ContentNegotiation {
 
     submethod _simple_match {
         return $_[0] eq $_[1];
-    }    
+    }
 }
 
 1;

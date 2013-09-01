@@ -8,9 +8,9 @@ use MIME::Base64 qw[ encode_base64 decode_base64 ];
 
 class Basic extends HTTP::Headers::ActionPack::Core::Base {
 
-    has $auth_type is ro;
-    has $username  is ro;
-    has $password  is ro;
+    has $!auth_type is ro;
+    has $!username  is ro;
+    has $!password  is ro;
 
     method new ($type, $credentials) {
         $type        || confess "Must specify type";
@@ -37,7 +37,7 @@ class Basic extends HTTP::Headers::ActionPack::Core::Base {
     }
 
     method as_string is overload('""') {
-        join ' ' => $auth_type, encode_base64( (join ':' => $username, $password), '' )
+        join ' ' => $!auth_type, encode_base64( (join ':' => $!username, $!password), '' )
     }
 
 }

@@ -4,28 +4,28 @@ use warnings;
 use mop;
 
 role WithParams {
-    
-    has $params      is ro = {};
-    has $param_order is ro = []; 
+
+    has $!params      is ro = {};
+    has $!param_order is ro = [];
 
     method add_param ($k, $v) {
-        $params->{ $k } = $v;
-        push @$param_order => $k;
+        $!params->{ $k } = $v;
+        push @{$!param_order} => $k;
     }
 
     method remove_param ($k) {
-        $param_order = [ grep { $_ ne $k } @$param_order ];
-        return delete $params->{ $k };
+        $!param_order = [ grep { $_ ne $k } @{$!param_order} ];
+        return delete $!params->{ $k };
     }
 
     method params_in_order {
-        map { $_, $params->{ $_ } } @$param_order
+        map { $_, $!params->{ $_ } } @{$!param_order}
     }
 
     method params_are_empty {
-        (scalar keys %$params) == 0 ? 1 : 0
+        (scalar keys %{$!params}) == 0 ? 1 : 0
     }
-    
+
 }
 
 1;

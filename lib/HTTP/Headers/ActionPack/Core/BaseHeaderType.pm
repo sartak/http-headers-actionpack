@@ -12,7 +12,7 @@ use HTTP::Headers::ActionPack::Util qw[
 
 class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
 
-    has $subject is ro;
+    has $!subject is ro;
 
     method new ($subject, @params) {
         confess "You must specify a subject" unless $subject;
@@ -28,7 +28,7 @@ class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
     }
 
     method as_string is overload('""') {
-        join_header_words( $subject, $self->params_in_order );
+        join_header_words( $!subject, $self->params_in_order );
     }
 
 }

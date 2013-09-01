@@ -59,8 +59,8 @@ my %DEFAULT_MAPPINGS = (
 
 class ActionPack {
 
-    has $mappings is ro;
-    has $classes;
+    has $!mappings is ro;
+    has $!classes;
 
     method new (%additional) {
         my %mappings   = ( %DEFAULT_MAPPINGS, %additional );
@@ -72,10 +72,10 @@ class ActionPack {
         );
     }
 
-    method classes { keys %$classes }
+    method classes { keys %{$!classes} }
 
     method has_mapping ($header_name) {
-        exists $mappings->{ lc $header_name } ? 1 : 0
+        exists $!mappings->{ lc $header_name } ? 1 : 0
     }
 
     method get_content_negotiator {
@@ -84,9 +84,9 @@ class ActionPack {
 
     method create ($class_name, $args) {
 
-        my $class = exists $classes->{ $class_name }
+        my $class = exists $!classes->{ $class_name }
             ? $class_name
-            : exists $classes->{ 'HTTP::Headers::ActionPack::' . $class_name }
+            : exists $!classes->{ 'HTTP::Headers::ActionPack::' . $class_name }
                 ? 'HTTP::Headers::ActionPack::' . $class_name
                 : undef;
 
@@ -100,7 +100,7 @@ class ActionPack {
 
     method create_header ($header_name, $header_value) {
 
-        my $class = $mappings->{ lc $header_name };
+        my $class = $!mappings->{ lc $header_name };
 
         (defined $class)
             || confess "Could not find mapping for '$header_name'";
@@ -121,7 +121,7 @@ class ActionPack {
     }
 
     method _inflate_http_headers ($http_headers) {
-        foreach my $header ( keys %$mappings ) {
+        foreach my $header ( keys %{$!mappings} ) {
             if ( my $old = $http_headers->header( $header ) ) {
                 $http_headers->header( $header => $self->create_header( $header, $old ) )
                     unless blessed $old && $old->isa('HTTP::Headers::ActionPack::Core::Base');

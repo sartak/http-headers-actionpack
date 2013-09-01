@@ -10,8 +10,8 @@ use HTTP::Headers::ActionPack::Util qw[
 
 class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
 
-    has $index is ro = {};
-    has $items is ro = {};
+    has $!index is ro = {};
+    has $!items is ro = {};
 
     method new (@items) {
         my $self = $class->next::method;
@@ -42,9 +42,9 @@ class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
         $choice = $self->canonicalize_choice($choice)
             or return;
         $q += 0; # be sure to numify this
-        $index->{ $choice } = $q;
-        $items->{ $q } = [] unless exists $items->{ $q };
-        push @{ $items->{ $q } } => $choice;
+        $!index->{ $choice } = $q;
+        $!items->{ $q } = [] unless exists $!items->{ $q };
+        push @{ $!items->{ $q } } => $choice;
     }
 
     method add_header_value {
@@ -53,20 +53,20 @@ class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
     }
 
     method get ($q) {
-        $items->{ $q };
+        $!items->{ $q };
     }
 
     method priority_of ($choice) {
         $choice = $self->canonicalize_choice($choice)
             or return;
-        $index->{ $choice };
+        $!index->{ $choice };
     }
 
     method iterable {
         map {
             my $q = $_;
-            map { [ $q, $_ ] } @{ $items->{ $q } }
-        } reverse sort keys %$items;
+            map { [ $q, $_ ] } @{ $!items->{ $q } }
+        } reverse sort keys %{$!items};
     }
 
     method canonicalize_choice ($choice) {

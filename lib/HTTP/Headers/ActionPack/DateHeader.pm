@@ -10,7 +10,7 @@ use HTTP::Headers::ActionPack::Util qw[
 
 class DateHeader extends HTTP::Headers::ActionPack::Core::Base {
 
-    has $date is ro;
+    has $!date is ro;
 
     method new ($date) {
         $class->next::method( date => $date );
@@ -20,21 +20,21 @@ class DateHeader extends HTTP::Headers::ActionPack::Core::Base {
         $class->new( header_to_date( $header_string ) );
     }
 
-    method as_string is overload('""') { date_to_header( $date ) }
+    method as_string is overload('""') { date_to_header( $!date ) }
 
     # implement a simple API
-    method second       { $date->second       }
-    method minute       { $date->minute       }
-    method hour         { $date->hour         }
-    method day_of_month { $date->day_of_month }
-    method month_number { $date->mon          }
-    method fullmonth    { $date->fullmonth    }
-    method month        { $date->month        }
-    method year         { $date->year         }
-    method day_of_week  { $date->day_of_week  }
-    method day          { $date->day          }
-    method fullday      { $date->fullday      }
-    method epoch        { $date->epoch        }
+    method second       { $!date->second       }
+    method minute       { $!date->minute       }
+    method hour         { $!date->hour         }
+    method day_of_month { $!date->day_of_month }
+    method month_number { $!date->mon          }
+    method fullmonth    { $!date->fullmonth    }
+    method month        { $!date->month        }
+    method year         { $!date->year         }
+    method day_of_week  { $!date->day_of_week  }
+    method day          { $!date->day          }
+    method fullday      { $!date->fullday      }
+    method epoch        { $!date->epoch        }
 }
 
 1;

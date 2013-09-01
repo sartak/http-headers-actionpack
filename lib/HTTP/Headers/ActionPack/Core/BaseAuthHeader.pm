@@ -11,7 +11,7 @@ use HTTP::Headers::ActionPack::Util qw[
 
 class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
 
-    has $auth_type is ro;
+    has $!auth_type is ro;
 
     method new ($type, @params) {
         confess "You must specify an auth-type" unless $type;
@@ -31,7 +31,7 @@ class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
     }
 
     method as_string is overload('""') {
-        $auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
+        $!auth_type . ' ' . join_header_params( ', ' => $self->params_in_order );
     }
 
 }
