@@ -10,7 +10,8 @@ use HTTP::Headers::ActionPack::MediaType;
 class MediaTypeList extends HTTP::Headers::ActionPack::PriorityList {
 
     method new (@items) {
-        my $self = $class->next::method;
+        # FIXME: this is wrong
+        $self = $class->next::method;
         foreach my $item ( @items ) {
             $self->add( ref $item eq 'ARRAY' ? @$item : $item )
         }

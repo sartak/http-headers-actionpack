@@ -14,7 +14,8 @@ class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
     has $!items is ro = {};
 
     method new (@items) {
-        my $self = $class->next::method;
+        # FIXME: this is wrong
+        $self = $class->next::method;
         foreach my $item ( @items ) {
             $self->add( @$item )
         }

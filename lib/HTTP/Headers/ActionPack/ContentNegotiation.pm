@@ -63,13 +63,13 @@ class ContentNegotiation {
 
     submethod _make_choice (%args) {
 
-        my ($choices, $header, $class, $default, $matcher)
+        my ($choices, $header, $klass, $default, $matcher)
             = @args{qw( choices header class default matcher )};
 
         return if @$choices == 0;
         return if $header eq '';
 
-        my $accepted         = blessed $header ? $header : $!action_pack->create( $class => $header );
+        my $accepted         = blessed $header ? $header : $!action_pack->create( $klass => $header );
         my $star_priority    = $accepted->priority_of( '*' );
 
         my @canonical = map {

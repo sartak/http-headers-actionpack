@@ -84,30 +84,30 @@ class ActionPack {
 
     method create ($class_name, $args) {
 
-        my $class = exists $!classes->{ $class_name }
+        my $klass = exists $!classes->{ $class_name }
             ? $class_name
             : exists $!classes->{ 'HTTP::Headers::ActionPack::' . $class_name }
                 ? 'HTTP::Headers::ActionPack::' . $class_name
                 : undef;
 
-        (defined $class)
+        (defined $klass)
             || confess "Could not find class '$class_name' (or 'HTTP::Headers::ActionPack::$class_name')";
 
         ref $args
-            ? $class->new( @$args )
-            : $class->new_from_string( $args );
+            ? $klass->new( @$args )
+            : $klass->new_from_string( $args );
     }
 
     method create_header ($header_name, $header_value) {
 
-        my $class = $!mappings->{ lc $header_name };
+        my $klass = $!mappings->{ lc $header_name };
 
-        (defined $class)
+        (defined $klass)
             || confess "Could not find mapping for '$header_name'";
 
         ref $header_value
-            ? $class->new( @$header_value )
-            : $class->new_from_string( $header_value );
+            ? $klass->new( @$header_value )
+            : $klass->new_from_string( $header_value );
     }
 
     method inflate {
