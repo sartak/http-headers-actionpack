@@ -13,7 +13,7 @@ class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
 
     has $!auth_type is ro;
 
-    method new ($type, @params) {
+    method new ($class: $type, @params) {
         confess "You must specify an auth-type" unless $type;
 
         $class->next::method(
@@ -22,7 +22,7 @@ class BaseAuthHeader extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
         );
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
 
         my @parts = HTTP::Headers::Util::_split_header_words( $header_string );
         splice @{ $parts[0] }, 1, 1;

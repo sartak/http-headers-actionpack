@@ -9,7 +9,7 @@ class LinkList extends HTTP::Headers::ActionPack::Core::BaseHeaderList is overlo
 
     has $!items is ro;
 
-    method new (@items) {
+    method new ($class: @items) {
         $class->next::method( items => \@items )
     }
 

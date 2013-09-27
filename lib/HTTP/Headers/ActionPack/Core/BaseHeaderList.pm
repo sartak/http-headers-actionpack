@@ -8,7 +8,7 @@ use HTTP::Headers::ActionPack::Util qw[ split_header_words ];
 
 class BaseHeaderList extends HTTP::Headers::ActionPack::Core::Base is abstract {
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         my $list = $class->new;
         foreach my $header ( split_header_words( $header_string ) ) {
             $list->add_header_value( $header )

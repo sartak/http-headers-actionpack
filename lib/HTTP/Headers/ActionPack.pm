@@ -62,7 +62,7 @@ class ActionPack {
     has $!mappings is ro;
     has $!classes;
 
-    method new (%additional) {
+    method new ($class: %additional) {
         my %mappings   = ( %DEFAULT_MAPPINGS, %additional );
         my %classes    = map { $_ => undef } ( @DEFAULT_CLASSES, values %additional );
 

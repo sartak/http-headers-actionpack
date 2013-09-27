@@ -7,9 +7,9 @@ use Encode qw[ find_encoding ];
 
 class AcceptCharset extends HTTP::Headers::ActionPack::PriorityList is overload('inherited') {
 
-    method new_from_string {
+    method new_from_string ($class:) {
         # FIXME: this is wrong
-        $self = $class->next::method( @_ );
+        my $self = $class->next::method( @_ );
 
         # From RFC-2616 sec14.2
         # If no "*" is present in an Accept-Charset

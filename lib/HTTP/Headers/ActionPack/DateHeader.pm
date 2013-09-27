@@ -12,11 +12,11 @@ class DateHeader extends HTTP::Headers::ActionPack::Core::Base {
 
     has $!date is ro;
 
-    method new ($date) {
+    method new ($class: $date) {
         $class->next::method( date => $date );
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         $class->new( header_to_date( $header_string ) );
     }
 

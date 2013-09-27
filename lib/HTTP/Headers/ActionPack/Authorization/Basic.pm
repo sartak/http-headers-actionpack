@@ -12,7 +12,7 @@ class Basic extends HTTP::Headers::ActionPack::Core::Base {
     has $!username  is ro;
     has $!password  is ro;
 
-    method new ($type, $credentials) {
+    method new ($class: $type, $credentials) {
         $type        || confess "Must specify type";
         $credentials || confess "Must provide credentials";
 
@@ -29,7 +29,7 @@ class Basic extends HTTP::Headers::ActionPack::Core::Base {
         }
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         my ($type, $credentials) = split /\s/ => $header_string;
         ($type eq 'Basic')
             || confess "The type must be 'Basic', not '$type'";

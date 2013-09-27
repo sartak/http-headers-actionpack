@@ -14,7 +14,7 @@ class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
 
     has $!subject is ro;
 
-    method new ($subject, @params) {
+    method new ($class: $subject, @params) {
         confess "You must specify a subject" unless $subject;
 
         $class->next::method(
@@ -23,7 +23,7 @@ class BaseHeaderType extends HTTP::Headers::ActionPack::Core::Base with HTTP::He
         );
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         $class->new( @{ (split_header_words( $header_string ))[0] } );
     }
 

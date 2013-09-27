@@ -13,16 +13,16 @@ class PriorityList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
     has $!index is ro = {};
     has $!items is ro = {};
 
-    method new (@items) {
+    method new ($class: @items) {
         # FIXME: this is wrong
-        $self = $class->next::method;
+        my $self = $class->next::method;
         foreach my $item ( @items ) {
             $self->add( @$item )
         }
         $self;
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         my $list = $class->new;
         foreach my $header ( split_header_words( $header_string ) ) {
             $list->add_header_value( $header );

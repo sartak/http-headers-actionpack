@@ -10,11 +10,11 @@ use HTTP::Headers::ActionPack::Util qw[
 
 class AuthenticationInfo extends HTTP::Headers::ActionPack::Core::Base with HTTP::Headers::ActionPack::Core::WithParams {
 
-    method new (@params) {
+    method new ($class: @params) {
         $class->next::method( prepare_ordered_params( @params ) )
     }
 
-    method new_from_string ($header_string) {
+    method new_from_string ($class: $header_string) {
         $class->new(
             map { @$_ } HTTP::Headers::Util::_split_header_words( $header_string )
         );

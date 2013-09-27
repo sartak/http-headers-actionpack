@@ -8,7 +8,7 @@ use HTTP::Headers::ActionPack::Util qw[ join_header_words prepare_ordered_params
 
 class LinkHeader extends HTTP::Headers::ActionPack::Core::BaseHeaderType {
     
-    method new ($href, @params) {
+    method new ($class: $href, @params) {
 
         $href =~ s/^<//;
         $href =~ s/>$//;
