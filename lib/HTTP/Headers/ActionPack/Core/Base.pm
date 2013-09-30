@@ -8,7 +8,7 @@ class Base is abstract {
     method as_string;
 
     method STORABLE_freeze ($cloning) {
-        return $self->id if $cloning;
+        return mop::util::get_object_id( $self ) if $cloning;
         die "I hate STORABLE";
     }
 
