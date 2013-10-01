@@ -3,18 +3,24 @@ use v5.16;
 use warnings;
 use mop;
 
+use Hash::Util::FieldHash qw[ fieldhash register id id_2obj ];
+
+fieldhash my %storable_map;
+
 class Base is abstract {
     method new_from_string;
     method as_string;
 
     method STORABLE_freeze ($cloning) {
-        return mop::util::get_object_id( $self ) if $cloning;
-        die "I hate STORABLE";
+        die "I hate STORABLE" unless $cloning;
+        register($self);
+        $storable_map{$self} = $self;
+        return id($self);
     }
 
     method STORABLE_attach ($cloning, $serialized) {
-        return mop::util::get_object_from_id( $serialized ) if $cloning;
-        die "I really hate STORABLE";
+        die "I really hate STORABLE" unless $cloning;
+        return $storable_map{$serialized};
     }
 
 }
