@@ -16,7 +16,7 @@ class LinkHeader extends HTTP::Headers::ActionPack::Core::BaseHeaderType {
         $class->next::method( $href, @params );
     }
 
-    submethod BUILD {
+    method BUILD {
         foreach my $param ( grep { /\*$/ } @{ $self->param_order } ) {
             my ($encoding, $language, $content) = ( $self->params->{ $param } =~ /^(.*)\'(.*)\'(.*)$/);
             $self->params->{ $param } = {

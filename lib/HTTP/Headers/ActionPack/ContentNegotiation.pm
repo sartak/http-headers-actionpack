@@ -61,7 +61,7 @@ class ContentNegotiation {
         );
     }
 
-    submethod _make_choice (%args) {
+    method _make_choice (%args) {
 
         my ($choices, $header, $klass, $default, $matcher)
             = @args{qw( choices header class default matcher )};
@@ -147,16 +147,16 @@ class ContentNegotiation {
 
     ## ....
 
-    submethod _media_match ($requested, $provided) {
+    method _media_match ($requested, $provided) {
         return $provided->[0] if $requested->matches_all;
         return first { $_->match( $requested ) } @$provided;
     }
 
-    submethod _language_match ($range, $tag) {
+    method _language_match ($range, $tag) {
         ((lc $range) eq (lc $tag)) || $range eq "*" || $tag =~ /^$range\-/i;
     }
 
-    submethod _simple_match {
+    method _simple_match {
         return $_[0] eq $_[1];
     }
 }
