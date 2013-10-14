@@ -5,7 +5,7 @@ use mop;
 
 use Encode qw[ find_encoding ];
 
-class AcceptCharset extends HTTP::Headers::ActionPack::PriorityList is overload('inherited') {
+class AcceptCharset extends HTTP::Headers::ActionPack::PriorityList {
 
     method new_from_string ($class:) {
         # FIXME: this is wrong

@@ -5,7 +5,7 @@ use mop;
 
 use Scalar::Util qw[ blessed ];
 
-class MediaType extends HTTP::Headers::ActionPack::Core::BaseHeaderType is overload('inherited') {
+class MediaType extends HTTP::Headers::ActionPack::Core::BaseHeaderType {
 
     method type  { $self->subject }
     method major { (split '/' => $self->type)[0] }

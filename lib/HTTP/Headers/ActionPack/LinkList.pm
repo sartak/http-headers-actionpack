@@ -5,7 +5,7 @@ use mop;
 
 use HTTP::Headers::ActionPack::LinkHeader;
 
-class LinkList extends HTTP::Headers::ActionPack::Core::BaseHeaderList is overload('inherited') {
+class LinkList extends HTTP::Headers::ActionPack::Core::BaseHeaderList {
 
     has $!items is ro;
 

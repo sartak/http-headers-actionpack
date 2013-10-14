@@ -3,7 +3,7 @@ use v5.16;
 use warnings;
 use mop;
 
-class Digest extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is overload('inherited') {
+class Digest extends HTTP::Headers::ActionPack::Core::BaseAuthHeader {
 
     method username { $self->params->{'username'} }
     method realm    { $self->params->{'realm'}    }

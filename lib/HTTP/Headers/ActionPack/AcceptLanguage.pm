@@ -3,7 +3,7 @@ use v5.16;
 use warnings;
 use mop;
 
-class AcceptLanguage extends HTTP::Headers::ActionPack::PriorityList is overload('inherited') {
+class AcceptLanguage extends HTTP::Headers::ActionPack::PriorityList {
 
     # We'll just assume that any script or variant names are being given in the
     # right form. To do this all properly would basically require having all the

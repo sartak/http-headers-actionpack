@@ -3,7 +3,7 @@ use v5.16;
 use warnings;
 use mop;
 
-class WWWAuthenticate extends HTTP::Headers::ActionPack::Core::BaseAuthHeader is overload('inherited') {
+class WWWAuthenticate extends HTTP::Headers::ActionPack::Core::BaseAuthHeader {
     method realm { $self->params->{'realm'} }
 }
 
