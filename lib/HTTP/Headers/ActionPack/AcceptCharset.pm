@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::AcceptCharset;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Encode qw[ find_encoding ];
 
 use parent 'HTTP::Headers::ActionPack::PriorityList';

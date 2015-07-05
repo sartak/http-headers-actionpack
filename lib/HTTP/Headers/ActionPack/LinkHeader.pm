@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::LinkHeader;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use URI::Escape                     qw[ uri_escape uri_unescape ];
 use HTTP::Headers::ActionPack::Util qw[ join_header_words ];
 
@@ -80,6 +82,10 @@ sub as_string {
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage rel relation_matches
 
 =head1 SYNOPSIS
 

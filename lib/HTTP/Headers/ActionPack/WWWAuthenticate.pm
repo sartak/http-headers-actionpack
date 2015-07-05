@@ -6,6 +6,8 @@ use warnings;
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseAuthHeader';
 
+our $VERSION = '0.10';
+
 sub realm { (shift)->params->{'realm'} }
 
 1;

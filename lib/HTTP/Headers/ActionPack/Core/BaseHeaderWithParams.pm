@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Core::BaseHeaderWithParams;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Carp qw[ confess ];
 
 use parent 'HTTP::Headers::ActionPack::Core::Base';
@@ -58,6 +60,10 @@ sub params_are_empty {
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage params_in_order
 
 =head1 SYNOPSIS
 

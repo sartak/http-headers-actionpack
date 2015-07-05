@@ -6,6 +6,8 @@ use warnings;
 
 use overload '""' => 'as_string', fallback => 1;
 
+our $VERSION = '0.10';
+
 sub new {
     my $class = shift;
     my $self  = $class->CREATE( $class->BUILDARGS( @_ ) );

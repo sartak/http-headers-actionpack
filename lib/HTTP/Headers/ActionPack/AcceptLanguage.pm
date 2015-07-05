@@ -6,6 +6,8 @@ use warnings;
 
 use parent 'HTTP::Headers::ActionPack::PriorityList';
 
+our $VERSION = '0.10';
+
 # We'll just assume that any script or variant names are being given in the
 # right form. To do this all properly would basically require having all the
 # ICU data available, which we're not going to attempt currently.

@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::AuthenticationInfo;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use HTTP::Headers::ActionPack::Util qw[
     join_header_params
 ];

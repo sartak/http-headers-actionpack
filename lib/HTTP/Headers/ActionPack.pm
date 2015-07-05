@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Scalar::Util    qw[ blessed ];
 use Carp            qw[ confess ];
 use Module::Runtime qw[ use_module ];
@@ -127,6 +129,10 @@ sub _inflate_generic_request {
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage has_mapping
 
 =head1 SYNOPSIS
 

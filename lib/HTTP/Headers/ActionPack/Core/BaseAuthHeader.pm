@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Core::BaseAuthHeader;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Carp                            qw[ confess ];
 use HTTP::Headers::ActionPack::Util qw[
     join_header_params

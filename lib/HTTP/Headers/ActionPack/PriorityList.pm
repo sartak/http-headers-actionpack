@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::PriorityList;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use HTTP::Headers::ActionPack::Util qw[
     split_header_words
     join_header_words

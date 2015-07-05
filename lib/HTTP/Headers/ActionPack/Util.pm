@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Util;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Time::Piece;
 use HTTP::Date qw[ str2time time2str ];
 use HTTP::Headers::Util;
@@ -56,6 +58,10 @@ sub join_header_params {
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage date_to_header header_to_date join_header_params
 
 =head1 SYNOPSIS
 

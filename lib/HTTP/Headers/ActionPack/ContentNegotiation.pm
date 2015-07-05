@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::ContentNegotiation;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Carp         qw[ confess ];
 use Scalar::Util qw[ blessed ];
 use List::Util   qw[ first ];
@@ -180,6 +182,10 @@ sub _simple_match {
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage action_pack new
 
 =head1 SYNOPSIS
 

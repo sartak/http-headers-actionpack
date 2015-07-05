@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::LinkList;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use HTTP::Headers::ActionPack::LinkHeader;
 
 use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderList';
@@ -27,6 +29,10 @@ sub iterable { @{ (shift)->items } }
 1;
 
 __END__
+
+=pod
+
+=for Pod::Coverage items
 
 =head1 SYNOPSIS
 

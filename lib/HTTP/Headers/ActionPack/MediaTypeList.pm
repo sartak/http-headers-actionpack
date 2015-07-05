@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::MediaTypeList;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use Scalar::Util qw[ blessed ];
 
 use HTTP::Headers::ActionPack::MediaType;

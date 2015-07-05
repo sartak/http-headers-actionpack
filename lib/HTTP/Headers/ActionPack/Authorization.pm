@@ -4,6 +4,8 @@ package HTTP::Headers::ActionPack::Authorization;
 use strict;
 use warnings;
 
+our $VERSION = '0.10';
+
 use HTTP::Headers::ActionPack::Authorization::Basic;
 use HTTP::Headers::ActionPack::Authorization::Digest;
 
