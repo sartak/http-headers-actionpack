@@ -194,7 +194,7 @@ above for details). Each class is expected to have a
 C<new_from_string> method which can parse the string
 representation of the given header and return an object.
 
-=item C<mapping>
+=item C<mappings>
 
 This returns the set of mappings in this instance.
 
