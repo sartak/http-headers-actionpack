@@ -11,7 +11,30 @@ use HTTP::Headers::ActionPack::Util qw[
     date_to_header
 ];
 
-use parent 'HTTP::Headers::ActionPack::Core::Base';
+use Moo;
+
+with 'HTTP::Headers::ActionPack::Role::Header';
+
+has date => (
+    is       => 'ro',
+    required => 1,
+    handles  => [
+        qw(
+            second
+            minute
+            hour
+            day_of_month
+            month_number
+            fullmonth
+            month
+            year
+            day_of_week
+            day
+            fullday
+            epoch
+            )
+    ],
+);
 
 sub BUILDARGS {
     my (undef, $date) = @_;
@@ -24,22 +47,6 @@ sub new_from_string {
 }
 
 sub as_string { date_to_header( (shift)->{'date'} ) }
-
-# implement a simple API
-sub second       { (shift)->{'date'}->second       }
-sub minute       { (shift)->{'date'}->minute       }
-sub hour         { (shift)->{'date'}->hour         }
-sub day_of_month { (shift)->{'date'}->day_of_month }
-sub month_number { (shift)->{'date'}->mon          }
-sub fullmonth    { (shift)->{'date'}->fullmonth    }
-sub month        { (shift)->{'date'}->month        }
-sub year         { (shift)->{'date'}->year         }
-sub day_of_week  { (shift)->{'date'}->day_of_week  }
-sub day          { (shift)->{'date'}->day          }
-sub fullday      { (shift)->{'date'}->fullday      }
-sub epoch        { (shift)->{'date'}->epoch        }
-
-sub date { (shift)->{'date'} }
 
 1;
 
