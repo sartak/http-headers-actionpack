@@ -12,7 +12,7 @@ use parent 'HTTP::Headers::ActionPack::Core::BaseHeaderType';
 
 sub type  { (shift)->subject }
 sub major { (split '/' => (shift)->type)[0] }
-sub minor { (split '/' => (shift)->type)[1] }
+sub minor { (split '/' => (shift)->type)[1] || '*' }
 
 sub matches_all {
     my $self = shift;
