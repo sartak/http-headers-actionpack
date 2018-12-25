@@ -33,6 +33,7 @@ sub BUILD {
         "Media Type is not RFC compliant: [%s]",
         $self->subject
     ) unless $self->subject =~ m{
+        # As specified in RFC 2616 - 14.1 Accept
         ^
         (?(DEFINE)
             (?<TOKEN> [^ \p{PosixCntrl} \s \(\)\<\>\@\,\;\:\\\"\/\[\]\?\=\{\} ]+)
