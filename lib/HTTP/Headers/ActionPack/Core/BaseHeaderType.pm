@@ -27,6 +27,25 @@ sub BUILDARGS {
     };
 }
 
+sub BUILD {
+    my $self = shift;
+    warn sprintf(
+        "Media Type is not RFC compliant: [%s]",
+        $self->subject
+    ) unless $self->subject =~ m{
+        ^
+        (?(DEFINE)
+            (?<TOKEN> [^ \p{PosixCntrl} \s \(\)\<\>\@\,\;\:\\\"\/\[\]\?\=\{\} ]+)
+        )
+        (?:
+            \* / \*
+            | (?&TOKEN) / \*
+            | (?&TOKEN) / (?&TOKEN)
+        )
+        $
+    }x;
+}
+
 sub subject { (shift)->{'subject'} }
 
 sub new_from_string {

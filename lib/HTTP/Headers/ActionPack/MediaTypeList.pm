@@ -50,9 +50,9 @@ sub iterable {
                 ? 1
                 : ($b->[1]->matches_all
                     ? -1
-                    : ($a->[1]->minor eq '*'
+                    : ( defined($a->[1]->minor) && $a->[1]->minor eq '*'
                         ? 1
-                        : ($b->[1]->minor eq '*'
+                        : ( defined($b->[1]->minor) && $b->[1]->minor eq '*'
                             ? -1
                             : ($a->[1]->params_are_empty
                                 ? 1
