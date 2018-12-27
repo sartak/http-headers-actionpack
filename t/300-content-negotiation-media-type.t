@@ -226,14 +226,19 @@ is(
     '... got the right media type back (choose text/html because of quality level and preference ordering)'
 );
 
-is(
-    $n->choose_media_type(
-        ["text/html", "application/xml"],
-        "bah"
-    ),
-    undef,
-    '... got no media type back'
-);
-
+{
+    my @warn;
+    local $SIG{__WARN__} = sub { push @warn, shift };
+    is(
+        $n->choose_media_type(
+            ["text/html", "application/xml"],
+            "bah"
+        ),
+        undef,
+        '... got no media type back'
+    );
+    is(@warn, 1, '... got the warning');
+    like($warn[0], qr/^Media Type is not RFC compliant: \[bah\]/, '... warning is as expected');
+}
 
 done_testing;

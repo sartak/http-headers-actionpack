@@ -27,6 +27,23 @@ sub BUILDARGS {
     };
 }
 
+sub BUILD {
+    my $self = shift;
+    warn sprintf(
+        "Media Type is not RFC compliant: [%s]",
+        $self->subject
+    ) unless $self->subject =~ m{
+        # As specified in RFC 6838 - 4.2 Naming Requirements
+        ^
+        (?: \* / \*)
+        |
+        (?: [-a-zA-Z0-9!#\$&_\.+^]+ / \*)
+        |
+        (?: [-a-zA-Z0-9!#\$&_\.+^]+ / [-a-zA-Z0-9!#\$&_\.+^]+)
+        $
+    }x;
+}
+
 sub subject { (shift)->{'subject'} }
 
 sub new_from_string {
