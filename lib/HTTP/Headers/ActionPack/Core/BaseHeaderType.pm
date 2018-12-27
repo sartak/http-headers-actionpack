@@ -33,14 +33,13 @@ sub BUILD {
         "Media Type is not RFC compliant: [%s]",
         $self->subject
     ) unless $self->subject =~ m{
-        # As specified in RFC 2616 - 14.1 Accept
+        # As specified in RFC 6838 - 4.2 Naming Requirements
         ^
-        (?:
-            \* / \*
-            | [^ [:cntrl:] \s \(\)\<\>\@\,\;\:\\\"\/\[\]\?\=\{\} ]+ / \*
-            | [^ [:cntrl:] \s \(\)\<\>\@\,\;\:\\\"\/\[\]\?\=\{\} ]+ /
-              [^ [:cntrl:] \s \(\)\<\>\@\,\;\:\\\"\/\[\]\?\=\{\} ]+
-        )
+        (?: \* / \*)
+        |
+        (?: [-a-zA-Z0-9!#\$&_\.+^]+ / \*)
+        |
+        (?: [-a-zA-Z0-9!#\$&_\.+^]+ / [-a-zA-Z0-9!#\$&_\.+^]+)
         $
     }x;
 }
