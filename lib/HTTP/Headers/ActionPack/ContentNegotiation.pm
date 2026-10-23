@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::ContentNegotiation;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use Carp         qw[ confess ];
 use Scalar::Util qw[ blessed ];
@@ -171,8 +171,8 @@ sub _media_match {
 }
 
 sub _language_match {
-    my ($range, $tag) = @_;
-    ((lc $range) eq (lc $tag)) || $range eq "*" || $tag =~ /^$range\-/i;
+    my ($range, $tag) = map { lc($_) } @_;
+    ($range eq $tag || $range eq "*" || ( substr( $tag, 0, length($range) + 1 ) eq ( $range . "-" ) ) );
 }
 
 sub _simple_match {

@@ -6,7 +6,7 @@ use warnings;
 
 use overload '""' => 'as_string', fallback => 1;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub new {
     my $class = shift;

@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::Util;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use Time::Piece;
 use HTTP::Date qw[ str2time time2str ];

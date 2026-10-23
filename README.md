@@ -58,7 +58,7 @@ list of default mappings this class provides.
     Authorization       HTTP::Headers::ActionPack::Authorization
 
 NOTE: The 'Client-Date' header is often added by [LWP](https://metacpan.org/pod/LWP) on
-[HTTP::Response](https://metacpan.org/pod/HTTP::Response) objects.
+[HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) objects.
 
 # METHODS
 
@@ -83,7 +83,7 @@ NOTE: The 'Client-Date' header is often added by [LWP](https://metacpan.org/pod/
 
 - `get_content_negotiator`
 
-    Returns an instance of [HTTP::Headers::ActionPack::ContentNegotiation](https://metacpan.org/pod/HTTP::Headers::ActionPack::ContentNegotiation).
+    Returns an instance of [HTTP::Headers::ActionPack::ContentNegotiation](https://metacpan.org/pod/HTTP%3A%3AHeaders%3A%3AActionPack%3A%3AContentNegotiation).
 
 - `create( $class_name, $args )`
 
@@ -107,8 +107,8 @@ NOTE: The 'Client-Date' header is often added by [LWP](https://metacpan.org/pod/
 - `inflate( $plack_request )`
 - `inflate( $web_request )`
 
-    Given either a [HTTP::Headers](https://metacpan.org/pod/HTTP::Headers) instance, a [HTTP::Request](https://metacpan.org/pod/HTTP::Request)
-    instance, a [Plack::Request](https://metacpan.org/pod/Plack::Request) instance, or a [Web::Request](https://metacpan.org/pod/Web::Request)
+    Given either a [HTTP::Headers](https://metacpan.org/pod/HTTP%3A%3AHeaders) instance, a [HTTP::Request](https://metacpan.org/pod/HTTP%3A%3ARequest)
+    instance, a [Plack::Request](https://metacpan.org/pod/Plack%3A%3ARequest) instance, or a [Web::Request](https://metacpan.org/pod/Web%3A%3ARequest)
     instance, this method will inflate all the relevant headers
     and store the object in the same instance.
 
@@ -122,11 +122,11 @@ NOTE: The 'Client-Date' header is often added by [LWP](https://metacpan.org/pod/
 ## Plack Compatibility
 
 We have a test in the suite that checks to make sure that
-any inflated header objects will pass between [HTTP::Request](https://metacpan.org/pod/HTTP::Request)
-and [HTTP::Response](https://metacpan.org/pod/HTTP::Response) objects as well as [Plack::Request](https://metacpan.org/pod/Plack::Request)
-and [Plack::Response](https://metacpan.org/pod/Plack::Response) objects.
+any inflated header objects will pass between [HTTP::Request](https://metacpan.org/pod/HTTP%3A%3ARequest)
+and [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) objects as well as [Plack::Request](https://metacpan.org/pod/Plack%3A%3ARequest)
+and [Plack::Response](https://metacpan.org/pod/Plack%3A%3AResponse) objects.
 
-A simple survey of most of the [Plack::Handler](https://metacpan.org/pod/Plack::Handler) subclasses
+A simple survey of most of the [Plack::Handler](https://metacpan.org/pod/Plack%3A%3AHandler) subclasses
 shows that most of them will end up properly stringifying
 these header objects before sending them out. The notable
 exceptions were the Apache handlers.
@@ -148,12 +148,17 @@ object headers onto another library that is expecting strings.
 
 # SUPPORT
 
-bugs may be submitted through [https://github.com/houseabsolute/http-headers-actionpack/issues](https://github.com/houseabsolute/http-headers-actionpack/issues).
+Bugs may be submitted at [https://github.com/sartak/http-headers-actionpack/issues](https://github.com/sartak/http-headers-actionpack/issues).
+
+# SOURCE
+
+The source code repository for HTTP-Headers-ActionPack can be found at [https://github.com/sartak/http-headers-actionpack](https://github.com/sartak/http-headers-actionpack).
 
 # AUTHORS
 
 - Stevan Little <stevan@cpan.org>
 - Dave Rolsky <autarch@urth.org>
+- Robert Rothenberg <perl@rhizomnic.com>
 
 # CONTRIBUTORS
 
@@ -162,9 +167,12 @@ bugs may be submitted through [https://github.com/houseabsolute/http-headers-act
 - Jesse Luehrs <doy@tozt.net>
 - Karen Etheridge <ether@cpan.org>
 
-# COPYRIGHT AND LICENCE
+# COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 - 2016 by Infinity Interactive, Inc.
+This software is copyright (c) 2012 - 2026 by Infinity Interactive, Inc.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+The full text of the license can be found in the
+`LICENSE` file included with this distribution.

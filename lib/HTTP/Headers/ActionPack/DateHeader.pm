@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::DateHeader;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use HTTP::Headers::ActionPack::Util qw[
     header_to_date

@@ -1,5 +1,16 @@
 {{$NEXT}}
 
+0.10     2026-10-23
+
+  [Security]
+  - Accept-Language headers are checked as substrings, not regular expressions. (CVE-2026-113877)
+
+  [Bug Fixes]
+  - Authorization::Basic now handles passwords with a colon. (RT#179681)
+
+  [Documentation]
+  - Added CODE_OF_CONDUCT.md and updated README.md, LICENSE and CONTRIBUTING.md.
+
 0.09     2013-06-18
 
 * If a header param's value somehow ended up as undef, this would produce an

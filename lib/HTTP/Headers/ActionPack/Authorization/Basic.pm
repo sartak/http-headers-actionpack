@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::Authorization::Basic;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use Carp         qw[ confess ];
 use MIME::Base64 qw[ encode_base64 decode_base64 ];
@@ -24,7 +24,7 @@ sub BUILDARGS {
         return +{ auth_type => $type, username => $username, password => $password };
     }
     else {
-        my ($username, $password) = split ':' => decode_base64( $credentials );
+        my ($username, $password) = decode_base64( $credentials ) =~ /^([^:]+):(.*)$/;
         return +{ auth_type => $type, username => $username, password => $password };
     }
 }

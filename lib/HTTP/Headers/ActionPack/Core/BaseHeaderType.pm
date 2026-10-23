@@ -4,7 +4,7 @@ package HTTP::Headers::ActionPack::Core::BaseHeaderType;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use Carp qw[ confess ];
 
